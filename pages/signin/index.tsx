@@ -19,7 +19,7 @@ const SignIn: NextPage = () => {
 export default SignIn;
 
 const SigninConatiner = tw.section`
-flex justify-center items-center w-screen h-screen
+flex justify-center items-center w-screen h-screen text-[#366C95]
 `;
 
 const SigninWrap = tw.div`

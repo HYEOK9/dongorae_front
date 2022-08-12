@@ -1,21 +1,20 @@
 import type { NextPage } from "next";
-import tw from "tailwind-styled-components";
+import tw from "tailwind-styled-components/dist/tailwind";
 
 const Home: NextPage = () => {
     return (
-        <Div>
-            <h1>:D</h1>
-        </Div>
+        <>
+            <h1
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "50px",
+                }}
+            >
+                Contents Here
+            </h1>
+        </>
     );
 };
 
 export default Home;
-
-const Div = tw.div`
-w-screen
-h-screen
-bg-black
-&>h1{
- text-white
-}
-`;

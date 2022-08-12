@@ -12,9 +12,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const Div = tw.div`
-w-screen
-h-screen
-bg-black
+w-screen h-screen bg-black
 &>h1{
  text-white
 }

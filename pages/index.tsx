@@ -4,15 +4,15 @@ import tw from "tailwind-styled-components/dist/tailwind";
 const Home: NextPage = () => {
     return (
         <>
-            <h1
+            <div
                 style={{
                     display: "flex",
                     justifyContent: "center",
                     marginTop: "50px",
                 }}
             >
-                Contents Here
-            </h1>
+                <h1>Contents Here</h1>
+            </div>
         </>
     );
 };

@@ -8,7 +8,7 @@ const SearchBar = () => {
                 <SearchInputWrap>
                     <Input id="search" autoComplete="off"></Input>
                     <Label htmlFor="search">
-                        <Search width={23} />
+                        <Search width={20} />
                     </Label>
                 </SearchInputWrap>
             </SearchBarWrap>
@@ -37,7 +37,8 @@ h-full
 
 const Input = tw.input`
 w-full
-p-2
+px-12
+py-2
 rounded-3xl
 outline-none
 bg-[#f1f1f1]
@@ -47,5 +48,4 @@ peer
 const Label = tw.label`
 absolute
 left-4
-peer-focus:hidden
 `;

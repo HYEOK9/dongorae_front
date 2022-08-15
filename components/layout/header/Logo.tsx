@@ -38,6 +38,5 @@ w-1/2
 
 const LogoWrap = tw.div`
 cursor-pointer
-hover:scale-105
 text-4xl
 `;

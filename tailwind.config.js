@@ -5,7 +5,15 @@ module.exports = {
         "./components/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            animation: { labelUp: "labelUp 0.2s ease forwards" },
+            keyframes: {
+                labelUp: {
+                    "0%": { transform: "translateY(0)" },
+                    "100%": { transform: "translateY(-150%)" },
+                },
+            },
+        },
         screens: {
             "2xl": { max: "1535px" },
             // => @media (max-width: 1535px) { ... }
@@ -25,6 +33,6 @@ module.exports = {
             xs: { max: "639px" },
             // => @media (max-width: 480px) { ... }
         },
+        plugins: [],
     },
-    plugins: [],
 };

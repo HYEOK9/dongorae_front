@@ -86,7 +86,7 @@ const SignUpForm = () => {
 export default SignUpForm;
 
 const FormContainer = tw.form`
-flex flex-col items-center w-full mb-[50px]
+flex flex-col items-center w-full mb-[50px] text-[#366C95]
 `;
 
 const SignUpText = tw.h1`
@@ -106,9 +106,9 @@ flex justify-center relative w-full mb-12
 `;
 
 const Input = tw.input`
-peer w-4/5 h-12 text-base border-b border-b-solid border-b-[#c9c9c9] focus:outline-none focus:border-b-black focus:border-b-[1.5px] focus:placeholder-transparent valid:outline-none valid:border-b-black valid:border-b-[1.5px] placeholder-gray-400 placeholder:font-light
+peer w-4/5 h-12 text-base border-b border-b-solid border-b-[#c9c9c9] focus:outline-none focus:border-b-[#366C95] focus:border-b-[1.5px] focus:placeholder-transparent valid:outline-none valid:border-b-[#366C95] valid:border-b-[1.5px] placeholder-gray-400 placeholder:font-light
 `;
 
 const JoinBtn = tw.button`
-flex justify-center items-center relative w-4/5 h-[60px] bg-neutral-200 rounded-2xl mt-2 font-medium cursor-pointer hover:bg-black hover:text-white
+flex justify-center items-center relative w-4/5 h-[60px] bg-neutral-200 rounded-2xl mt-2 text-white font-medium cursor-pointer hover:bg-[#366C95]
 `;

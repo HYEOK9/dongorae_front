@@ -8,7 +8,7 @@ import { createWrapper, HYDRATE } from "next-redux-wrapper";
 import authSlice, { authState } from "./authSlice";
 import { Reducer } from "@reduxjs/toolkit";
 
-interface RootState {
+export interface RootState {
     auth: authState;
 }
 

@@ -7,9 +7,12 @@ import SearchImg from "/public/HeaderImg/search.svg";
 import Portal from "../../../HOC/Portal";
 import SideBar from "../../modal/SideBar";
 import Link from "next/link";
+import { RootState } from "../../../store/index";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
     const [isShow, setIsShow] = useState(false);
+    const auth = useSelector((state: RootState) => state.auth);
 
     return (
         <>
@@ -26,7 +29,7 @@ const NavBar = () => {
                         </Link>
                     </NavItems>
                     <NavItems>
-                        <Link href="/my">
+                        <Link href={auth.isAuthed ? "/my" : "/signin"}>
                             <a>
                                 <Profile width={47} />
                             </a>

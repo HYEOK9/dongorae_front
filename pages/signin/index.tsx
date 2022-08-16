@@ -19,9 +19,9 @@ const SignIn: NextPage = () => {
 export default SignIn;
 
 const SigninConatiner = tw.section`
-flex justify-center items-center w-screen h-screen text-[#366C95]
+flex justify-center items-center w-screen h-[90vh] text-[#366C95]
 `;
 
 const SigninWrap = tw.div`
-flex flex-col items-center w-[450px] h-[600px] bg-white
+flex flex-col items-center w-[450px] h-[600px] bg-white rounded-xl shadow-xl
 `;

@@ -93,7 +93,7 @@ const SignInForm = () => {
 export default SignInForm;
 
 const Form = tw.form`
-flex flex-col items-center w-full mb-[50px]
+flex flex-col items-center w-full
 `;
 
 const LoginText = tw.h1`

@@ -40,12 +40,14 @@ const fadeOut = keyframes`
 
 const Container = styled.div<{ isShow: boolean }>`
     display: flex;
-    float: right;
+    position: fixed;
+    left: 60vw;
     flex-flow: column nowrap;
     align-items: center;
     width: 40vw;
     @media screen and (min-width: 640px) {
         width: 25vw;
+        left: 75vw;
     }
     border-left: 1px solid #d2e6ff;
     background-color: #dcecff;
@@ -53,4 +55,5 @@ const Container = styled.div<{ isShow: boolean }>`
     animation: ${(props) => (props.isShow ? fadeIn : fadeOut)} 0.2s ease
         forwards;
     overflow-y: scroll;
+    z-index: 100;
 `;

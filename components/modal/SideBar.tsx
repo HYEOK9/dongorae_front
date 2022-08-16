@@ -18,7 +18,7 @@ const SideBar = (props: propType) => {
     return render ? (
         <>
             <Container isShow={props.isShow}>
-                <h1>친구목록</h1>
+                <h1>친구목록 여기</h1>
             </Container>
         </>
     ) : (

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 interface propType {
-    children: React.ReactNode;
+    children: JSX.Element;
 }
 
 const Portal = ({ children }: propType) => {
@@ -15,10 +15,7 @@ const Portal = ({ children }: propType) => {
     }, []);
 
     return mounted
-        ? createPortal(
-              children,
-              document.querySelector("#portal") as HTMLElement
-          )
+        ? createPortal(children, document.querySelector("#portal") as Element)
         : null;
 };
 

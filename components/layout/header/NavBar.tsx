@@ -4,11 +4,13 @@ import Map from "/public/HeaderImg/map.svg";
 import Profile from "/public/HeaderImg/profile.svg";
 import BurgerBar from "/public/HeaderImg/burgerBar.svg";
 import SearchImg from "/public/HeaderImg/search.svg";
-import Portal from "../../../HOC/portal";
+import Portal from "../../../HOC/Portal";
 import SideBar from "../../modal/SideBar";
 import Link from "next/link";
+
 const NavBar = () => {
     const [isShow, setIsShow] = useState(false);
+
     return (
         <>
             <NavBarWrap>
@@ -18,12 +20,16 @@ const NavBar = () => {
                     </NavItemsSearch>
                     <NavItems>
                         <Link href="/searchmap">
-                            <Map width={47} />
+                            <a>
+                                <Map width={47} />
+                            </a>
                         </Link>
                     </NavItems>
                     <NavItems>
                         <Link href="/my">
-                            <Profile width={47} />
+                            <a>
+                                <Profile width={47} />
+                            </a>
                         </Link>
                     </NavItems>
                     <NavItems>

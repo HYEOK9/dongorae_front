@@ -1,19 +1,15 @@
 import tw from "tailwind-styled-components";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Logo = () => {
-    const router = useRouter();
-
     return (
         <>
             <LogoConatiner>
-                <LogoArea
-                    onClick={() => {
-                        router.push("/");
-                    }}
-                >
-                    <LogoWrap>Logo</LogoWrap>
-                </LogoArea>
+                <Link href="/">
+                    <LogoArea>
+                        <LogoWrap>Logo</LogoWrap>
+                    </LogoArea>
+                </Link>
             </LogoConatiner>
         </>
     );

@@ -5,6 +5,7 @@ interface propType {
     children: JSX.Element;
 }
 
+//sideBar 나오는 portal _app.tsx에 포탈 위치 있음
 const Portal = ({ children }: propType) => {
     const [mounted, setMounted] = useState(false);
 

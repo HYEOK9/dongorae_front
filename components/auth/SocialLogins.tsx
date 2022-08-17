@@ -16,5 +16,5 @@ const SocialLogins = () => {
 export default SocialLogins;
 
 const SocialLoginsWrapper = tw.div`
-flex flex-col items-center w-full mt-[10px]
+flex flex-col items-center w-full
 `;

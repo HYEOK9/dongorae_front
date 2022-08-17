@@ -17,7 +17,7 @@ const Join: NextPage = () => {
 export default Join;
 
 const JoinContainer = tw.section`
-flex justify-center items-center w-screen h-[90vh]
+flex justify-center items-center w-screen h-[90vh] mt-[10vh]
 `;
 
 const JoinDiv = tw.div`

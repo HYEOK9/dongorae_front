@@ -7,6 +7,7 @@ interface propType {
 
 const SideBar = (props: propType) => {
     const [render, setRender] = useState(props.isShow);
+
     useEffect(() => {
         if (props.isShow) setRender(true);
         else
@@ -18,7 +19,8 @@ const SideBar = (props: propType) => {
     return render ? (
         <>
             <Container isShow={props.isShow}>
-                <h1>친구목록 여기</h1>
+                <h1>친구목록</h1>
+                <h1>(로그인 됐을 때만 활성화되게 할 예정)</h1>
             </Container>
         </>
     ) : (

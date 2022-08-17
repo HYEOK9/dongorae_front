@@ -19,25 +19,25 @@ const NavBar = () => {
             <NavBarWrap>
                 <Nav>
                     <NavItemsSearch>
-                        <SearchImg width={42} />
+                        <SearchImg width={37} />
                     </NavItemsSearch>
                     <NavItems>
                         <Link href="/searchmap">
                             <a>
-                                <Map width={47} />
+                                <Map width={42} />
                             </a>
                         </Link>
                     </NavItems>
                     <NavItems>
                         <Link href={auth.isAuthed ? "/my" : "/signin"}>
                             <a>
-                                <Profile width={47} />
+                                <Profile width={42} />
                             </a>
                         </Link>
                     </NavItems>
                     <NavItems>
                         <BurgerBar
-                            width={47}
+                            width={42}
                             onClick={() => {
                                 setIsShow((prev) => !prev);
                             }}

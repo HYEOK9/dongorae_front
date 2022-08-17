@@ -1,14 +1,19 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import Header from "../components/layout/header/Header";
+import AppLayout from "../components/layout/AppLayout";
 import { wrapper } from "../store/index";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <>
-            <Header />
-            <div id="portal" />
-            <Component {...pageProps} />
+            <Head>
+                <meta name="viewport" content="viewport-fit=cover" />
+            </Head>
+            <AppLayout>
+                <div id="portal" />
+                <Component {...pageProps} />
+            </AppLayout>
         </>
     );
 }

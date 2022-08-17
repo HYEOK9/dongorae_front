@@ -41,13 +41,14 @@ const fadeOut = keyframes`
 const Container = styled.div<{ isShow: boolean }>`
     display: flex;
     position: fixed;
+    top: 10vh;
     left: 60vw;
     flex-flow: column nowrap;
     align-items: center;
     width: 40vw;
     @media screen and (min-width: 640px) {
-        width: 25vw;
-        left: 75vw;
+        width: 21vw;
+        left: 79vw;
     }
     border-left: 1px solid #d2e6ff;
     background-color: #dcecff;

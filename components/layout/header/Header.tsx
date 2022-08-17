@@ -21,7 +21,7 @@ const HeaderContainer = tw.div`
 flex
 justify-around
 items-center
-sticky
+fixed
 w-screen
 h-[10vh]
 bg-white

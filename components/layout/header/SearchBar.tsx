@@ -1,13 +1,21 @@
 import tw from "tailwind-styled-components";
+import React, { useState, useEffect } from "react";
 import Search from "/public/HeaderImg/search.svg";
 
 const SearchBar = () => {
+    const [value, setValue] = useState("");
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+    };
+
     return (
         <>
             <SearchBarWrap>
                 <SearchInputWrap>
                     <Input
                         id="search"
+                        value={value}
+                        onChange={onChange}
                         autoComplete="off"
                         placeholder="search"
                     ></Input>

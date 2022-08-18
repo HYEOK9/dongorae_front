@@ -17,7 +17,9 @@ const RootReducer = (
     action: AnyAction
 ): CombinedState<RootState> => {
     if (action.type === HYDRATE) return { ...state, ...action.payload };
-    const combinedReducer = combineReducers({ auth: authSlice.reducer });
+    const combinedReducer = combineReducers({
+        auth: authSlice.reducer,
+    });
     return combinedReducer(state, action);
 };
 

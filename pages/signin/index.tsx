@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import SignInForm from "../../components/auth/SignInForm";
-import SocialLogins from "../../components/auth/SocialLogins";
+import SignInForm from "../../components/auth/signIn/SignInForm";
+import SocialLogins from "../../components/auth/signIn/SocialLogins";
 import tw from "tailwind-styled-components";
 
 const SignIn: NextPage = () => {

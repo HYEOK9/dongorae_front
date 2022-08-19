@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import SetUserInfo from "./SetUserInfo";
 import tw from "tailwind-styled-components";
+import SetAreaInfo from "./SetAreaInfo";
 
 const SignUpForm = () => {
     const router = useRouter();
@@ -10,6 +11,9 @@ const SignUpForm = () => {
     const [pwd, setPwd] = useState("");
     const [name, setName] = useState("");
     const [nickName, setnickName] = useState("");
+    const [siChecked, setSiChecked] = useState(false);
+    const [guChecked, setGuChecked] = useState(false);
+    const [agreed, setAgreed] = useState(false);
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -78,6 +82,14 @@ const SignUpForm = () => {
                     nickName={nickName}
                     setNickName={setnickName}
                 />
+                <SetAreaInfo
+                    siChecked={siChecked}
+                    setSiChecked={setSiChecked}
+                    guChecked={guChecked}
+                    setGuChecked={setGuChecked}
+                    agreed={agreed}
+                    setAgreed={setAgreed}
+                />
                 <JoinBtn type="submit">가입하기</JoinBtn>
             </FormContainer>
         </>
@@ -86,11 +98,11 @@ const SignUpForm = () => {
 export default SignUpForm;
 
 const FormContainer = tw.form`
-flex flex-col items-center w-full mb-[50px] text-[#366C95]
+flex flex-col items-center w-full text-[#366C95]
 `;
 
 const SignUpText = tw.h1`
-mt-[50px] mb-[80px] text-3xl font-semibold
+mt-[50px] mb-[40px] text-3xl font-semibold
 `;
 
 const TextWrap = tw.div`
@@ -102,7 +114,7 @@ font-semibold text-[13px]
 `;
 
 const InputWrap = tw.div`
-flex justify-center relative w-full mb-12
+flex justify-center relative w-full mb-8
 `;
 
 const Input = tw.input`

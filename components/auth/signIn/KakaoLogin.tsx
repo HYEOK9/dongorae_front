@@ -1,6 +1,6 @@
 import KakaoImg from "/public/logo_kakao.svg";
 import Link from "next/link";
-import { SocialBtn } from "../buttons/SocialBtn";
+import { SocialBtn } from "../../buttons/SocialBtn";
 
 const KakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL}&response_type=code`;
 

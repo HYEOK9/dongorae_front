@@ -10,6 +10,7 @@ declare global {
 
 const APPKEY = "4a5963f87d30eacc276c05ea9e451ccc";
 //const APPKEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+
 const searchmap = () => {
     const container = useRef<HTMLDivElement>();
     const searchState = useSelector((state: RootState) => state.search);
@@ -61,6 +62,7 @@ const searchmap = () => {
                 // 키워드로 장소를 검색합니다
                 searchState.keyword != "" &&
                     ps.keywordSearch(searchState.keyword, placesSearchCB);
+                //로직 추가할 거 있으면 여기에 하면됨!
             });
         };
     }, [container, searchState.keyword]);
@@ -82,12 +84,10 @@ justify-center
 items-center
 w-screen
 h-screen
+mt-[10vh]
 `;
 
 const Map = tw.div`
-w-[600px]
-h-[500px]
-sm:w-[300px]
-sm:h-[400px]
-rounded-3xl
+w-[99%]
+h-[99%]
 `;

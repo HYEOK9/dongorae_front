@@ -3,8 +3,11 @@ import React, { useState, useEffect } from "react";
 import Search from "/public/HeaderImg/search.svg";
 import { setKeyword } from "../../../store/searchSlice";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+
 const SearchBar = () => {
     const [value, setValue] = useState("");
+    const router = useRouter();
     const dispatch = useDispatch();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,6 +16,7 @@ const SearchBar = () => {
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         event.key == "Enter" &&
+            router.pathname == "/searchmap" &&
             value.trim() != "" &&
             dispatch(setKeyword(value));
     };

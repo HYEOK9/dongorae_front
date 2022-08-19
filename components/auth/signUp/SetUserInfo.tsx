@@ -7,6 +7,7 @@ interface propType {
     setName: React.Dispatch<React.SetStateAction<string>>;
     setNickName: React.Dispatch<React.SetStateAction<string>>;
 }
+
 const SetUserInfo = (props: propType) => {
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;

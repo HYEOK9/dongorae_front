@@ -8,8 +8,8 @@ declare global {
     }
 }
 
-//NEXT_PUBLIC_KAKAO_JS_KEY=4a5963f87d30eacc276c05ea9e451ccc
-const APPKEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+const APPKEY = "4a5963f87d30eacc276c05ea9e451ccc";
+//const APPKEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
 const searchmap = () => {
     const container = useRef<HTMLDivElement>();
     const searchState = useSelector((state: RootState) => state.search);

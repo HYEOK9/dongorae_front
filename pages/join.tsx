@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import SignUpForm from "../components/auth/SignUpForm";
+import SignUpForm from "../components/auth/signUp/SignUpForm";
 import tw from "tailwind-styled-components/dist/tailwind";
 
 const Join: NextPage = () => {

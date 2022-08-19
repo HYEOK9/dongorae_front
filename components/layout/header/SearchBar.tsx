@@ -21,7 +21,10 @@ const SearchBar = () => {
             dispatch(setKeyword(value));
     };
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        setValue("");
+    }, [router.pathname]);
+
     return (
         <>
             <SearchBarWrap>

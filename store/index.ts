@@ -6,10 +6,12 @@ import {
 } from "@reduxjs/toolkit";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
 import authSlice, { authState } from "./authSlice";
+import searchSlice, { searchState } from "./searchSlice";
 import { Reducer } from "@reduxjs/toolkit";
 
 export interface RootState {
     auth: authState;
+    search: searchState;
 }
 
 const RootReducer = (
@@ -19,6 +21,7 @@ const RootReducer = (
     if (action.type === HYDRATE) return { ...state, ...action.payload };
     const combinedReducer = combineReducers({
         auth: authSlice.reducer,
+        search: searchSlice.reducer,
     });
     return combinedReducer(state, action);
 };

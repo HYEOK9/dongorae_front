@@ -80,5 +80,5 @@ sm:mr-2
 
 const NavItemsSearch = tw(NavItems)`
 hidden
-xs:block
+sm:block
 `;

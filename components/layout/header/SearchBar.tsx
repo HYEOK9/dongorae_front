@@ -1,13 +1,23 @@
 import tw from "tailwind-styled-components";
 import React, { useState, useEffect } from "react";
 import Search from "/public/HeaderImg/search.svg";
-
+import { setKeyword } from "../../../store/searchSlice";
+import { useDispatch } from "react-redux";
 const SearchBar = () => {
     const [value, setValue] = useState("");
+    const dispatch = useDispatch();
+
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
     };
 
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        event.key == "Enter" &&
+            value.trim() != "" &&
+            dispatch(setKeyword(value));
+    };
+
+    useEffect(() => {}, []);
     return (
         <>
             <SearchBarWrap>
@@ -18,6 +28,7 @@ const SearchBar = () => {
                         onChange={onChange}
                         autoComplete="off"
                         placeholder="search"
+                        onKeyPress={handleKeyPress}
                     ></Input>
                     <Label htmlFor="search">
                         <Search width={20} />

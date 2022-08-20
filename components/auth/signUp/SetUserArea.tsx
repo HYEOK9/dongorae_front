@@ -4,7 +4,6 @@ import { allSi, allGu } from "../../../area";
 
 interface propType {
     siChecked: boolean;
-    guChecked: boolean;
     agreed: boolean;
     setSiChecked: React.Dispatch<React.SetStateAction<boolean>>;
     setGuChecked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,13 +13,12 @@ interface propType {
 const SetUserArea = ({
     siChecked,
     setSiChecked,
-    guChecked,
     setGuChecked,
     agreed,
     setAgreed,
 }: propType) => {
     const [si, setSi] = useState("-선택-");
-    const [gu, setGu] = useState("-선택");
+    const [gu, setGu] = useState("-선택-");
     const [guList, setGuList] = useState<string[]>([]);
 
     useEffect(() => {
@@ -86,7 +84,7 @@ const SetUserArea = ({
         </>
     );
 };
-export default SetUserArea;
+export default React.memo(SetUserArea);
 
 const AreaInfoWrapper = tw.div`
 flex justify-center items-center w-full mb-8

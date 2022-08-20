@@ -9,11 +9,11 @@ import tw from "tailwind-styled-components";
 const SignUpForm = () => {
     const router = useRouter();
     const [email, setEmail] = useState("");
-    const [emailIsValid, setEmailIsValid] = useState(false);
     const [pwd, setPwd] = useState("");
-    const [pwdIsValid, setPwdIsValid] = useState(false);
     const [name, setName] = useState("");
     const [nickName, setnickName] = useState("");
+    const [emailIsValid, setEmailIsValid] = useState(false);
+    const [pwdIsValid, setPwdIsValid] = useState(false);
     const [nickNameIsValid, setNickNameIsValid] = useState(false);
     const [siChecked, setSiChecked] = useState(false);
     const [guChecked, setGuChecked] = useState(false);
@@ -40,6 +40,12 @@ const SignUpForm = () => {
     };
 
     useEffect(() => {
+        emailIsValid && console.log("email ok");
+        pwdIsValid && console.log("pwd ok");
+        nickNameIsValid && console.log("nickname ok");
+        siChecked && console.log("si checked");
+        guChecked && console.log("gu checked");
+        agreed && console.log("agreed");
         checkAllValid();
     }, [checkAllValid]);
 
@@ -67,7 +73,6 @@ const SignUpForm = () => {
                 <SetUserArea
                     siChecked={siChecked}
                     setSiChecked={setSiChecked}
-                    guChecked={guChecked}
                     setGuChecked={setGuChecked}
                     agreed={agreed}
                     setAgreed={setAgreed}

@@ -37,7 +37,6 @@ const SetUserName = ({
     }, [nickName, setNickNameIsValid]);
 
     useEffect(() => {
-        console.log(nickNameIsValid);
         checkNickNameIsValid();
     }, [nickName]);
 
@@ -60,10 +59,9 @@ const SetUserName = ({
                 </InputWrap>
                 <InputWrap>
                     <TextWrap>
-                        {nickNameStarted && !nickNameIsValid ? (
-                            <WarnText>닉네임*</WarnText>
-                        ) : (
-                            <Text>닉네임*</Text>
+                        <Text>닉네임*</Text>
+                        {nickNameStarted && !nickNameIsValid && (
+                            <WarnInfo>2~8자</WarnInfo>
                         )}
                     </TextWrap>
                     <Input
@@ -75,9 +73,6 @@ const SetUserName = ({
                         required
                         placeholder="2~8자"
                     ></Input>
-                    <WarnInfo>
-                        {nickNameStarted && !nickNameIsValid ? "2~8자" : ""}
-                    </WarnInfo>
                 </InputWrap>
             </Container>
         </>
@@ -99,19 +94,11 @@ peer w-4/5 h-12 text-base border-b border-b-solid border-b-[#c9c9c9] mb-1 focus:
 `;
 
 const TextWrap = tw.div`
-flex w-4/5
+flex justify-between w-4/5
 `;
 
 const Text = tw.h3`
 font-semibold text-[13px]
-`;
-
-const WarnText = tw(Text)`
-text-red-500
-`;
-
-const WarnInput = tw(Input)`
-border-b-red-500 focus:border-b-red-500 valid:border-b-red-500
 `;
 
 const WarnInfo = tw.span`

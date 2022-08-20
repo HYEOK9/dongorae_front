@@ -26,9 +26,8 @@ const SetUserArea = ({
             setSiChecked(true);
             setGuList(allGu[allSi.indexOf(si)]);
             gu != "-선택-" ? setGuChecked(true) : setGuChecked(false);
-            console.log(si, gu);
         } else setSiChecked(false);
-    }, [si, gu]);
+    }, [si, gu, agreed]);
 
     return (
         <>

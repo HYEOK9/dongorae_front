@@ -5,20 +5,29 @@ import Profile from "/public/HeaderImg/profile.svg";
 import BurgerBar from "/public/HeaderImg/burgerBar.svg";
 import SearchImg from "/public/HeaderImg/search.svg";
 import Portal from "../../../HOC/Portal";
+import React from "react";
 import SideBar from "../../modal/SideBar";
 import Link from "next/link";
 import { RootState } from "../../../store/index";
 import { useSelector } from "react-redux";
 
-const NavBar = () => {
-    const [isShow, setIsShow] = useState(false);
+interface propType {
+    setShowMobileSearch: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const NavBar = (props: propType) => {
+    const [showSideBar, setShowSidebar] = useState(false);
     const auth = useSelector((state: RootState) => state.auth);
 
     return (
         <>
             <NavBarWrap>
                 <Nav>
-                    <NavItemsSearch>
+                    <NavItemsSearch
+                        onClick={() => {
+                            props.setShowMobileSearch((prev) => !prev);
+                        }}
+                    >
                         <SearchImg width={37} />
                     </NavItemsSearch>
                     <NavItems>
@@ -39,14 +48,14 @@ const NavBar = () => {
                         <BurgerBar
                             width={42}
                             onClick={() => {
-                                setIsShow((prev) => !prev);
+                                setShowSidebar((prev) => !prev);
                             }}
                         />
                     </NavItems>
                 </Nav>
             </NavBarWrap>
             <Portal>
-                <SideBar isShow={isShow} />
+                <SideBar showSideBar={showSideBar} />
             </Portal>
         </>
     );
@@ -80,5 +89,5 @@ sm:mr-2
 
 const NavItemsSearch = tw(NavItems)`
 hidden
-xs:block
+sm:block
 `;

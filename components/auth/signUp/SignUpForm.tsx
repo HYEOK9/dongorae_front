@@ -28,7 +28,14 @@ const SignUpForm = () => {
             guChecked &&
             agreed
         );
-    }, [emailIsValid, pwdIsValid, nickNameIsValid, siChecked, guChecked]);
+    }, [
+        emailIsValid,
+        pwdIsValid,
+        nickNameIsValid,
+        siChecked,
+        guChecked,
+        agreed,
+    ]);
 
     const onSubmit = (event: React.SyntheticEvent) => {
         //회원가입 로직 짜야함
@@ -40,12 +47,6 @@ const SignUpForm = () => {
     };
 
     useEffect(() => {
-        emailIsValid && console.log("email ok");
-        pwdIsValid && console.log("pwd ok");
-        nickNameIsValid && console.log("nickname ok");
-        siChecked && console.log("si checked");
-        guChecked && console.log("gu checked");
-        agreed && console.log("agreed");
         checkAllValid();
     }, [checkAllValid]);
 

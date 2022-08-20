@@ -11,7 +11,7 @@ interface propType {
     setAgreed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SetAreaInfo = ({
+const SetUserArea = ({
     siChecked,
     setSiChecked,
     guChecked,
@@ -86,10 +86,10 @@ const SetAreaInfo = ({
         </>
     );
 };
-export default SetAreaInfo;
+export default SetUserArea;
 
 const AreaInfoWrapper = tw.div`
-flex justify-center items-center w-full mb-10
+flex justify-center items-center w-full mb-8
 `;
 
 const SelectArea = tw.div`

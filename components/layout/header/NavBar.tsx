@@ -1,15 +1,19 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import tw from "tailwind-styled-components";
-import SearchImg from "/public/HeaderImg/search.svg";
-import Portal from "../../../HOC/Portal";
-import React from "react";
-import SideBar from "../../modal/SideBar";
+import { useSelector } from "react-redux";
 import Link from "next/link";
+
+// Icons
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import SearchImg from "/public/HeaderImg/search.svg";
+
+// Components
 import { RootState } from "../../../store/index";
-import { useSelector } from "react-redux";
+import SideBar from "../../modal/SideBar";
+import Portal from "../../../HOC/Portal";
+import ThemeMode from './ThemeMode';
 
 interface propType {
     setShowMobileSearch: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +22,7 @@ interface propType {
 const NavBar = (props: propType) => {
     const [showSideBar, setShowSidebar] = useState(false);
     const auth = useSelector((state: RootState) => state.auth);
+    
 
     return (
         <>
@@ -31,18 +36,19 @@ const NavBar = (props: propType) => {
                         <SearchImg width={37} />
                     </NavItemsSearch>
                     <NavItems>
+                        <ThemeMode/>
+                    </NavItems>
+                    <NavItems>
                         <Link href="/searchmap">
                             <a>
-                                <LocationOnIcon 
-                                    fontSize={"large"}/>
+                                <LocationOnIcon fontSize={"large"}/>
                             </a>
                         </Link>
                     </NavItems>
                     <NavItems>
                         <Link href={auth.isAuthed ? "/my" : "/signin"}>
                             <a>
-                                <AccountCircleIcon 
-                                fontSize={"large"} />
+                                <AccountCircleIcon fontSize={"large"} />
                             </a>
                         </Link>
                     </NavItems>

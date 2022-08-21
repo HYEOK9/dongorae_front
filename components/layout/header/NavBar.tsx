@@ -1,13 +1,13 @@
 import { useState } from "react";
 import tw from "tailwind-styled-components";
-import Map from "/public/HeaderImg/map.svg";
-import Profile from "/public/HeaderImg/profile.svg";
-import BurgerBar from "/public/HeaderImg/burgerBar.svg";
 import SearchImg from "/public/HeaderImg/search.svg";
 import Portal from "../../../HOC/Portal";
 import React from "react";
 import SideBar from "../../modal/SideBar";
 import Link from "next/link";
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { RootState } from "../../../store/index";
 import { useSelector } from "react-redux";
 
@@ -33,20 +33,22 @@ const NavBar = (props: propType) => {
                     <NavItems>
                         <Link href="/searchmap">
                             <a>
-                                <Map width={42} />
+                                <LocationOnIcon 
+                                    fontSize={"large"}/>
                             </a>
                         </Link>
                     </NavItems>
                     <NavItems>
                         <Link href={auth.isAuthed ? "/my" : "/signin"}>
                             <a>
-                                <Profile width={42} />
+                                <AccountCircleIcon 
+                                fontSize={"large"} />
                             </a>
                         </Link>
                     </NavItems>
                     <NavItems>
-                        <BurgerBar
-                            width={42}
+                        <MenuIcon
+                            fontSize={"large"}
                             onClick={() => {
                                 setShowSidebar((prev) => !prev);
                             }}
@@ -75,7 +77,7 @@ const Nav = tw.nav`
 flex
 justify-between
 items-center
-w-52
+w-40
 h-full
 sm:-mr-10
 `;

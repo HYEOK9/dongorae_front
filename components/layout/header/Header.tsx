@@ -5,13 +5,15 @@ import SearchBar from "./Search";
 import NavBar from "./NavBar";
 import MobileSearch from "./MobileSearch";
 import Goback from "/public/HeaderImg/goback.svg";
+import { useTheme } from "../../context/Theme";
 
 const Header = () => {
     const [showMobileSearch, setShowMobileSearch] = useState(false);
+    const {themeColorset} = useTheme();
 
     return (
         <>
-            <HeaderContainer>
+            <HeaderContainer style={{backgroundColor: themeColorset.bgColor}}>
                 {!showMobileSearch ? (
                     <>
                         <Logo />
@@ -51,7 +53,6 @@ items-center
 fixed
 w-screen
 h-[10vh]
-bg-white
 shadow-sm
 border-b-[1.5px]
 border-gray-300

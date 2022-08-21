@@ -10,28 +10,30 @@ const lightTheme = {
 }
 
 const darkTheme = {
-    baseColor: '',
-    bgColor: '',
-    textColor: '',
+    baseColor: '#1E1F21',
+    bgColor: '#292A2D',
+    textColor: '#FFFFFF',
     borderColor: '',
-    pointColor: ''
+    pointColor: '#5772F5'
 }
+
 type propType = {
     children: React.ReactNode;
 };
 
 const ThemeContext = createContext({
     themeMode: 'light',
-    setThemeMode: (themeMode: string) => {}
+    setThemeMode: (themeMode: string) => {},
+    themeColorset: null,
 });
 
 export const ThemeProvider = ({children}: propType) => {
     const [themeMode, setThemeMode] = useState('light');
-    const themeObject = themeMode === 'light' ? lightTheme : darkTheme;
+    const themeColorset = themeMode === 'light' ? lightTheme : darkTheme;
   
     return(
-      <ThemeContext.Provider value={{ themeMode, setThemeMode }}>
-        <StyledProvider theme={themeObject}>
+      <ThemeContext.Provider value={{ themeMode, setThemeMode}}>
+        <StyledProvider theme={themeColorset}>
           { children }
         </StyledProvider>      
       </ThemeContext.Provider>
@@ -41,6 +43,7 @@ export const ThemeProvider = ({children}: propType) => {
 export const useTheme = ()=>{
     const context = useContext(ThemeContext);
     const { themeMode, setThemeMode } = context;
+    const themeColorset = themeMode === 'light' ? lightTheme : darkTheme;
 
     const toggleTheme = useCallback(() => {
         if (themeMode === "light") {
@@ -53,5 +56,5 @@ export const useTheme = ()=>{
         
     }, [themeMode]);
   
-  return [ themeMode, toggleTheme];
+  return { themeMode, toggleTheme, themeColorset};
 }

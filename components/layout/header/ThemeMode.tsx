@@ -5,11 +5,11 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 
 const ThemeMode = () => {
-    const [themeMode, toggleTheme] = useTheme();
+    const {themeMode, toggleTheme, themeColorset} = useTheme();
 
     const themeHandler = () => {
         toggleTheme();
-        console.log(themeMode);
+        console.log(themeMode, );
     }
 
     console.log(themeMode);

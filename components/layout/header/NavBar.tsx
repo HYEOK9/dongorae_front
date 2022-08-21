@@ -83,7 +83,6 @@ const Nav = tw.nav`
 flex
 justify-between
 items-center
-w-40
 h-full
 sm:-mr-10
 `;

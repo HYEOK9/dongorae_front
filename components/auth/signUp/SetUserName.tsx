@@ -86,7 +86,7 @@ flex justify-around w-full
 `;
 
 const InputWrap = tw.div`
-flex flex-col items-center relative w-2/5
+flex flex-col items-center relative w-2/5 mb-8
 `;
 
 const Input = tw.input`
@@ -102,5 +102,5 @@ font-semibold text-[13px]
 `;
 
 const WarnInfo = tw.span`
-h-4 text-[11px] text-red-500
+text-[11px] text-red-500
 `;

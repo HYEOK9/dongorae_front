@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import tw from "tailwind-styled-components";
+import { useTheme } from "../../context/Theme";
+
+//icon
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
+//components
 import Logo from "./Logo";
-import SearchBar from "./Search";
+import SearchBar from "./SearchBar";
 import NavBar from "./NavBar";
 import MobileSearch from "./MobileSearch";
-import Goback from "/public/HeaderImg/goback.svg";
-import { useTheme } from "../../context/Theme";
 
 const Header = () => {
     const [showMobileSearch, setShowMobileSearch] = useState(false);
-    const {themeColorset} = useTheme();
+    const { themeColorset } = useTheme();
 
     return (
         <>
-            <HeaderContainer style={{backgroundColor: themeColorset.bgColor}}>
+            <HeaderContainer style={{ backgroundColor: themeColorset.bgColor }}>
                 {!showMobileSearch ? (
                     <>
                         <Logo />
@@ -22,12 +26,12 @@ const Header = () => {
                     </>
                 ) : (
                     <>
-                        <Goback
-                            width={30}
+                        <ArrowBackIcon
+                            fontSize={"large"}
                             style={{
                                 cursor: "pointer",
                                 position: "absolute",
-                                "z-index": "100",
+                                zIndex: "100",
                                 left: "20px",
                                 top: "29%",
                             }}

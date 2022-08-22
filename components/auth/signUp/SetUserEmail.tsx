@@ -119,5 +119,5 @@ w-4/5 h-12 text-base border-b border-b-solid border-b-[#c9c9c9] focus:outline-no
 `;
 
 const WarnInfo = tw.span`
-h-4 text-[10px] text-red-500
+text-[10px] text-red-500
 `;

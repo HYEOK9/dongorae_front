@@ -16,6 +16,7 @@ const NaverLogin = () => {
                             height={32}
                             style={{
                                 position: "absolute",
+                                top: "13px",
                                 left: "15px",
                             }}
                         />

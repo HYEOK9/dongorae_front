@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Search from "/public/HeaderImg/search.svg";
 import { setKeyword } from "../../../store/searchSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import tw from "tailwind-styled-components";
+import SearchIcon from "@mui/icons-material/Search";
 
 const MobileSearch = () => {
     const [value, setValue] = useState("");
@@ -29,7 +29,7 @@ const MobileSearch = () => {
         <>
             <MobileSearchWrap>
                 <Label htmlFor="search">
-                    <Search width={18} />
+                    <SearchIcon fontSize="small" />
                 </Label>
                 <MobileSearchInput
                     id="search"
@@ -63,6 +63,6 @@ outline-none
 
 const Label = tw.label`
 absolute
-top-[31%]
+top-[30%]
 left-[5%]
 `;

@@ -86,7 +86,7 @@ const SetUserArea = ({
 export default React.memo(SetUserArea);
 
 const AreaInfoWrapper = tw.div`
-flex justify-center items-center w-full mb-8
+flex justify-center items-center w-full mb-12
 `;
 
 const SelectArea = tw.div`

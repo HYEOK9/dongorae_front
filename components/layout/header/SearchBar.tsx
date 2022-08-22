@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components";
 import React, { useState, useEffect } from "react";
-import Search from "/public/HeaderImg/search.svg";
+import SearchIcon from "@mui/icons-material/Search";
+
 import { setKeyword } from "../../../store/searchSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -38,7 +39,7 @@ const SearchBar = () => {
                         onKeyPress={handleKeyPress}
                     ></Input>
                     <Label htmlFor="search">
-                        <Search width={20} />
+                        <SearchIcon fontSize="medium" />
                     </Label>
                 </SearchInputWrap>
             </SearchBarWrap>
@@ -67,7 +68,7 @@ h-full
 
 const Input = tw.input`
 w-full
-px-12
+px-10
 py-2
 rounded-3xl
 outline-none
@@ -77,5 +78,5 @@ focus:placeholder-transparent
 
 const Label = tw.label`
 absolute
-left-4
+left-2
 `;

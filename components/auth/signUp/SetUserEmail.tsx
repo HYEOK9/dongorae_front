@@ -111,7 +111,7 @@ font-semibold text-[13px]
 `;
 
 const InputWrap = tw.div`
-flex justify-center relative w-full mb-8
+flex justify-center relative w-full mb-6
 `;
 
 const Input = tw.input`

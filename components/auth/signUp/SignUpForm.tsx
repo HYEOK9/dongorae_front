@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/router";
-import axios from "axios";
 import SetUserEmail from "./SetUserEmail";
 import SetUserName from "./SetUserName";
+import SetUserInfo from "./SetUserInfo";
 import SetUserArea from "./SetUserArea";
 import tw from "tailwind-styled-components";
 
 const SignUpForm = () => {
-    const router = useRouter();
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
     const [name, setName] = useState("");
@@ -15,35 +13,28 @@ const SignUpForm = () => {
     const [emailIsValid, setEmailIsValid] = useState(false);
     const [pwdIsValid, setPwdIsValid] = useState(false);
     const [nickNameIsValid, setNickNameIsValid] = useState(false);
-    const [siChecked, setSiChecked] = useState(false);
-    const [guChecked, setGuChecked] = useState(false);
+    const [si, setSi] = useState("-선택-");
+    const [gu, setGu] = useState("-선택-");
     const [agreed, setAgreed] = useState(false);
+    const [type, setType] = useState("장애인");
 
     const checkAllValid = useCallback(() => {
         return (
             emailIsValid &&
             pwdIsValid &&
             nickNameIsValid &&
-            siChecked &&
-            guChecked &&
-            agreed
+            si != "-선택-" &&
+            gu != "-선택-" &&
+            agreed &&
+            type
         );
-    }, [
-        emailIsValid,
-        pwdIsValid,
-        nickNameIsValid,
-        siChecked,
-        guChecked,
-        agreed,
-    ]);
+    }, [emailIsValid, pwdIsValid, nickNameIsValid, si, gu, agreed, type]);
 
     const onSubmit = (event: React.SyntheticEvent) => {
-        //회원가입 로직 짜야함
         event.preventDefault();
         if (!checkAllValid()) {
             return;
-        }
-        router.replace("/");
+        } //회원가입 로직 짜야함
     };
 
     useEffect(() => {
@@ -72,12 +63,14 @@ const SignUpForm = () => {
                     setNickNameIsValid={setNickNameIsValid}
                 />
                 <SetUserArea
-                    siChecked={siChecked}
-                    setSiChecked={setSiChecked}
-                    setGuChecked={setGuChecked}
+                    si={si}
+                    setSi={setSi}
+                    gu={gu}
+                    setGu={setGu}
                     agreed={agreed}
                     setAgreed={setAgreed}
                 />
+                <SetUserInfo type={type} setType={setType} />
                 <JoinBtn type="submit">가입하기</JoinBtn>
             </FormContainer>
         </>

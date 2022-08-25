@@ -15,17 +15,6 @@ const SignInForm = () => {
         else setPwd(value);
     };
 
-    const checkIsValid = () => {
-        return (
-            email.trim() != "" &&
-            email.includes("@") &&
-            pwd.length >= 6 &&
-            pwd.length <= 16 &&
-            /[0-9]/.test(pwd) &&
-            /[a-zA-Z]/.test(pwd)
-        );
-    };
-
     const logIn = async (email: string, pwd: string) => {
         try {
             const res = await axios.post(
@@ -46,10 +35,6 @@ const SignInForm = () => {
     const onSubmit = (event: React.SyntheticEvent) => {
         //로그인 로직 짜야함
         event.preventDefault();
-        if (!checkIsValid()) {
-            alert("올바르지 않은 형식입니다.");
-            return;
-        }
         logIn(email, pwd);
         router.replace("/");
     };

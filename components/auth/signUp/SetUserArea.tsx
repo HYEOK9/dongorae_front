@@ -3,31 +3,20 @@ import React, { useState, useEffect } from "react";
 import { allSi, allGu } from "../../../area";
 
 interface propType {
-    siChecked: boolean;
+    si: string;
+    gu: string;
     agreed: boolean;
-    setSiChecked: React.Dispatch<React.SetStateAction<boolean>>;
-    setGuChecked: React.Dispatch<React.SetStateAction<boolean>>;
+    setSi: React.Dispatch<React.SetStateAction<string>>;
+    setGu: React.Dispatch<React.SetStateAction<string>>;
     setAgreed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SetUserArea = ({
-    siChecked,
-    setSiChecked,
-    setGuChecked,
-    agreed,
-    setAgreed,
-}: propType) => {
-    const [si, setSi] = useState("-선택-");
-    const [gu, setGu] = useState("-선택-");
+const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
     const [guList, setGuList] = useState<string[]>([]);
 
     useEffect(() => {
-        if (si != "-선택-") {
-            setSiChecked(true);
-            setGuList(allGu[allSi.indexOf(si)]);
-            gu != "-선택-" ? setGuChecked(true) : setGuChecked(false);
-        } else setSiChecked(false);
-    }, [si, gu, agreed]);
+        si != "-선택-" && setGuList(allGu[allSi.indexOf(si)]);
+    }, [si]);
 
     return (
         <>
@@ -51,7 +40,7 @@ const SetUserArea = ({
                                 </option>
                             ))}
                         </Select>
-                        {siChecked && (
+                        {si != "-선택-" && (
                             <Select
                                 value={gu}
                                 onChange={(
@@ -110,9 +99,9 @@ px-3 py-2 bg-neutral-200 mx-[10px] rounded-lg cursor-pointer font-semibold ml-2
 `;
 
 const AgreeWrap = tw.div`
-flex w-1/2 justify-end w-2/5 text-[13px] mt-10 ml-2
+flex w-1/2 justify-end items-center w-2/5 text-[13px] mt-10 ml-2
 `;
 
 const CheckBox = tw.input`
-ml-2 mt-[2px] w-[15px] h-[15px]
+ml-2
 `;

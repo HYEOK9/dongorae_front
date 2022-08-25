@@ -57,6 +57,7 @@ const searchmap = () => {
                         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
                         map.setBounds(bounds);
                         map.setLevel(2);
+                        console.log(data, data[0].place_name);
                     }
                 };
                 // 키워드로 장소를 검색합니다

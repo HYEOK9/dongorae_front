@@ -86,7 +86,7 @@ flex justify-around w-full
 `;
 
 const InputWrap = tw.div`
-flex flex-col items-center relative w-2/5 mb-8
+flex flex-col items-center relative w-2/5 mb-6
 `;
 
 const Input = tw.input`

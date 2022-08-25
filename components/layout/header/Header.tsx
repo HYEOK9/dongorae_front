@@ -60,4 +60,5 @@ h-[10vh]
 shadow-sm
 border-b-[1.5px]
 border-gray-300
+text-black
 `;

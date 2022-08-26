@@ -1,66 +1,41 @@
-import React, { useEffect, useRef, useState } from "react";
-import tw from "tailwind-styled-components/";
-import { RootState } from "../../store/index";
+import React, { useEffect, useState } from "react";
+import useInitMap from "../../util/hooks/kakaoMap/useInitMap";
+import { RootState } from "../../store";
 import { useSelector } from "react-redux";
-declare global {
-    interface Window {
-        kakao: any;
-    }
-}
-
-const APPKEY = "4a5963f87d30eacc276c05ea9e451ccc";
-//const APPKEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+import tw from "tailwind-styled-components/";
 
 const searchmap = () => {
-    const container = useRef<HTMLDivElement>();
+    //검색어 keywordState
     const searchState = useSelector((state: RootState) => state.search);
-    const [kakaoMap, setKakaoMap] = useState<any>(null);
+    //지도와 지도를 띄울 container ref를 리턴
+    const { map, container } = useInitMap();
+    const [searchContent, setSearchContent] = useState<{
+        marker: any;
+        customOverlay: any;
+    } | null>(null);
 
     useEffect(() => {
-        const script = document.createElement("script");
-        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${APPKEY}&libraries=services,clusterer&autoload=false`;
-        document.head.appendChild(script);
-        script.onload = () => {
-            kakao.maps.load(() => {
-                const center = new kakao.maps.LatLng(
-                    37.247949112203,
-                    127.08086707223
-                );
-                const options = {
-                    center,
-                    level: 5,
-                };
-                const map = new kakao.maps.Map(
-                    container.current as HTMLDivElement,
-                    options
-                );
-                setKakaoMap(map);
-            });
-        };
-    }, [container]);
+        if (map === null) return;
 
-    useEffect(() => {
-        if (kakaoMap === null) return;
-
-        //맵 움직이거나 확대할 때 마다 좌측아래 좌표, 우측 상단 좌표 check, 옮길 때마다 피드 보이게 해야함
+        //맵 움직이거나 확대할 때 마다 맨 좌측하단, 맨 우측상단 좌표 check(지도 범위 내에 피드 보이게 하려고)
         const checkMap = () => {
-            const leftLat = kakaoMap.getBounds().getSouthWest().getLat();
-            const leftLng = kakaoMap.getBounds().getSouthWest().getLng();
-            const RightLat = kakaoMap.getBounds().getNorthEast().getLat();
-            const RightLng = kakaoMap.getBounds().getNorthEast().getLng();
+            const leftLat = map.getBounds().getSouthWest().getLat();
+            const leftLng = map.getBounds().getSouthWest().getLng();
+            const RightLat = map.getBounds().getNorthEast().getLat();
+            const RightLng = map.getBounds().getNorthEast().getLng();
             console.log(leftLat, leftLng, RightLat, RightLng);
         };
 
         // 지도 시점 변화 완료 이벤트를 등록한다
-        kakao.maps.event.addListener(kakaoMap, "idle", checkMap);
+        kakao.maps.event.addListener(map, "idle", checkMap);
 
         return () => {
-            kakao.maps.event.removeListener(kakaoMap, "idle", checkMap);
+            kakao.maps.event.removeListener(map, "idle", checkMap);
         };
-    }, [kakaoMap]);
+    }, [map]);
 
     useEffect(() => {
-        if (kakaoMap === null) return;
+        if (map === null) return;
 
         const ps = new kakao.maps.services.Places();
 
@@ -71,11 +46,18 @@ const searchmap = () => {
             { offset: new kakao.maps.Point(30, 60) }
         );
 
+        const removeMarker = () => {
+            if (searchContent) {
+                searchContent.marker.setMap(null);
+                searchContent.customOverlay.setMap(null);
+            }
+            setSearchContent(null);
+        };
         //파라미터에 함수 넣으면 고래마크+위에 링크뜸
-        function displayMarker(place: any) {
+        const displayMarker = (place: any, map: any) => {
+            removeMarker();
             // 마커를 생성하고 지도에 표시합니다
             const marker = new kakao.maps.Marker({
-                map: kakaoMap,
                 position: new kakao.maps.LatLng(place.y, place.x),
                 image: markerImage,
             });
@@ -95,12 +77,15 @@ const searchmap = () => {
 
             //커스텀 오버레이 띄우기
             const customOverlay = new kakao.maps.CustomOverlay({
-                map: kakaoMap,
                 position: new kakao.maps.LatLng(place.y, place.x),
                 content,
                 yAnchor: 1,
             });
-        }
+
+            marker.setMap(map);
+            customOverlay.setMap(map);
+            setSearchContent({ marker, customOverlay });
+        };
 
         // 키워드 검색 완료 시 호출되는 콜백함수 입니다
         const placesSearchCB = (data: any, status: any) => {
@@ -108,25 +93,25 @@ const searchmap = () => {
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                 // LatLngBounds 객체에 좌표를 추가합니다
 
-                displayMarker(data[0]);
+                displayMarker(data[0], map);
                 const bounds = new kakao.maps.LatLngBounds();
 
                 bounds.extend(new kakao.maps.LatLng(data[0].y, data[0].x));
                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-                kakaoMap.setBounds(bounds);
-                kakaoMap.setLevel(3);
+                map.setBounds(bounds);
+                map.setLevel(3);
                 console.log(data, data[0].place_name);
             }
         };
         // 키워드로 장소를 검색합니다
         searchState.keyword != "" &&
             ps.keywordSearch(searchState.keyword, placesSearchCB);
-    }, [kakaoMap, searchState.keyword]);
+    }, [map, searchState.keyword]);
 
     return (
         <>
             <MapWrapper>
-                <Map id="container" ref={container} />;
+                <Map id="container" ref={container} />
             </MapWrapper>
         </>
     );
@@ -145,6 +130,6 @@ mt-[10vh]
 
 const Map = tw.div`
 w-[95%]
-h-[90%]
+h-[95%]
 rounded-2xl
 `;

@@ -7,11 +7,13 @@ import {
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
 import authSlice, { authState } from "./authSlice";
 import searchSlice, { searchState } from "./searchSlice";
+import curLocationSlice, { curLocationState } from "./curLocationSlice";
 import { Reducer } from "@reduxjs/toolkit";
 
 export interface RootState {
     auth: authState;
     search: searchState;
+    curLocation: curLocationState;
 }
 
 const RootReducer = (
@@ -22,6 +24,7 @@ const RootReducer = (
     const combinedReducer = combineReducers({
         auth: authSlice.reducer,
         search: searchSlice.reducer,
+        curLocation: curLocationSlice.reducer,
     });
     return combinedReducer(state, action);
 };

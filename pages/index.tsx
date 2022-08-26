@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { setLocation, setError, setMounted } from "../store/curLocationSlice";
-import useCurLocation from "../util/hooks/kakaoMap/useCurLocation";
+import useCurLocation from "../util/hooks/useCurLocation";
 import tw from "tailwind-styled-components/dist/tailwind";
 
 const Home: NextPage = () => {

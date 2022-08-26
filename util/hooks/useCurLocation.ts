@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+//[유저의 현재 위치, 에러여부] 반환
 const useCurLocation = () => {
     const [location, setLocation] = useState<{
         lat: number;

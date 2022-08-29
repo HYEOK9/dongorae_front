@@ -1,31 +1,33 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { setLocation, setError } from "../../store/curLocationSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 //[유저의 현재 위치, 에러여부] 반환
 const useCurLocation = () => {
-    const [location, setLocation] = useState<{
-        lat: number;
-        lng: number;
-    } | null>(null);
-    const [error, setError] = useState(false);
-
+    const location = useSelector(
+        (state: RootState) => state.curLocationState.location
+    );
+    const dispatch = useDispatch();
     const successHandler = (position: any) => {
         const { latitude, longitude } = position.coords;
-        setLocation({ lat: latitude, lng: longitude });
+        dispatch(setLocation({ lat: latitude, lng: longitude }));
+        dispatch(setError(false));
     };
     const errorHandler = () => {
-        setError(true);
+        dispatch(setError(true));
     };
 
     useEffect(() => {
+        if (location) return;
         const { geolocation } = navigator;
         if (!geolocation) {
-            setError(true);
+            dispatch(setError(true));
             return;
         }
         geolocation.getCurrentPosition(successHandler, errorHandler);
-    }, []);
-
-    return { location, error };
+    }, [location]);
+    return location;
 };
 
 export default useCurLocation;

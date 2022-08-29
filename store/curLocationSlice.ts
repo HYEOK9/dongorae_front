@@ -2,13 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface curLocationState {
     location: { lat: number; lng: number } | null;
-    err: boolean;
-    mounted: boolean;
+    error: boolean;
 }
 const initialState: curLocationState = {
     location: null,
-    err: true,
-    mounted: false,
+    error: true,
 };
 
 const curLocationSlice = createSlice({
@@ -22,16 +20,10 @@ const curLocationSlice = createSlice({
             state.location = action.payload;
         },
         setError: (state: curLocationState, action: PayloadAction<boolean>) => {
-            state.err = action.payload;
-        },
-        setMounted: (
-            state: curLocationState,
-            action: PayloadAction<boolean>
-        ) => {
-            state.mounted = action.payload;
+            state.error = action.payload;
         },
     },
 });
 
-export const { setLocation, setError, setMounted } = curLocationSlice.actions;
+export const { setLocation, setError } = curLocationSlice.actions;
 export default curLocationSlice;

@@ -8,7 +8,6 @@ const SignInForm = () => {
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [pwd, setPwd] = useState("");
-
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         if (event.target.id == "email") setEmail(value);
@@ -17,13 +16,11 @@ const SignInForm = () => {
 
     const logIn = async (email: string, pwd: string) => {
         try {
-            const res = await axios.post(
-                "API 작성",
-                { email, pwd },
-                {
-                    withCredentials: true,
-                }
-            );
+            const res = await axios({
+                method: "POST",
+                url: "/api/",
+                data: { email, pwd },
+            });
             const { accessToken } = res?.data;
             axios.defaults.headers.common[
                 "Authorization"

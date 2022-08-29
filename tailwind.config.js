@@ -7,7 +7,9 @@ module.exports = {
     ],
     theme: {
         extend: {
-            animation: { labelUp: "labelUp 0.2s ease forwards" },
+            animation: {
+                labelUp: "labelUp 0.2s ease forwards",
+            },
             keyframes: {
                 labelUp: {
                     "0%": { transform: "translateY(0)" },

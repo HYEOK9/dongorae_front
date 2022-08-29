@@ -54,7 +54,8 @@ const SetUserEmail = ({
     useEffect(() => {
         checkEmailIsValid();
         checkPwdIsValid();
-    }, [email, pwd]);
+    }, [checkEmailIsValid, checkPwdIsValid]);
+
     return (
         <>
             <SignUpText>회원가입</SignUpText>

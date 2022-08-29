@@ -21,7 +21,7 @@ interface propType {
 
 const NavBar = (props: propType) => {
     const [showSideBar, setShowSidebar] = useState(false);
-    const auth = useSelector((state: RootState) => state.auth);
+    const auth = useSelector((state: RootState) => state.authState);
 
     return (
         <>

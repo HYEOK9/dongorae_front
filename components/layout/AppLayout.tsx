@@ -10,7 +10,9 @@ function AppLayout({ children }: propType) {
     return (
         <Container>
             <Header />
-            {children}
+            <Content>
+                {children}
+            </Content>
         </Container>
     );
 }
@@ -23,3 +25,9 @@ flex-col
 w-screen
 h-screen
 `;
+
+const Content = tw.div`
+w-screen
+h-screen
+mt-[10vh]
+`

@@ -83,9 +83,6 @@ const MapWrapper = tw.div`
 flex
 justify-center
 items-center
-w-screen
-h-screen
-mt-[10vh]
 `;
 
 const Map = tw.div`

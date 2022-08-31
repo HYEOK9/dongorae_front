@@ -18,5 +18,4 @@ flex
 flex-col
 items-center
 w-screen
-pt-[10vh]
 `;

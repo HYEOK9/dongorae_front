@@ -6,6 +6,7 @@ const lightTheme = {
     bgColor: '#FFFFFF',
     textColor: '#1a1a1a',
     subTextColor: '#8fa2ff',
+    pTextColor: '#2b2b2b',
     borderColor: '',
     pointColor: '#5772F5'
 }
@@ -15,6 +16,7 @@ const darkTheme = {
     bgColor: '#292A2D',
     textColor: '#e8eaed',
     subTextColor: '#9e9e9e',
+    pTextColor: '#cccccc',
     borderColor: '',
     pointColor: '#5772F5'
 }

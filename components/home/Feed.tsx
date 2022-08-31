@@ -30,7 +30,7 @@ const Feed = (props:propType) => {
             <HashTagContainer style={{color: themeColorset.subTextColor}}>
                 {hashTags.map((tag)=><span>{tag}</span>)}
             </HashTagContainer>
-            <TextHolder style={{color: themeColorset.subTextColor}}>{data?.text}</TextHolder>
+            <TextHolder style={{color: themeColorset.pTextColor}}>{data?.text}</TextHolder>
         </ContentContainer>
     </FeedContainer>)
 }
@@ -55,7 +55,7 @@ shadow-none
 `
 
 const PlaceNameHolder = tw.div`
-text-xl
+text-xl font-bold
 `
 
 const HashTagContainer = tw.div`
@@ -66,7 +66,7 @@ flex gap-[4px]
 
 const TextHolder = tw.div`
 pt-[5px]
-text-base leading-6
+text-[0.8rem] leading-5
 `
 
 export default Feed

@@ -9,7 +9,7 @@ interface propType {
         latitude: DoubleRange,
         longitude: DoubleRange,
         photos: Array<string>,
-        place: string,
+        placeName: string,
         text: string
     }
 }
@@ -26,9 +26,11 @@ const Feed = (props:propType) => {
     <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
         <ImgContainer src={data?.photos?.[0]}/>
         <ContentContainer>
+            <PlaceNameHolder>{data?.placeName}</PlaceNameHolder>
             <HashTagContainer style={{color: themeColorset.subTextColor}}>
                 {hashTags.map((tag)=><span>{tag}</span>)}
             </HashTagContainer>
+            <TextHolder style={{color: themeColorset.subTextColor}}>{data?.text}</TextHolder>
         </ContentContainer>
     </FeedContainer>)
 }
@@ -47,16 +49,24 @@ w-full h-fit max-h-[300px]
 `
 
 const ContentContainer = tw.div`
-w-auto h-fit min-h-[200px]
-p-[5px] m-0
+w-auto h-fit min-h-[100px]
+p-[15px_18px_18px_18px] m-0
 shadow-none
 `
 
+const PlaceNameHolder = tw.div`
+text-xl
+`
+
 const HashTagContainer = tw.div`
-mx-[5px]
+mx-[2px]
 text-xs font-bold
 flex gap-[4px]
 `
 
+const TextHolder = tw.div`
+pt-[5px]
+text-base leading-6
+`
 
 export default Feed

@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import { text } from "stream/consumers";
 import tw from "tailwind-styled-components/";
 import { useTheme } from "../context/Theme";
-
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 interface propType {
     data: {
         hashTags: string,
@@ -26,7 +25,7 @@ const Feed = (props:propType) => {
     <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
         <ImgContainer src={data?.photos?.[0]}/>
         <ContentContainer>
-            <PlaceNameHolder>{data?.placeName}</PlaceNameHolder>
+            <PlaceNameHolder>{data?.placeName} <MyLocationIcon style={{fontSize: '14px'}}/> </PlaceNameHolder>
             <HashTagContainer style={{color: themeColorset.subTextColor}}>
                 {hashTags.map((tag)=><span>{tag}</span>)}
             </HashTagContainer>
@@ -55,6 +54,7 @@ shadow-none
 `
 
 const PlaceNameHolder = tw.div`
+flex items-center gap-[3px]
 text-xl font-bold
 `
 

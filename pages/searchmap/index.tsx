@@ -32,8 +32,8 @@ const searchmap = () => {
             customOverlay: null,
         },
     ]);
-
     const dispatch = useDispatch();
+
     useEffect(() => {
         // 맵 움직이거나 확대할 때 마다 맨 좌측하단, 맨 우측상단 좌표 check
         // 지도 범위 내에 피드 보이게 하기 위함

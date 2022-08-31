@@ -11,7 +11,7 @@ declare global {
 const APPKEY = "4a5963f87d30eacc276c05ea9e451ccc";
 const REST_APIKEY = "c94753752157bc9fce4e45778dbd0dd7";
 //카카오맵 불러오기
-//return [지도,렌더링할 element의 ref]
+//return [지도,렌더링할 div의 ref]
 const useInitMap = () => {
     const [map, setMap] = useState<any>(null);
     const container = useRef<HTMLDivElement>(null);

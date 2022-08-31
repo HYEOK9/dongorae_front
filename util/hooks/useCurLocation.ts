@@ -8,6 +8,7 @@ const useCurLocation = () => {
     const location = useSelector(
         (state: RootState) => state.curLocationState.location
     );
+
     const dispatch = useDispatch();
     const successHandler = (position: any) => {
         const { latitude, longitude } = position.coords;

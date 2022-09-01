@@ -5,11 +5,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import { setKeyword } from "../../../store/searchSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { useTheme } from "../../context/Theme";
 
 const SearchBar = () => {
     const [value, setValue] = useState("");
     const router = useRouter();
     const dispatch = useDispatch();
+    const {themeColorset} = useTheme();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -37,6 +39,7 @@ const SearchBar = () => {
                         autoComplete="off"
                         placeholder="search"
                         onKeyPress={handleKeyPress}
+                        style={{backgroundColor: themeColorset.baseColor}}
                     ></Input>
                     <Label htmlFor="search">
                         <SearchIcon fontSize="medium" />
@@ -72,7 +75,6 @@ px-10
 py-2
 rounded-3xl
 outline-none
-bg-[#f1f1f1]
 focus:placeholder-transparent
 `;
 

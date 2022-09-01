@@ -20,7 +20,7 @@ const Feed = (props:propType) => {
     const router = useRouter();
 
     const {data} = props;
-    const hashTags = data?.hashTags.split(' #').map((tag)=> tag.startsWith('#') ? tag : `#${tag}`)
+    const hashTags = data?.hashTags.map((tag)=> tag.startsWith('#') ? tag : `#${tag}`)
 
     console.log(hashTags);
     

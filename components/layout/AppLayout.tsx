@@ -29,5 +29,5 @@ h-screen
 const Content = tw.div`
 w-screen
 h-screen
-mt-[10vh]
+mt-[70px]
 `

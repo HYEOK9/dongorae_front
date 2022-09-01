@@ -70,7 +70,7 @@ const SignUpForm = () => {
                     agreed={agreed}
                     setAgreed={setAgreed}
                 />
-                <SetUserInfo type={type} setType={setType} />
+                <SetUserInfo setType={setType} />
                 <JoinBtn type="submit">가입하기</JoinBtn>
             </FormContainer>
         </>

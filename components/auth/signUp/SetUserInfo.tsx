@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 
 interface propType {
-    type: string;
     setType: React.Dispatch<React.SetStateAction<string>>;
 }
-const SetUserInfo = ({ type, setType }: propType) => {
+const SetUserInfo = ({ setType }: propType) => {
     return (
         <>
             <Container>

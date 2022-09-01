@@ -5,7 +5,7 @@ const Logo = () => {
     return (
         <>
             <LogoConatiner>
-                <Link href="/">
+                <Link href="/home">
                     <LogoArea>
                         <LogoWrap>Logo</LogoWrap>
                     </LogoArea>

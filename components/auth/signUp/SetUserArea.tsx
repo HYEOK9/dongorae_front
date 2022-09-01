@@ -15,7 +15,8 @@ const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
     const [guList, setGuList] = useState<string[]>([]);
 
     useEffect(() => {
-        si != "-선택-" && setGuList(allGu[allSi.indexOf(si)]);
+        setGu("-선택-");
+        si !== "-선택-" && setGuList(allGu[allSi.indexOf(si)]);
     }, [si]);
 
     return (
@@ -49,7 +50,7 @@ const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
                                     setGu(event.target.value);
                                 }}
                             >
-                                {guList?.map((item) => (
+                                {guList.map((item) => (
                                     <option value={item} key={item}>
                                         {item}
                                     </option>

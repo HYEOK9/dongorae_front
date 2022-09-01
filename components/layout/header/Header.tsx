@@ -56,7 +56,7 @@ justify-around
 items-center
 fixed
 w-screen
-h-[10vh]
+h-[70px]
 shadow-sm
 border-b-[1.5px]
 border-gray-300

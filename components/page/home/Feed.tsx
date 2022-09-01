@@ -6,7 +6,7 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 interface propType {
     data: {
         id: string,
-        hashTags: string,
+        hashTags: Array<string>,
         latitude: DoubleRange,
         longitude: DoubleRange,
         photos: Array<string>,
@@ -20,7 +20,7 @@ const Feed = (props:propType) => {
     const router = useRouter();
 
     const {data} = props;
-    const hashTags = data?.hashTags.map((tag)=> tag.startsWith('#') ? tag : `#${tag}`)
+    const hashTags = data?.hashTags.map((tag:string)=> tag.startsWith('#') ? tag : `#${tag}`)
 
     console.log(hashTags);
     
@@ -30,7 +30,7 @@ const Feed = (props:propType) => {
         <ContentContainer>
             <PlaceNameHolder>{data?.placeName} <MyLocationIcon style={{fontSize: '14px'}}/> </PlaceNameHolder>
             <HashTagContainer style={{color: themeColorset.subTextColor}}>
-                {hashTags.map((tag)=><span>{tag}</span>)}
+                {hashTags.map((tag:string)=><span>{tag}</span>)}
             </HashTagContainer>
             <TextHolder style={{color: themeColorset.pTextColor}}>{data?.text}</TextHolder>
         </ContentContainer>

@@ -58,7 +58,6 @@ const SetUserEmail = ({
 
     return (
         <>
-            <SignUpText>회원가입</SignUpText>
             <TextWrap>
                 <Text>이메일*</Text>
                 {emailStarted && !emailIsValid && (
@@ -99,10 +98,6 @@ const SetUserEmail = ({
 
 export default React.memo(SetUserEmail);
 
-const SignUpText = tw.h1`
-mt-[50px] mb-[40px] text-3xl font-semibold
-`;
-
 const TextWrap = tw.div`
 flex justify-between w-4/5
 `;
@@ -112,7 +107,7 @@ font-semibold text-[13px]
 `;
 
 const InputWrap = tw.div`
-flex justify-center relative w-full mb-6
+flex justify-center relative w-full mb-10
 `;
 
 const Input = tw.input`

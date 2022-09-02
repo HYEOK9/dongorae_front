@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
 import tw from "tailwind-styled-components";
+import { BtnForSignIn } from "../../styled/Buttons";
 
 const SignInForm = () => {
     const router = useRouter();
@@ -67,7 +68,7 @@ const SignInForm = () => {
                         <span style={{ cursor: "pointer" }}>회원가입</span>
                     </Link>
                 </JoinInTextWrap>
-                <SigninBtn type="submit">로그인</SigninBtn>
+                <SignInBtn type="submit">로그인</SignInBtn>
             </Form>
         </>
     );
@@ -98,6 +99,6 @@ const JoinInTextWrap = tw.div`
 flex justify-end w-4/5 h-auto -mt-8 mb-8 text-sm
 `;
 
-const SigninBtn = tw.button`
-flex justify-center items-center relative w-4/5 h-[60px] bg-neutral-200 rounded-2xl mt-2 text-white font-medium cursor-pointer hover:bg-[#366C95] hover:text-white
+const SignInBtn = tw(BtnForSignIn)`
+bg-neutral-200 text-white hover:bg-[#366C95]
 `;

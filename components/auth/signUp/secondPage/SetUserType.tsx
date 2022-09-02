@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import tw from "tailwind-styled-components";
 
 interface propType {
     setType: React.Dispatch<React.SetStateAction<string>>;
 }
-const SetUserInfo = ({ setType }: propType) => {
+const SetUserType = ({ setType }: propType) => {
     return (
         <>
             <Container>
@@ -50,8 +50,8 @@ const SetUserInfo = ({ setType }: propType) => {
     );
 };
 
-export default React.memo(SetUserInfo);
+export default React.memo(SetUserType);
 
 const Container = tw.div`
-flex justify-around items-center w-[70%] mb-4
+flex justify-between items-center w-[75%] mb-4
 `;

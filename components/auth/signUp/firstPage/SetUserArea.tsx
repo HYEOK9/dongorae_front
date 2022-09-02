@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import React, { useState, useEffect } from "react";
-import { allSi, allGu } from "../../../area";
+import { allSi, allGu } from "../../../../area";
 
 interface propType {
     si: string;
@@ -13,10 +13,13 @@ interface propType {
 
 const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
     const [guList, setGuList] = useState<string[]>([]);
-
+    const [inputStart, setInputstart] = useState(false);
     useEffect(() => {
         setGu("-선택-");
-        si !== "-선택-" && setGuList(allGu[allSi.indexOf(si)]);
+        if (si !== "-선택-") {
+            setInputstart(true);
+            setGuList(allGu[allSi.indexOf(si)]);
+        }
     }, [si]);
 
     return (
@@ -25,6 +28,9 @@ const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
                 <SelectArea>
                     <TextWrap>
                         <Text>지역선택*</Text>
+                        {gu === "-선택-" && inputStart && (
+                            <WarnInfo>지역을 선택해주세요</WarnInfo>
+                        )}
                     </TextWrap>
                     <SelectWrapper>
                         <Select
@@ -33,6 +39,7 @@ const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
                                 event: React.ChangeEvent<HTMLInputElement>
                             ) => {
                                 setSi(event.target.value);
+                                setInputstart(true);
                             }}
                         >
                             {allSi.map((item) => (
@@ -91,12 +98,16 @@ const Text = tw.h3`
 font-semibold text-[13px]
 `;
 
+const WarnInfo = tw.span`
+absolute left-[120px] text-[11px] text-red-500
+`;
+
 const SelectWrapper = tw.div`
 flex -ml-3 mt-3 -mb-3
 `;
 
 const Select = tw.select`
-px-3 py-2 bg-neutral-200 mx-[10px] rounded-lg cursor-pointer font-semibold ml-2
+px-3 h-[40px] bg-neutral-200 mx-[10px] rounded-lg cursor-pointer text-center font-semibold ml-2 sm:text-[11px]
 `;
 
 const AgreeWrap = tw.div`

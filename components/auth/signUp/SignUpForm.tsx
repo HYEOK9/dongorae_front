@@ -50,6 +50,7 @@ const SignUpForm = () => {
     const onSubmit = () => {
         if (checkFirstPageIsValid() && checkSecondPageIsValid()) {
             try {
+                //회원가입 로직 작성
             } catch (e) {
                 console.log(e);
             }
@@ -136,7 +137,7 @@ const SignUpForm = () => {
                             setSenseData={setSenseData}
                         />
                     )}
-                    <JoinBtn type="button" onClick={onSubmit}>
+                    <JoinBtn type="submit" onClick={onSubmit}>
                         가입하기
                     </JoinBtn>
                 </>

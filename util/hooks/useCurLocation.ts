@@ -27,7 +27,7 @@ const useCurLocation = () => {
             return;
         }
         geolocation.getCurrentPosition(successHandler, errorHandler);
-    }, [location]);
+    }, []);
     return location;
 };
 

@@ -19,6 +19,7 @@ const useInitMap = () => {
     const location = useSelector(
         (state: RootState) => state.curLocationState.location
     );
+    //현재 위치를 불러오지 못했을 때
     const error = useSelector(
         (state: RootState) => state.curLocationState.error
     );
@@ -33,8 +34,8 @@ const useInitMap = () => {
                     location && !error
                         ? new kakao.maps.LatLng(location.lat, location.lng)
                         : new kakao.maps.LatLng(
-                              37.247949112203,
-                              127.08086707223
+                              37.24291020655134,
+                              127.08118995506915
                           );
 
                 const options = {

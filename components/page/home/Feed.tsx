@@ -39,7 +39,7 @@ const Feed = (props:propType) => {
 
 
 const FeedContainer = tw.div`
-w-[100%] max-w-[380px] 
+w-[100%] max-w-[400px] 
 h-fit 
 m-[10px]
 rounded-[20px] shadow-sm hover:shadow-[2px_2px_15px_5px_rgba(0,0,0,0.05)] ease-in duration-200

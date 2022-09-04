@@ -28,6 +28,6 @@ h-screen
 
 const Content = tw.div`
 w-screen
-h-screen
+h-[calc(100%-70px)]
 mt-[70px]
 `

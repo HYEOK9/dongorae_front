@@ -61,11 +61,14 @@ const Home = () => {
 }
 
 const HomeContainer = tw.section`
-flex justify-center w-screen h-[90vh]
+flex justify-center 
+w-screen h-[90vh]
+py-[10px]
+overflow-y-auto
 `;
 
 const FeedContainer = tw.div`
-w-[30vw] max-w-[600px] flex flex-col flex-nowrap
+w-[30vw] max-w-[480px] flex flex-col flex-nowrap
 `
 const ButtonContainer = tw.div`
 fixed bottom-[0px] right-[0px]

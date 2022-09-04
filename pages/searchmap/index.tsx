@@ -23,7 +23,7 @@ import { useTheme } from "../../components/context/Theme";
 import { temp } from "../home/index";
 
 const searchmap = () => {
-    console.log("render");
+    console.log("re-render");
     // 유저 위치 fetch
     const location = useCurLocation();
     // 맵 초기화 , {지도, 지도를 띄울 dom의 ref}

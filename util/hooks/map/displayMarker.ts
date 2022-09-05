@@ -31,7 +31,7 @@ const displayMarker = (
                 : place.place_name.slice(0, 10) + "..."
         }</span>` +
         "</div>" +
-        `<div class="flex justify-center items-center w-3/5 h-[20px] mt-[15px] rounded-lg border-[#5772F5] border-[0.5px] border-solid font-normal text-black text-xs bg-[#f5f7ff]">${"#n"}개의 게시물</div>` +
+        `<div class="flex justify-center items-center w-3/5 h-[20px] mt-[15px] rounded-lg border-[#5772F5] border-[0.5px] border-solid font-normal text-black text-xs bg-[#f5f7ff]">#${"n"}개의 게시물</div>` +
         "</div>";
 
     //커스텀 오버레이 띄우기

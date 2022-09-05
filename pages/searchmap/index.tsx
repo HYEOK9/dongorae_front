@@ -16,7 +16,7 @@ import removeMarker from "../../util/hooks/map/removeMarker";
 //types
 import { MarkerType } from "../../types/map";
 //style
-import tw from "tailwind-styled-components/";
+import tw from "tailwind-styled-components";
 import LoadingSVG from "/public/loading.svg";
 import { useTheme } from "../../components/context/Theme";
 //data
@@ -54,10 +54,7 @@ const searchmap = () => {
 
     const searchHere = () => {
         setCurFeeds(
-            temp.filter(
-                (feed, idx) =>
-                    idx <= 10 && isInMap(feed.latitude, feed.longitude)
-            )
+            temp.filter((feed) => isInMap(feed.latitude, feed.longitude))
         );
         dispatch(setKeyword(""));
     };
@@ -66,7 +63,7 @@ const searchmap = () => {
         // 처음 렌더할 때 결과 없음 문구 안보여주려고 map&& 넣음
         map && curFeeds.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
         removeMarker(curFeedsMarkerArr, setCurFeedsMarkerArr);
-        curFeeds.forEach((feed: any) => {
+        curFeeds.forEach((feed: typeof temp[0]) => {
             displayMarker(
                 {
                     x: feed.longitude,
@@ -120,8 +117,8 @@ const searchmap = () => {
             <HomeContainer>
                 <FeedContainer>
                     {isEmpty && (
-                        <div style={{ marginTop: "100px" }}>
-                            결과가 없습니다.
+                        <div style={{ marginTop: "50px" }}>
+                            게시물이 없습니다.
                         </div>
                     )}
                     {curFeeds.map((feed: any, idx: number) => (
@@ -156,7 +153,6 @@ h-full
 z-50
 bg-black
 opacity-40
-text-bold
 text-white
 `;
 

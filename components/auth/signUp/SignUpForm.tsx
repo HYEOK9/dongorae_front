@@ -120,7 +120,7 @@ const SignUpForm = () => {
                     />
                     <SetUserType setType={setType} />
                     <CheckSenseData>
-                        감각정보 설정(선택)
+                        감각정보 설정 (선택)
                         <input
                             type="checkbox"
                             onClick={() => {

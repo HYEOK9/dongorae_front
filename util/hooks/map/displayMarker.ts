@@ -1,5 +1,4 @@
 import React, { SetStateAction } from "react";
-
 //배열에 있는 마커들 지도에 표시
 //param : (장소,지도,마커)
 const displayMarker = (
@@ -24,18 +23,15 @@ const displayMarker = (
     //검색했을 때 위에 뜨는 커스텀 오버레이
     //테일윈드만 먹음...
     const content =
-        '<div class="flex relative items-center w-[150px] h-[40px] mb-[75px] border-solid border-[0.5px] border-[#5772F5] bg-[#f5f7ff] rounded-xl shadow-2xl">' +
-        '<a class="flex flex-col items-center w-full h-full" href="/signin">' +
-        '<div class="flex w-full h-full items-center">' +
-        `    <span class="flex justify-center w-[70%] mt-1 font-semibold text-sm text-[#5772F5]">${
-            place.place_name.length <= 7
+        '<div class="flex flex-col items-center w-[150px] h-[40px] mb-[70px] border-solid border-[0.5px] border-[#5772F5] bg-[#f5f7ff] rounded-xl shadow-2xl">' +
+        '<div class="flex justify-center items-center">' +
+        `    <span class="flex justify-center items-center mt-[14px] font-semibold text-[13px] text-[#5772F5]">${
+            place.place_name.length <= 11
                 ? place.place_name
-                : place.place_name.slice(0, 6) + "..."
+                : place.place_name.slice(0, 10) + "..."
         }</span>` +
-        '<div class="flex justify-center items-center w-[30%] h-[40px] bg-[#5772F5] z-50 rounded-r-xl"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-uqopch" focusable="false" aria-hidden="true" fill="#fff" width="20px" height="20px" viewBox="0 0 24 24" data-testid="ArrowForwardIosIcon"><path d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"></path></svg></div>' +
         "</div>" +
-        `<div class="flex justify-center items-center w-3/5 h-[20px] mt-1 rounded-lg border-[#5772F5] border-[0.5px] border-solid font-normal text-black text-xs bg-[#f5f7ff]">${"#n"}개의 게시물</div>` +
-        "</a>" +
+        `<div class="flex justify-center items-center w-3/5 h-[20px] mt-[15px] rounded-lg border-[#5772F5] border-[0.5px] border-solid font-normal text-black text-xs bg-[#f5f7ff]">#${"n"}개의 게시물</div>` +
         "</div>";
 
     //커스텀 오버레이 띄우기

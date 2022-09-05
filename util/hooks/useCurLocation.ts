@@ -8,8 +8,8 @@ const useCurLocation = () => {
     const location = useSelector(
         (state: RootState) => state.curLocationState.location
     );
-
     const dispatch = useDispatch();
+
     const successHandler = (position: any) => {
         const { latitude, longitude } = position.coords;
         dispatch(setLocation({ lat: latitude, lng: longitude }));
@@ -26,7 +26,9 @@ const useCurLocation = () => {
             dispatch(setError(true));
             return;
         }
-        geolocation.getCurrentPosition(successHandler, errorHandler);
+        geolocation.getCurrentPosition(successHandler, errorHandler, {
+            timeout: 5000,
+        });
     }, [location]);
     return location;
 };

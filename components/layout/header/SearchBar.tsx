@@ -11,7 +11,7 @@ const SearchBar = () => {
     const [value, setValue] = useState("");
     const router = useRouter();
     const dispatch = useDispatch();
-    const {themeColorset} = useTheme();
+    const { themeColorset } = useTheme();
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -39,7 +39,7 @@ const SearchBar = () => {
                         autoComplete="off"
                         placeholder="search"
                         onKeyPress={handleKeyPress}
-                        style={{backgroundColor: themeColorset.baseColor}}
+                        style={{ backgroundColor: themeColorset.baseColor }}
                     ></Input>
                     <Label htmlFor="search">
                         <SearchIcon fontSize="medium" />

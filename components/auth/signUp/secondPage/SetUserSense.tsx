@@ -23,7 +23,7 @@ const SetUserSense = ({ senseData, setSenseData }: propType) => {
             <Container>
                 <TextArea>
                     <TextWrap>
-                        <Span>둔감</Span> <Span>예민</Span>
+                        <Span>예민</Span> <Span>둔감</Span>
                     </TextWrap>
                 </TextArea>
                 <InputWrap>

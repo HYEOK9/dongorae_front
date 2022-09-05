@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react'
+import styled from 'styled-components';
 import tw from 'tailwind-styled-components';
 import { useTheme } from '../../components/context/Theme';
 import UserInfo from '../../components/page/feed/UserInfo';
@@ -32,7 +33,8 @@ const FeedDetail = () => {
                         <AddressHolder>address</AddressHolder>
                     </SpanContainer>
                     <HashTagContainer style={{color: themeColorset.subTextColor}}>
-                        {Array.from({length: 5}, ()=> 0).map((e, idx)=>(<span key={idx}>#{idx}hastag{idx}</span>))}
+                        {Array.from({length: 5}, ()=> 0).map((e, idx)=>(
+                        <HashTagHolder theme={themeColorset} key={idx}>#{idx}hastag{idx}</HashTagHolder>))}
                     </HashTagContainer> 
                     <TextHolder align="justify">
                         {dummyText}
@@ -98,7 +100,15 @@ text-[20px] font-normal
 const HashTagContainer = tw(SpanContainer)`
 text-[16px] font-bold
 flex gap-[6px]
-pt-[10px]
+mt-[5px] mb-[10px]
+`
+
+const HashTagHolder = styled.span`
+background-color: ${(props) => props.theme.subTextColor};
+color: ${(props) => props.theme.baseColor};
+font-weight: bold;
+padding: 6px 12px 4px 12px;
+border-radius: 10px;
 `
 
 const TextHolder = tw.p`

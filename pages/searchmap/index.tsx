@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { setKeyword } from "../../store/searchSlice";
 //components
-import Feed from "../../components/home/Feed";
+import Feed from "../../components/page/home/Feed";
 //hooks
 import useCurLocation from "../../util/hooks/useCurLocation";
 import useInitMap from "../../util/hooks/map/useInitMap";
@@ -116,14 +116,15 @@ const searchmap = () => {
             </MapWrapper>
             <HomeContainer>
                 <FeedContainer>
-                    {isEmpty && (
+                    {isEmpty ? (
                         <div style={{ marginTop: "50px" }}>
                             게시물이 없습니다.
                         </div>
+                    ) : (
+                        curFeeds.map((feed: any) => (
+                            <Feed key={feed.id} data={feed} />
+                        ))
                     )}
-                    {curFeeds.map((feed: any, idx: number) => (
-                        <Feed key={idx} data={feed} />
-                    ))}
                 </FeedContainer>
             </HomeContainer>
         </>

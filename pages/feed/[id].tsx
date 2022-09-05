@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import tw from 'tailwind-styled-components';
 import { useTheme } from '../../components/context/Theme';
 import UserInfo from '../../components/page/feed/UserInfo';
+import { HashTagHolder } from "../../components/styled/Feed";
 
 const dummyText = `
 관현악이며, 내는 넣는 군영과 안고, 인간의 인도하겠다는 얼마나 생명을 사막이다. 얼마나 고동을 만물은 봄바람이다. 능히 설레는 갑 동력은 같지 가슴이 수 운다. 이상은 아니더면, 천하를 피가 있음으로써 아니한 그들은 스며들어 날카로우나 것이다. 인생을 이상의 같은 품었기 찾아다녀도, 뿐이다. 위하여서 이것은 그들은 위하여서. 평화스러운 피가 힘차게 뿐이다. 오직 그들은 그것은 보배를 얼마나 내는 우는 뜨거운지라, 교향악이다. 뭇 스며들어 품으며, 우리 대중을 아름다우냐? 뛰노는 피어나는 힘차게 인생에 소리다.이것은 그림자는 그들에게 너의 있을 약동하다. 청춘에서만 있으며, 인생에 충분히 없으면, 두손을 전인 천하를 있으랴?
@@ -24,7 +25,8 @@ const FeedDetail = () => {
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
             <MapContainer/>
             <ImgContainer>
-                {Array.from({length: 5}, ()=> 0).map((e, idx)=>(<ImgHolder key={idx}/>))}
+                {Array.from({length: 5}, ()=> 0).map((e, idx)=>(
+                <ImgHolder style={{backgroundColor: themeColorset.baseColor}} key={idx}/>))}
             </ImgContainer>
             <ContentsContainer>
                 <div style={{width: '65%'}}>
@@ -80,8 +82,9 @@ p-[20px]
  
 const ImgHolder = tw.div`
 w-[200px] h-full 
-mr-[10px] inline-block
-bg-[#1f1f1f] rounded-[15px]
+mr-[10px]
+inline-flex justify-center items-center
+rounded-[15px]
 `
 
 const SpanContainer = tw.div`
@@ -101,14 +104,6 @@ const HashTagContainer = tw(SpanContainer)`
 text-[16px] font-bold
 flex gap-[6px]
 mt-[5px] mb-[10px]
-`
-
-const HashTagHolder = styled.span`
-background-color: ${(props) => props.theme.subTextColor};
-color: ${(props) => props.theme.baseColor};
-font-weight: bold;
-padding: 6px 12px 4px 12px;
-border-radius: 10px;
 `
 
 const TextHolder = tw.p`

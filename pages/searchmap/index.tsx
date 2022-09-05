@@ -25,7 +25,7 @@ import { temp } from "../home/index";
 const searchmap = () => {
     console.log("re-render");
     // 유저 위치 fetch
-    const location = useCurLocation();
+    const { location, locError } = useCurLocation();
     // 맵 초기화 , {지도, 지도를 띄울 dom의 ref}
     const { map, container } = useInitMap();
     // 현재 지도의 꼭짓점 좌표들
@@ -94,52 +94,57 @@ const searchmap = () => {
 
     return (
         <>
-            <MapWrapper>
-                {!location && (
-                    <>
-                        <Loading>위치 정보를 가져오는 중입니다</Loading>
-                        <LoadingSVG
-                            fill="white"
-                            className="absolute top-[55%] left-[49%] animate-spin z-50"
-                            width={30}
-                            height={30}
-                        />
-                    </>
-                )}
-                <Map id="container" ref={container} />
-                <SearchHereBtn
-                    onClick={searchHere}
-                    style={{ backgroundColor: themeColorset.bgColor }}
-                >
-                    이 지역 검색
-                </SearchHereBtn>
-            </MapWrapper>
-            <HomeContainer>
-                <FeedContainer>
-                    {isEmpty ? (
-                        <div style={{ marginTop: "50px" }}>
-                            게시물이 없습니다.
-                        </div>
-                    ) : (
-                        curFeeds.map((feed: any) => (
-                            <Feed key={feed.id} data={feed} />
-                        ))
+            <Container>
+                <MapContainer>
+                    {!location && locError && (
+                        <>
+                            <Loading>위치 정보를 가져오는 중입니다</Loading>
+                            <LoadingSVG
+                                fill="white"
+                                className="absolute top-[55%] left-[49%] animate-spin z-50"
+                                width={30}
+                                height={30}
+                            />
+                        </>
                     )}
-                </FeedContainer>
-            </HomeContainer>
+                    <Map id="container" ref={container} />
+                    <SearchHereBtn
+                        onClick={searchHere}
+                        style={{ backgroundColor: themeColorset.bgColor }}
+                    >
+                        이 지역 검색
+                    </SearchHereBtn>
+                </MapContainer>
+                <HomeContainer>
+                    <FeedContainer>
+                        {isEmpty ? (
+                            <div style={{ marginTop: "50px" }}>
+                                게시물이 없습니다.
+                            </div>
+                        ) : (
+                            curFeeds.map((feed: any) => (
+                                <Feed key={feed.id} data={feed} />
+                            ))
+                        )}
+                    </FeedContainer>
+                </HomeContainer>
+            </Container>
         </>
     );
 };
 
 export default searchmap;
 
-const MapWrapper = tw.div`
+const Container = tw.div`
+flex flex-col h-[90vh] overflow-y-auto
+`;
+
+const MapContainer = tw.div`
 flex
 relative
 justify-center
 items-center
 w-screen
-h-[45vh]
 mt-[2vh]
 `;
 
@@ -160,7 +165,7 @@ text-white
 const Map = tw.div`
 relative
 w-full
-h-[95%]
+h-[45vh]
 `;
 
 const SearchHereBtn = tw.div`
@@ -168,7 +173,7 @@ absolute top-[80%] px-4 py-3 font-semibold sm:text-xs sm:px-2 sm:py-1 rounded-2x
 `;
 
 const HomeContainer = tw.section`
-flex justify-center w-screen
+flex justify-center w-screen py-[10px]
 `;
 
 const FeedContainer = tw.div`

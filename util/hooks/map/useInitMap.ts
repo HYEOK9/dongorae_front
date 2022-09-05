@@ -49,6 +49,7 @@ const useInitMap = () => {
     useEffect(() => {
         if (map === null) return;
         location &&
+            !error &&
             map.setCenter(new kakao.maps.LatLng(location.lat, location.lng));
     }, [map, location, error]);
 

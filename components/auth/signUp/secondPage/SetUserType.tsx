@@ -9,7 +9,7 @@ const SetUserType = ({ setType }: propType) => {
         <>
             <Container>
                 <input
-                    value="장애인"
+                    value="disabled"
                     type="radio"
                     name="type"
                     onChange={(e) => {
@@ -19,7 +19,7 @@ const SetUserType = ({ setType }: propType) => {
                 />
                 장애인
                 <input
-                    value="학부모"
+                    value="guardian"
                     type="radio"
                     name="type"
                     onChange={(e) => {
@@ -28,7 +28,7 @@ const SetUserType = ({ setType }: propType) => {
                 />
                 학부모
                 <input
-                    value="교사"
+                    value="teacher"
                     type="radio"
                     name="type"
                     onChange={(e) => {
@@ -37,7 +37,7 @@ const SetUserType = ({ setType }: propType) => {
                 />
                 교사
                 <input
-                    value="기타"
+                    value="etc"
                     type="radio"
                     name="type"
                     onChange={(e) => {

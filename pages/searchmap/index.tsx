@@ -3,14 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { setKeyword } from "../../store/searchSlice";
+import { setFilterOption, setSenseData } from "../../store/filterSlice";
 //components
 import Feed from "../../components/page/home/Feed";
+import SearchFiler from "../../components/common/filtering/searchFilter";
 //hooks
 import useCurLocation from "../../util/hooks/useCurLocation";
 import useInitMap from "../../util/hooks/map/useInitMap";
 import useGetMapSize from "../../util/hooks/map/useGetMapSize";
 import useKakaoMapSearch from "../../util/hooks/map/useKakaoMapSearch";
 //functions
+import { boundarySearch } from "../../util/map";
 import displayMarker from "../../util/hooks/map/displayMarker";
 import removeMarker from "../../util/hooks/map/removeMarker";
 //types
@@ -33,16 +36,24 @@ const searchmap = () => {
     // 검색어 keywordState
     const searchState = useSelector((state: RootState) => state.searchState);
     // 키워드로 검색 , [결과, 에러 여부]
-    const [result, error] = useKakaoMapSearch(searchState.keyword);
+    const { result, searchError } = useKakaoMapSearch(searchState.keyword);
     // 검색 후 보여지는 피드들 List
     const [curFeeds, setCurFeeds] = useState<typeof temp>([]);
     // 검색 후 보여지는 피드들의 마커 List (마커 지우려면 필요)
-    const [curFeedsMarkerArr, setCurFeedsMarkerArr] = useState<MarkerType[]>([
+    const [curPlacesMarkers, setCurPlacesMarkers] = useState<MarkerType[]>([
         {
             marker: null,
             customOverlay: null,
         },
     ]);
+    //검색 필터 옵션 : "전체" | "맞춤게시물" | "필터"
+    const filterOption = useSelector(
+        (state: RootState) => state.filterState.option
+    );
+    ///검색 필터의 senseData 값
+    const senseData = useSelector(
+        (state: RootState) => state.filterState.senseData
+    );
     //검색결과 존재여부
     const [isEmpty, setIsEmpty] = useState<boolean>(false);
     const { themeColorset } = useTheme();
@@ -52,7 +63,15 @@ const searchmap = () => {
         return curMapSize.contain(new kakao.maps.LatLng(lat, long));
     };
 
-    const searchHere = () => {
+    const searchHere = async () => {
+        dispatch(setSenseData(null));
+        dispatch(setFilterOption("전체"));
+        // const res = await boundarySearch(
+        //     curMapSize.oa,
+        //     curMapSize.pa,
+        //     curMapSize.ha,
+        //     curMapSize.qa
+        // );
         setCurFeeds(
             temp.filter((feed) => isInMap(feed.latitude, feed.longitude))
         );
@@ -60,25 +79,42 @@ const searchmap = () => {
     };
 
     useEffect(() => {
+        switch (filterOption) {
+            case "전체":
+                dispatch(setSenseData(null));
+                break;
+            case "맞춤게시물":
+                dispatch(setSenseData(null));
+                break;
+            case "필터":
+                break;
+        }
+    }, [filterOption]);
+
+    useEffect(() => {
         // 처음 렌더할 때 결과 없음 문구 안보여주려고 map&& 넣음
         map && curFeeds.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
-        removeMarker(curFeedsMarkerArr, setCurFeedsMarkerArr);
-        curFeeds.forEach((feed: typeof temp[0]) => {
-            displayMarker(
-                {
-                    x: feed.longitude,
-                    y: feed.latitude,
-                    place_name: feed.placeName,
-                },
-                map,
-                setCurFeedsMarkerArr
-            );
+        const places = Array.from(
+            new Set(
+                curFeeds.map((feed) =>
+                    JSON.stringify({
+                        x: feed.longitude,
+                        y: feed.latitude,
+                        place_name: feed.placeName,
+                    })
+                )
+            )
+        ).map((feed) => JSON.parse(feed));
+        removeMarker(curPlacesMarkers, setCurPlacesMarkers);
+        places.forEach((place) => {
+            displayMarker(place, map, setCurPlacesMarkers);
         });
     }, [curFeeds]);
 
     useEffect(() => {
         // 지도켜고 검색할 경우 첫번째 결과만 지도에 표시
-        if (map === null || error) return;
+        if (map === null || searchError) return;
+        dispatch(setFilterOption("전체"));
         setCurFeeds(temp.filter((feed) => feed.longitude == result[0].x));
         // 검색된 장소 위치 기준으로 지도 범위 재설정
         const bounds = new kakao.maps.LatLngBounds();
@@ -99,12 +135,9 @@ const searchmap = () => {
                     {!location && locError && (
                         <>
                             <Loading>위치 정보를 가져오는 중입니다</Loading>
-                            <LoadingSVG
-                                fill="white"
-                                className="absolute top-[55%] left-[49%] animate-spin z-50"
-                                width={30}
-                                height={30}
-                            />
+                            <LoadingSVGwrap>
+                                <LoadingSVG width={30} height={30} />
+                            </LoadingSVGwrap>
                         </>
                     )}
                     <Map id="container" ref={container} />
@@ -115,6 +148,8 @@ const searchmap = () => {
                         이 지역 검색
                     </SearchHereBtn>
                 </MapContainer>
+                {/*filtering*/}
+                <SearchFiler />
                 <HomeContainer>
                     <FeedContainer>
                         {isEmpty ? (
@@ -140,32 +175,19 @@ flex flex-col h-[90vh] overflow-y-auto
 `;
 
 const MapContainer = tw.div`
-flex
-relative
-justify-center
-items-center
-w-screen
-mt-[2vh]
+flex relative justify-center items-center w-screen mt-[2vh]
 `;
 
 const Loading = tw.div`
-flex
-absolute
-justify-center
-items-center
-flex-col
-w-full
-h-full
-z-50
-bg-black
-opacity-40
-text-white
+flex absolute justify-center items-center flex-col w-full h-full z-50 bg-black opacity-40 text-white
+`;
+
+const LoadingSVGwrap = tw.div`
+absolute top-[55%] left-[49%] animate-spin z-50
 `;
 
 const Map = tw.div`
-relative
-w-full
-h-[45vh]
+relative w-full h-[45vh]
 `;
 
 const SearchHereBtn = tw.div`

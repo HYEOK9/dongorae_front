@@ -3,24 +3,31 @@ import React, { useState, useEffect } from "react";
 import { allSi, allGu } from "../../../../area";
 
 interface propType {
-    si: string;
-    gu: string;
+    city: string;
+    county: string;
     agreed: boolean;
-    setSi: React.Dispatch<React.SetStateAction<string>>;
-    setGu: React.Dispatch<React.SetStateAction<string>>;
+    setCity: React.Dispatch<React.SetStateAction<string>>;
+    setCounty: React.Dispatch<React.SetStateAction<string>>;
     setAgreed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
+const SetUserArea = ({
+    city,
+    county,
+    setCity,
+    setCounty,
+    agreed,
+    setAgreed,
+}: propType) => {
     const [guList, setGuList] = useState<string[]>([]);
     const [inputStart, setInputstart] = useState(false);
     useEffect(() => {
-        setGu("-선택-");
-        if (si !== "-선택-") {
+        setCounty("-선택-");
+        if (city !== "-선택-") {
             setInputstart(true);
-            setGuList(allGu[allSi.indexOf(si)]);
+            setGuList(allGu[allSi.indexOf(city)]);
         }
-    }, [si]);
+    }, [city]);
 
     return (
         <>
@@ -28,17 +35,17 @@ const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
                 <SelectArea>
                     <TextWrap>
                         <Text>지역선택*</Text>
-                        {gu === "-선택-" && inputStart && (
+                        {county === "-선택-" && inputStart && (
                             <WarnInfo>지역을 선택해주세요</WarnInfo>
                         )}
                     </TextWrap>
                     <SelectWrapper>
                         <Select
-                            value={si}
+                            value={city}
                             onChange={(
                                 event: React.ChangeEvent<HTMLInputElement>
                             ) => {
-                                setSi(event.target.value);
+                                setCity(event.target.value);
                                 setInputstart(true);
                             }}
                         >
@@ -48,13 +55,13 @@ const SetUserArea = ({ si, gu, setSi, setGu, agreed, setAgreed }: propType) => {
                                 </option>
                             ))}
                         </Select>
-                        {si != "-선택-" && (
+                        {city != "-선택-" && (
                             <Select
-                                value={gu}
+                                value={county}
                                 onChange={(
                                     event: React.ChangeEvent<HTMLInputElement>
                                 ) => {
-                                    setGu(event.target.value);
+                                    setCounty(event.target.value);
                                 }}
                             >
                                 {guList.map((item) => (

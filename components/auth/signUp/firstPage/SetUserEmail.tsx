@@ -4,23 +4,23 @@ import tw from "tailwind-styled-components";
 interface propType {
     email: string;
     setEmail: React.Dispatch<React.SetStateAction<string>>;
-    pwd: string;
-    setPwd: React.Dispatch<React.SetStateAction<string>>;
+    password: string;
+    setPassword: React.Dispatch<React.SetStateAction<string>>;
     emailIsValid: boolean;
     setEmailIsValid: React.Dispatch<React.SetStateAction<boolean>>;
-    pwdIsValid: boolean;
-    setPwdIsValid: React.Dispatch<React.SetStateAction<boolean>>;
+    passwordIsValid: boolean;
+    setPasswordIsValid: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SetUserEmail = ({
     email,
-    pwd,
+    password,
     setEmail,
-    setPwd,
+    setPassword,
     emailIsValid,
-    pwdIsValid,
+    passwordIsValid,
     setEmailIsValid,
-    setPwdIsValid,
+    setPasswordIsValid,
 }: propType) => {
     const [emailStarted, setEmailStarted] = useState(false);
     const [pwdStarted, setPwdStarted] = useState(false);
@@ -32,13 +32,13 @@ const SetUserEmail = ({
     }, [email, setEmailIsValid]);
 
     const checkPwdIsValid = useCallback(() => {
-        pwd.length >= 6 &&
-        pwd.length <= 16 &&
-        /[0-9]/.test(pwd) &&
-        /[a-zA-Z]/.test(pwd)
-            ? setPwdIsValid(true)
-            : setPwdIsValid(false);
-    }, [pwd, setPwdIsValid]);
+        password.length >= 6 &&
+        password.length <= 16 &&
+        /[0-9]/.test(password) &&
+        /[a-zA-Z]/.test(password)
+            ? setPasswordIsValid(true)
+            : setPasswordIsValid(false);
+    }, [password, setPasswordIsValid]);
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -46,7 +46,7 @@ const SetUserEmail = ({
             setEmail(value);
             setEmailStarted(true);
         } else {
-            setPwd(value);
+            setPassword(value);
             setPwdStarted(true);
         }
     };
@@ -77,15 +77,15 @@ const SetUserEmail = ({
             </InputWrap>
             <TextWrap>
                 <Text>비밀번호*</Text>
-                {pwdStarted && !pwdIsValid && (
+                {pwdStarted && !passwordIsValid && (
                     <WarnInfo>영문, 숫자 조합 6~16자</WarnInfo>
                 )}
             </TextWrap>
             <InputWrap>
                 <Input
                     type="password"
-                    id="pwd"
-                    value={pwd}
+                    id="password"
+                    value={password}
                     onChange={onChange}
                     autoComplete="off"
                     required

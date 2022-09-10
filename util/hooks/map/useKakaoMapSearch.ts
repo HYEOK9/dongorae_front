@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 //return [결과list, 에러여부]
 const useKakaoMapSearch = (keyword: string) => {
     const [result, setResult] = useState<any>([]);
-    const [error, setError] = useState<boolean>(true);
+    const [searchError, setSearchErrorError] = useState<boolean>(true);
 
     useEffect(() => {
         if (!keyword || keyword == "") return;
@@ -12,14 +12,14 @@ const useKakaoMapSearch = (keyword: string) => {
         const placesSearchCB = (data: any, status: any) => {
             if (status === kakao.maps.services.Status.OK) {
                 setResult(data);
-                setError(false);
-            } else setError(true);
+                setSearchErrorError(false);
+            } else setSearchErrorError(true);
         };
         const ps = new kakao.maps.services.Places();
         // 키워드로 장소를 검색합니다
         ps.keywordSearch(keyword, placesSearchCB);
     }, [keyword]);
 
-    return [result, error];
+    return { result, searchError };
 };
 export default useKakaoMapSearch;

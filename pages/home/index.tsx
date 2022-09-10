@@ -7,7 +7,7 @@ import Feed from "../../components/page/home/Feed";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { RoundBtn } from "../../components/styled/Buttons";
-
+import SearchFilter from "../../components/common/filtering/searchFilter";
 declare global {
     interface Window {}
 }
@@ -172,6 +172,7 @@ const Home = () => {
 
     return (
         <>
+            <SearchFilter />
             <HomeContainer>
                 <FeedContainer style={{ alignItems: "flex-end" }}>
                     {temp.map((feed, idx) =>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import tw from 'tailwind-styled-components';
 import { useTheme } from '../../context/Theme';
-// import ProgressBar from 'progressbar.js'
 
 const ProgressBar = require('progressbar.js');
 
@@ -72,5 +71,7 @@ const SenseInfoContainer = tw.div`
     flex justify-center items-center
     font-bold text-sm text-center
 `
+
+
 
 export default SenseInfo

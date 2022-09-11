@@ -1,7 +1,10 @@
+import { Info } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import React from 'react'
+import React, { useState } from 'react'
+import styled from 'styled-components';
 import tw from 'tailwind-styled-components';
 import { useTheme } from '../../components/context/Theme';
+import SenseInfo from '../../components/page/feed/SenseInfo';
 import UserInfo from '../../components/page/feed/UserInfo';
 
 const dummyText = `
@@ -15,6 +18,16 @@ const FeedDetail = () => {
     const { themeColorset } = useTheme();
     const route = useRouter();
     const { query } = route;
+    const [senseInfo, setSenseInfo] = useState(
+        [
+            {name: '청각', value: 1},
+            {name: '시각', value: 5},
+            {name: '전정감각', value: 2},
+            {name: '촉각', value: 4},
+            {name: '고유수용성감각', value: 4},
+            {name: '구강감각/미각/후각', value: 1},
+        ]
+    )
 
     /* 추후 query의 id값을 가지고 fetch */
 
@@ -39,7 +52,16 @@ const FeedDetail = () => {
                     </TextHolder>
                 </div>
                 <div style={{width: '35%'}}>
-                    <UserInfo/>
+                    <InfoContainer style={{backgroundColor: themeColorset.subPointColor}}>
+                        <UserInfo/>
+                    </InfoContainer>
+                    <InfoContainer style={{backgroundColor: themeColorset.subPointColor}}>
+                        <div>000 장소의 감각 정보</div>
+                        <SenseInfoContainer>
+                            {senseInfo.map((sense: Object, idx:number)=> 
+                                <SenseInfo key={idx} id={idx} sense={sense}/>) }
+                        </SenseInfoContainer>
+                    </InfoContainer>
                 </div>
             </ContentsContainer>
         </FeedContainer>
@@ -104,6 +126,21 @@ pt-[10px]
 const TextHolder = tw.p`
 my-[10px] mr-[15px]
 leading-6 font-medium
+`
+
+const InfoContainer = tw.div`
+w-full h-fit
+rounded-[20px]
+p-[20px] my-[10px]
+font-bold
+`
+
+const SenseInfoContainer = styled.div`
+display: grid;
+padding: 10px;
+grid-gap: 20px;
+grid-template-columns: 1fr 1fr;
+grid-template-rows: 1fr 1fr 1fr;    
 `
 
 export default FeedDetail;

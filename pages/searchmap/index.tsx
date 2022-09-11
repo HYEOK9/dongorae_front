@@ -13,7 +13,7 @@ import useInitMap from "../../util/hooks/map/useInitMap";
 import useGetMapSize from "../../util/hooks/map/useGetMapSize";
 import useKakaoMapSearch from "../../util/hooks/map/useKakaoMapSearch";
 //functions
-import { boundarySearch } from "../../util/map";
+import { boundarySearch, keywordSearch } from "../../util/map";
 import displayMarker from "../../util/hooks/map/displayMarker";
 import removeMarker from "../../util/hooks/map/removeMarker";
 //types
@@ -34,9 +34,11 @@ const searchmap = () => {
     // 현재 지도의 꼭짓점 좌표들
     const curMapSize = useGetMapSize(map);
     // 검색어 keywordState
-    const searchState = useSelector((state: RootState) => state.searchState);
+    const keyword = useSelector(
+        (state: RootState) => state.searchState.keyword
+    );
     // 키워드로 검색 , [결과, 에러 여부]
-    const { result, searchError } = useKakaoMapSearch(searchState.keyword);
+    //const { result, searchError } = useKakaoMapSearch(keyword);
     // 검색 후 보여지는 피드들 List
     const [curFeeds, setCurFeeds] = useState<typeof temp>([]);
     // 검색 후 보여지는 피드들의 마커 List (마커 지우려면 필요)
@@ -66,19 +68,21 @@ const searchmap = () => {
     const searchHere = async () => {
         dispatch(setSenseData(null));
         dispatch(setFilterOption("전체"));
-        // const res = await boundarySearch(
-        //     curMapSize.oa,
-        //     curMapSize.pa,
-        //     curMapSize.ha,
-        //     curMapSize.qa
-        // );
-        setCurFeeds(
-            temp.filter((feed) => isInMap(feed.latitude, feed.longitude))
+        const data = await boundarySearch(
+            curMapSize.oa,
+            curMapSize.pa,
+            curMapSize.ha,
+            curMapSize.qa
         );
+        console.log(data.result);
+        // setCurFeeds(
+        //     temp.filter((feed) => isInMap(feed.latitude, feed.longitude))
+        // );
         dispatch(setKeyword(""));
     };
 
     useEffect(() => {
+        if (map === null) return;
         switch (filterOption) {
             case "전체":
                 dispatch(setSenseData(null));
@@ -112,21 +116,29 @@ const searchmap = () => {
     }, [curFeeds]);
 
     useEffect(() => {
-        // 지도켜고 검색할 경우 첫번째 결과만 지도에 표시
-        if (map === null || searchError) return;
-        dispatch(setFilterOption("전체"));
-        setCurFeeds(temp.filter((feed) => feed.longitude == result[0].x));
-        // 검색된 장소 위치 기준으로 지도 범위 재설정
-        const bounds = new kakao.maps.LatLngBounds();
-        bounds.extend(new kakao.maps.LatLng(result[0].y, result[0].x));
-        map.setBounds(bounds);
-        map.setLevel(5);
-        console.log(result[0]);
+        if (map === null || keyword.trim() == "") return;
+        (async () => {
+            const data = await keywordSearch(keyword);
+            console.log(data.result);
+        })();
+    }, [map, keyword]);
 
-        return () => {
-            dispatch(setKeyword(""));
-        };
-    }, [map, result[0]]);
+    // useEffect(() => {
+    //     // 지도켜고 검색할 경우 첫번째 결과만 지도에 표시
+    //     if (map === null || searchError) return;
+    //     dispatch(setFilterOption("전체"));
+    //     setCurFeeds(temp.filter((feed) => feed.longitude == result[0].x));
+    //     // 검색된 장소 위치 기준으로 지도 범위 재설정
+    //     const bounds = new kakao.maps.LatLngBounds();
+    //     bounds.extend(new kakao.maps.LatLng(result[0].y, result[0].x));
+    //     map.setBounds(bounds);
+    //     map.setLevel(5);
+    //     console.log(result[0]);
+
+    //     return () => {
+    //         dispatch(setKeyword(""));
+    //     };
+    // }, [map, result[0]]);
 
     return (
         <>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 //components
 import SetUserEmail from "./firstPage/SetUserEmail";
 import SetUserName from "./firstPage/SetUserName";
@@ -31,7 +32,7 @@ const SignUpForm = () => {
     const [type, setType] = useState("disabled");
     const [checkSenseData, setCheckSenseData] = useState(false);
     const [senseData, setSenseData] = useState<number[] | null>(null);
-
+    const router = useRouter();
     const checkFirstPageIsValid = () => {
         return (
             emailIsValid &&
@@ -50,7 +51,7 @@ const SignUpForm = () => {
     const onSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         if (checkFirstPageIsValid() && checkSecondPageIsValid()) {
-            //회원가입 로직
+            //로직짜야함
         }
     };
 

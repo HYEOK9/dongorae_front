@@ -47,7 +47,6 @@ const searchFilter = () => {
                     style={{
                         backgroundColor: themeColorset.bgColor,
                         color: themeColorset.textColor,
-                        margin: "15px 15px 0 0",
                     }}
                     onClick={() => {
                         setShowDropDown((prev) => !prev);
@@ -81,13 +80,13 @@ const searchFilter = () => {
 export default React.memo(searchFilter);
 
 const FilterContainer = tw.section`
-flex flex-col items-end w-full
+flex flex-col justify-center items-end
 `;
 
 const CurOption = tw.div`
-flex w-full justify-center items-center text-sm
+flex justify-center items-center text-sm
 `;
 
 const FilterBtn = tw.div`
-flex relative flex-col justify-end items-center w-24 py-2 border border-solid border-[#c7c7c7] shadow-lg rounded-lg mt-8 cursor-pointer
+flex relative flex-col justify-center items-center w-24 py-2 border border-solid border-[#c7c7c7] shadow-lg rounded-lg my-4 mr-4 cursor-pointer
 `;

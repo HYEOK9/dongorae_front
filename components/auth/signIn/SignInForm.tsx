@@ -1,40 +1,21 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import axios from "axios";
 import tw from "tailwind-styled-components";
 import { BtnForSignIn } from "../../styled/Buttons";
 
 const SignInForm = () => {
     const router = useRouter();
     const [email, setEmail] = useState("");
-    const [pwd, setPwd] = useState("");
+    const [password, setPassword] = useState("");
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         if (event.target.id == "email") setEmail(value);
-        else setPwd(value);
+        else setPassword(value);
     };
 
-    const logIn = async (email: string, pwd: string) => {
-        try {
-            const res = await axios({
-                method: "POST",
-                url: "/api/",
-                data: { email, pwd },
-            });
-            const { accessToken } = res?.data;
-            axios.defaults.headers.common[
-                "Authorization"
-            ] = `Bearer ${accessToken}`;
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    const onSubmit = (event: React.SyntheticEvent) => {
-        //로그인 로직 짜야함
+    const onSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
-        logIn(email, pwd);
-        router.replace("/");
     };
 
     return (
@@ -55,13 +36,13 @@ const SignInForm = () => {
                 <InputWrap>
                     <Input
                         type="password"
-                        id="pwd"
-                        value={pwd}
+                        id="password"
+                        value={password}
                         onChange={onChange}
                         autoComplete="off"
                         required
                     ></Input>
-                    <Label htmlFor="pwd">비밀번호</Label>
+                    <Label htmlFor="password">비밀번호</Label>
                 </InputWrap>
                 <JoinInTextWrap>
                     <Link href="join">

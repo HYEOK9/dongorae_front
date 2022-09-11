@@ -172,7 +172,6 @@ const Home = () => {
 
     return (
         <>
-            <SearchFilter />
             <HomeContainer>
                 <FeedContainer style={{ alignItems: "flex-end" }}>
                     {temp.map((feed, idx) =>
@@ -189,7 +188,6 @@ const Home = () => {
                         idx % 3 === 2 ? <Feed key={idx} data={feed} /> : null
                     )}
                 </FeedContainer>
-
                 <ButtonContainer>
                     <RoundBtn
                         theme={themeColorset}

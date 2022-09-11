@@ -172,7 +172,6 @@ const Home = () => {
 
     return (
         <>
-            <SearchFilter />
             <HomeContainer>
                 <FeedContainer style={{ alignItems: "flex-end" }}>
                     {temp.map((feed, idx) =>

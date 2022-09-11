@@ -2,19 +2,19 @@ import React, { useEffect, useCallback, useState } from "react";
 import tw from "tailwind-styled-components";
 
 interface propType {
-    name: string;
-    nickName: string;
-    setName: React.Dispatch<React.SetStateAction<string>>;
-    setNickName: React.Dispatch<React.SetStateAction<string>>;
+    username: string;
+    nickname: string;
+    setUsername: React.Dispatch<React.SetStateAction<string>>;
+    setNickname: React.Dispatch<React.SetStateAction<string>>;
     nickNameIsValid: boolean;
     setNickNameIsValid: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SetUserName = ({
-    name,
-    nickName,
-    setName,
-    setNickName,
+    username,
+    nickname,
+    setUsername,
+    setNickname,
     nickNameIsValid,
     setNickNameIsValid,
 }: propType) => {
@@ -23,22 +23,22 @@ const SetUserName = ({
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         if (event.target.id == "name") {
-            setName(value);
+            setUsername(value);
         } else {
             setNickNameStarted(true);
-            setNickName(value);
+            setNickname(value);
         }
     };
 
     const checkNickNameIsValid = useCallback(() => {
-        2 <= nickName.length && nickName.length <= 6
+        2 <= nickname.length && nickname.length <= 6
             ? setNickNameIsValid(true)
             : setNickNameIsValid(false);
-    }, [nickName, setNickNameIsValid]);
+    }, [nickname, setNickNameIsValid]);
 
     useEffect(() => {
         checkNickNameIsValid();
-    }, [nickName]);
+    }, [nickname]);
 
     return (
         <>
@@ -50,7 +50,7 @@ const SetUserName = ({
                     <Input
                         type="text"
                         id="name"
-                        value={name}
+                        value={username}
                         onChange={onChange}
                         autoComplete="off"
                         required
@@ -67,7 +67,7 @@ const SetUserName = ({
                     <Input
                         type="text"
                         id="nickName"
-                        value={nickName}
+                        value={nickname}
                         onChange={onChange}
                         autoComplete="off"
                         required

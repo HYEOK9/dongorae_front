@@ -48,7 +48,6 @@ const SetUserBirth = ({
                         <WarnInfo>올바른 생년월일을 입력해주세요</WarnInfo>
                     )}
                 </TextWrap>
-
                 <BirthInputWrap>
                     <BirthInput
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

@@ -3,19 +3,18 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import tw from "tailwind-styled-components";
 
 interface propType {
-    senseData: string | null;
-    setSenseData: React.Dispatch<React.SetStateAction<string | null>>;
+    setSenseData: React.Dispatch<React.SetStateAction<number[] | null>>;
 }
-const SetUserSense = ({ senseData, setSenseData }: propType) => {
-    const [chungak, setChungak] = useState((senseData as string)[0]);
-    const [sigak, setSigak] = useState((senseData as string)[1]);
-    const [chokgak, setChokgak] = useState((senseData as string)[2]);
-    const [migak, setMigak] = useState((senseData as string)[3]);
-    const [junjung, setJunjung] = useState((senseData as string)[4]);
-    const [goyu, setGoyu] = useState((senseData as string)[5]);
+const SetUserSense = ({ setSenseData }: propType) => {
+    const [chungak, setChungak] = useState(50);
+    const [sigak, setSigak] = useState(50);
+    const [chokgak, setChokgak] = useState(50);
+    const [migak, setMigak] = useState(50);
+    const [junjung, setJunjung] = useState(50);
+    const [goyu, setGoyu] = useState(50);
 
     useEffect(() => {
-        setSenseData(chungak + sigak + chokgak + migak + junjung + goyu);
+        setSenseData([chungak, sigak, chokgak, migak, junjung, goyu]);
     }, [chungak, sigak, chokgak, migak, junjung, goyu]);
 
     return (
@@ -23,7 +22,7 @@ const SetUserSense = ({ senseData, setSenseData }: propType) => {
             <Container>
                 <TextArea>
                     <TextWrap>
-                        <Span>둔감</Span> <Span>예민</Span>
+                        <Span>예민</Span> <Span>둔감</Span>
                     </TextWrap>
                 </TextArea>
                 <InputWrap>
@@ -31,13 +30,13 @@ const SetUserSense = ({ senseData, setSenseData }: propType) => {
                     <Input
                         value={chungak}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setChungak(e.target.value);
+                            setChungak(Number(e.target.value));
                         }}
                         type="range"
                         id="청각"
                         name="청각"
-                        min="1"
-                        max="5"
+                        min="0"
+                        max="100"
                     />
                 </InputWrap>
                 <InputWrap>
@@ -45,13 +44,13 @@ const SetUserSense = ({ senseData, setSenseData }: propType) => {
                     <Input
                         value={sigak}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setSigak(e.target.value);
+                            setSigak(Number(e.target.value));
                         }}
                         type="range"
                         id="시각"
                         name="시각"
-                        min="1"
-                        max="5"
+                        min="0"
+                        max="100"
                     />
                 </InputWrap>
                 <InputWrap>
@@ -59,13 +58,13 @@ const SetUserSense = ({ senseData, setSenseData }: propType) => {
                     <Input
                         value={chokgak}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setChokgak(e.target.value);
+                            setChokgak(Number(e.target.value));
                         }}
                         type="range"
                         id="촉각"
                         name="촉각"
-                        min="1"
-                        max="5"
+                        min="0"
+                        max="100"
                     />
                 </InputWrap>
                 <InputWrap>
@@ -73,13 +72,13 @@ const SetUserSense = ({ senseData, setSenseData }: propType) => {
                     <Input
                         value={migak}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setMigak(e.target.value);
+                            setMigak(Number(e.target.value));
                         }}
                         type="range"
                         id="미각"
                         name="미각"
-                        min="1"
-                        max="5"
+                        min="0"
+                        max="100"
                     />
                 </InputWrap>
                 <TextArea>
@@ -107,13 +106,13 @@ const SetUserSense = ({ senseData, setSenseData }: propType) => {
                     <Input
                         value={junjung}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setJunjung(e.target.value);
+                            setJunjung(Number(e.target.value));
                         }}
                         type="range"
                         id="전정감각"
                         name="전정감각"
-                        min="1"
-                        max="5"
+                        min="0"
+                        max="100"
                     />
                 </InputWrap>
                 <InputWrap>
@@ -136,13 +135,13 @@ const SetUserSense = ({ senseData, setSenseData }: propType) => {
                     <Input
                         value={goyu}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setGoyu(e.target.value);
+                            setGoyu(Number(e.target.value));
                         }}
                         type="range"
                         id="고유수용성감각"
                         name="고유수용성감각"
-                        min="1"
-                        max="5"
+                        min="0"
+                        max="100"
                     />
                 </InputWrap>
             </Container>

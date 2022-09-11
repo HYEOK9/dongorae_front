@@ -18,7 +18,7 @@ const FeedDetail = () => {
                 </ImgHolder>
             </ImgContainer>
             <ContentsContainer>
-                <div style={{width: '65%'}}>
+                <div>
                     <SpanContainer>
                         <TitleHolder>PLACENAME</TitleHolder>
                         <AddressHolder>address</AddressHolder>

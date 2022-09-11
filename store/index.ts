@@ -9,11 +9,12 @@ import { Reducer } from "@reduxjs/toolkit";
 import authSlice, { authState } from "./authSlice";
 import searchSlice, { searchState } from "./searchSlice";
 import curLocationSlice, { curLocationState } from "./curLocationSlice";
-
+import filterSlice, { filterState } from "./filterSlice";
 export interface RootState {
     authState: authState;
     searchState: searchState;
     curLocationState: curLocationState;
+    filterState: filterState;
 }
 
 const RootReducer = (
@@ -25,6 +26,7 @@ const RootReducer = (
         authState: authSlice.reducer,
         searchState: searchSlice.reducer,
         curLocationState: curLocationSlice.reducer,
+        filterState: filterSlice.reducer,
     });
     return combinedReducer(state, action);
 };

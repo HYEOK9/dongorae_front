@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 //components
 import SetUserEmail from "./firstPage/SetUserEmail";
 import SetUserName from "./firstPage/SetUserName";
@@ -14,31 +14,31 @@ import { BtnForSignIn } from "../../styled/Buttons";
 const SignUpForm = () => {
     //첫페이지 states
     const [email, setEmail] = useState("");
-    const [pwd, setPwd] = useState("");
-    const [name, setName] = useState("");
-    const [nickName, setnickName] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [nickname, setNickname] = useState("");
     const [emailIsValid, setEmailIsValid] = useState(false);
-    const [pwdIsValid, setPwdIsValid] = useState(false);
+    const [passwordIsValid, setPasswordIsValid] = useState(false);
     const [nickNameIsValid, setNickNameIsValid] = useState(false);
     const [birthDayIsValid, setBirthDayIsValid] = useState(false);
-    const [si, setSi] = useState("-선택-");
-    const [gu, setGu] = useState("-선택-");
+    const [city, setCity] = useState("-선택-");
+    const [county, setCounty] = useState("-선택-");
 
     //두번째페이지 states
     const [secondPage, setSecondPage] = useState(false);
     const [agreed, setAgreed] = useState(false);
     const [birthDay, setBirthDay] = useState("");
-    const [type, setType] = useState("장애인");
+    const [type, setType] = useState("disabled");
     const [checkSenseData, setCheckSenseData] = useState(false);
-    const [senseData, setSenseData] = useState<string | null>("333333");
+    const [senseData, setSenseData] = useState<number[] | null>(null);
 
     const checkFirstPageIsValid = () => {
         return (
             emailIsValid &&
-            pwdIsValid &&
+            passwordIsValid &&
             nickNameIsValid &&
-            si != "-선택-" &&
-            gu != "-선택-" &&
+            city != "-선택-" &&
+            county != "-선택-" &&
             agreed
         );
     };
@@ -47,12 +47,10 @@ const SignUpForm = () => {
         return birthDayIsValid;
     };
 
-    const onSubmit = () => {
+    const onSubmit = async (event: React.SyntheticEvent) => {
+        event.preventDefault();
         if (checkFirstPageIsValid() && checkSecondPageIsValid()) {
-            try {
-            } catch (e) {
-                console.log(e);
-            }
+            //회원가입 로직
         }
     };
 
@@ -68,26 +66,26 @@ const SignUpForm = () => {
                     <SetUserEmail
                         email={email}
                         setEmail={setEmail}
-                        pwd={pwd}
-                        setPwd={setPwd}
+                        password={password}
+                        setPassword={setPassword}
                         emailIsValid={emailIsValid}
                         setEmailIsValid={setEmailIsValid}
-                        pwdIsValid={pwdIsValid}
-                        setPwdIsValid={setPwdIsValid}
+                        passwordIsValid={passwordIsValid}
+                        setPasswordIsValid={setPasswordIsValid}
                     />
                     <SetUserName
-                        name={name}
-                        setName={setName}
-                        nickName={nickName}
-                        setNickName={setnickName}
+                        username={username}
+                        setUsername={setUsername}
+                        nickname={nickname}
+                        setNickname={setNickname}
                         nickNameIsValid={nickNameIsValid}
                         setNickNameIsValid={setNickNameIsValid}
                     />
                     <SetUserArea
-                        si={si}
-                        setSi={setSi}
-                        gu={gu}
-                        setGu={setGu}
+                        city={city}
+                        setCity={setCity}
+                        county={county}
+                        setCounty={setCounty}
                         agreed={agreed}
                         setAgreed={setAgreed}
                     />
@@ -119,11 +117,10 @@ const SignUpForm = () => {
                     />
                     <SetUserType setType={setType} />
                     <CheckSenseData>
-                        감각정보 설정(선택)
+                        감각정보 설정 (선택)
                         <input
                             type="checkbox"
                             onClick={() => {
-                                setSenseData("333333");
                                 setCheckSenseData((prev) => !prev);
                             }}
                             style={{ marginLeft: "10px" }}
@@ -131,12 +128,9 @@ const SignUpForm = () => {
                     </CheckSenseData>
                     <Span>*감각정보를 바탕으로 게시물을 추천합니다.*</Span>
                     {checkSenseData && (
-                        <SetUserSense
-                            senseData={senseData}
-                            setSenseData={setSenseData}
-                        />
+                        <SetUserSense setSenseData={setSenseData} />
                     )}
-                    <JoinBtn type="button" onClick={onSubmit}>
+                    <JoinBtn type="submit" onClick={onSubmit}>
                         가입하기
                     </JoinBtn>
                 </>

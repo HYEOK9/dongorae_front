@@ -8,4 +8,4 @@ padding: 6px 12px 4px 12px;
 border-radius: 10px;
 `
 
-export {HashTagHolder}
+export { HashTagHolder }

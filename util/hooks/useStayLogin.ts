@@ -11,7 +11,10 @@ const useStayLogin = () => {
     console.log(user);
 
     useEffect(() => {
-        if (!localStorage.getItem("userId")) return;
+        if (!localStorage.getItem("userId")) {
+            dispatch(setIsAuthed(false));
+            return;
+        }
         const fetchUser = async () => {
             const userId = Number(localStorage.getItem("userId"));
             const res = await axios.get(`/api/user/${userId}`);

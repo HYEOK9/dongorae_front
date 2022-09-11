@@ -15,8 +15,8 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: "/:path*",
-                destination: `http://dongore-backend2.herokuapp.com/:path*`,
+                source: "/api/:path*",
+                destination: `http://dongore-backend2.herokuapp.com/api/:path*`,
             },
         ];
     },

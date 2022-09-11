@@ -34,7 +34,7 @@ const SignInForm = () => {
         //로그인 로직 짜야함
         event.preventDefault();
         logIn(email, pwd);
-        router.replace("/");
+        router.replace("/home");
     };
 
     return (

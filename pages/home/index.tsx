@@ -7,7 +7,7 @@ import Feed from "../../components/page/home/Feed";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { RoundBtn } from "../../components/styled/Buttons";
-import SearchFilter from "../../components/common/filtering/searchFilter";
+import useStayLogin from "../../util/hooks/useStayLogin";
 declare global {
     interface Window {}
 }
@@ -169,7 +169,8 @@ export const temp = [
 const Home = () => {
     const { themeColorset } = useTheme();
     const router = useRouter();
-
+    const userId = useStayLogin();
+    console.log(userId);
     return (
         <>
             <HomeContainer>

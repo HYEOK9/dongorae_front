@@ -8,15 +8,18 @@ export const logIn = async (email: string, password: string) => {
             { email, password },
             { headers: { "Content-Type": "multipart/form-data" } }
         );
-        const { accessToken } = res?.data;
-        axios.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${accessToken}`;
-        return res.data;
+        if (res.data.isSuccess) {
+            const { access_token } = res?.data;
+            axios.defaults.headers.common[
+                "Authorization"
+            ] = `Bearer ${access_token}`;
+            return res.data;
+        } else {
+            alert(res.data.detail);
+            throw new Error();
+        }
     } catch (e) {
-        const error = e as AxiosError;
-        console.log(error);
-        return null;
+        console.log(e);
     }
 };
 
@@ -55,12 +58,12 @@ export const signUp = async (
             },
             { headers: { "Content-Type": "multipart/form-data" } }
         );
-        if (200 <= res.status && res.status < 300) {
-            return res.data;
-        } else throw new Error();
+        if (res.data.isSuccess) return res.data;
+        else {
+            alert(res.data.detail);
+            throw new Error();
+        }
     } catch (e) {
-        const error = e as AxiosError;
-        console.log(error);
-        return null;
+        console.log(e);
     }
 };

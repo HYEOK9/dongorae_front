@@ -59,7 +59,7 @@ const SignUpForm = () => {
     const onSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         if (checkFirstPageIsValid() && checkSecondPageIsValid()) {
-            const data = await signUp(
+            const user = await signUp(
                 email,
                 password,
                 username,
@@ -74,11 +74,11 @@ const SignUpForm = () => {
                 senseData ? senseData[4] : 100,
                 senseData ? senseData[5] : 100
             );
-            if (data) {
+            if (user) {
                 dispatch(setIsAuthed(true));
                 dispatch(
                     setUser({
-                        userId: data.result.appUserId,
+                        userId: user.result.appUserId,
                         email,
                         password,
                         username,
@@ -94,7 +94,8 @@ const SignUpForm = () => {
                         sense_visual: senseData ? senseData[5] : 100,
                     })
                 );
-                router.push("/");
+                router.push("/home");
+                localStorage.setItem("userId", user.result.appUserId);
             }
         }
     };

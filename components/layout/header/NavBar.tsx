@@ -45,7 +45,7 @@ const NavBar = (props: propType) => {
                         </Link>
                     </NavItems>
                     <NavItems>
-                        <Link href={auth.isAuthed ? "/my" : "/signin"}>
+                        <Link href={auth.isAuthed ? "/home" : "/signin"}>
                             <a>
                                 <AccountCircleIcon fontSize={"large"} />
                             </a>

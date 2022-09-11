@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+//redux
+import { useDispatch } from "react-redux";
+import { setIsAuthed } from "../../../store/authSlice";
+//utilo
 import { logIn } from "../../../util/auth";
+//style
 import tw from "tailwind-styled-components";
 import { BtnForSignIn } from "../../styled/Buttons";
 
 const SignInForm = () => {
-    const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const router = useRouter();
+
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         if (event.target.id == "email") setEmail(value);
@@ -20,9 +27,13 @@ const SignInForm = () => {
         const user = await logIn(email, password);
         console.log(user);
         if (user) {
+            dispatch(setIsAuthed(true));
+            localStorage.setItem("access_token", user.result.access_token);
+            localStorage.setItem("refresh_token", user.result.refresh_token);
+            localStorage.setItem("userId", user.result.appUserId);
+            router.push("/home");
         }
     };
-
     return (
         <>
             <Form onSubmit={onSubmit}>

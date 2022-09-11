@@ -11,7 +11,7 @@ import SearchFiler from "../../components/common/filtering/searchFilter";
 import useCurLocation from "../../util/hooks/useCurLocation";
 import useInitMap from "../../util/hooks/map/useInitMap";
 import useGetMapSize from "../../util/hooks/map/useGetMapSize";
-import useKakaoMapSearch from "../../util/hooks/map/useKakaoMapSearch";
+import useStayLogin from "../../util/hooks/useStayLogin";
 //functions
 import { boundarySearch, keywordSearch } from "../../util/map";
 import displayMarker from "../../util/hooks/map/displayMarker";
@@ -27,6 +27,7 @@ import { temp } from "../home/index";
 
 const searchmap = () => {
     console.log("re-render");
+    const userId = useStayLogin();
     // 유저 위치 fetch
     const { location, locError } = useCurLocation();
     // 맵 초기화 , {지도, 지도를 띄울 dom의 ref}

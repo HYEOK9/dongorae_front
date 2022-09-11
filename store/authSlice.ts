@@ -1,20 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface userState {
-    userId: number;
+    // userId: number;
     email: string;
-    password: string;
+    // password: string;
     username: string;
     nickname: string;
-    city: string;
-    county: string;
     type: string;
-    sense_auditory: number;
-    sense_oral: number;
-    sense_proprioceptive: number;
-    sense_tactile: number;
-    sense_vestibular: number;
-    sense_visual: number;
+    birthday: string;
+    // city: string;
+    // county: string;
+    // sense_auditory: number;
+    // sense_oral: number;
+    // sense_proprioceptive: number;
+    // sense_tactile: number;
+    // sense_vestibular: number;
+    // sense_visual: number;
 }
 export interface authState {
     isAuthed: boolean;
@@ -24,20 +25,21 @@ export interface authState {
 const initialState: authState = {
     isAuthed: false,
     user: {
-        userId: -1,
+        // userId: -1,
         email: "",
-        password: "",
+        // password: "",
         username: "",
         nickname: "",
-        city: "",
-        county: "",
         type: "",
-        sense_auditory: -1,
-        sense_oral: -1,
-        sense_proprioceptive: -1,
-        sense_tactile: -1,
-        sense_vestibular: -1,
-        sense_visual: -1,
+        birthday: "",
+        // city: "",
+        // county: "",
+        // sense_auditory: -1,
+        // sense_oral: -1,
+        // sense_proprioceptive: -1,
+        // sense_tactile: -1,
+        // sense_vestibular: -1,
+        // sense_visual: -1,
     },
 };
 

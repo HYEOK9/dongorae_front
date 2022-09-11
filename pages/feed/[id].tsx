@@ -15,22 +15,12 @@ import { useTheme } from '../../components/context/Theme';
 import { dummyFeedDetail } from '../../util/dummyData';
 import { isEmpty } from 'lodash';
 
-interface PropType_FeedDetail{
-    "feedId": number,
-    "writerId": number,
-    "title": string,
-    "text": string,
-    "writer": string,
-    "mainPhoto": null,
-    "sensedata": Object,
-}
-
 const FeedDetail = () => {
     const { themeColorset } = useTheme();
     const route = useRouter();
     const { query } = route;
     const [feedDetail, setFeedDetail] = useState<Object>({})
-    const [senseInfo, setSenseInfo] = useState<Object>({})
+    const [senseData, setSenseData] = useState<Object>({})
     const [isLoading, setIsLoading] = useState<Boolean>(false);
 
     async function fetchFeedDetail() {
@@ -42,8 +32,6 @@ const FeedDetail = () => {
                 if(isEmpty(feedDetail)){
                     setFeedDetail(dummyFeedDetail.result);
                     setIsLoading(false);
-                    console.log(isLoading);
-                    
                 }
             },1000)
 
@@ -57,8 +45,21 @@ const FeedDetail = () => {
         }
     }
 
+    function makeSenseData() {
+        const senseData = feedDetail?.sensedata;
+        if(!isEmpty(senseData)){
+            delete senseData.id;
+        }
+        setSenseData(senseData)
+    }
+
     useEffect(()=>{
+        console.log('hi');
         fetchFeedDetail();
+    },[])
+
+    useEffect(()=>{
+        makeSenseData();
     },[feedDetail])
 
     return(<>
@@ -66,9 +67,11 @@ const FeedDetail = () => {
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
             <MapContainer/>
-            <ImgContainer>
-                {feedDetail?.photos?.map((url:string, idx:number)=>(<ImgHolder src={url} key={idx}/>))}
-            </ImgContainer>
+            { !feedDetail?.photos?.isEmpty() ?? 
+                <ImgContainer>
+                    {feedDetail?.photos?.map((url:string, idx:number)=>(<ImgHolder src={url} key={idx}/>))}
+                </ImgContainer>
+            }
             <ContentsContainer>
                 <div style={{width: '65%'}}>
                     <SpanContainer>
@@ -88,8 +91,12 @@ const FeedDetail = () => {
                     <InfoContainer style={{backgroundColor: themeColorset.subPointColor}}>
                         <div>000 장소의 감각 정보</div>
                         <SenseInfoContainer>
-                            {Object.values(senseInfo).map((sense: Object, idx:number)=> 
-                                <SenseInfo key={idx} id={idx} sense={sense}/>) }
+                            {Object.entries(senseData || {}).map(([key, value])=>{
+                                console.log(key, value);
+                                
+                                return (<SenseInfo key={key} name={key} value={value}/>)
+                            })
+                            }
                         </SenseInfoContainer>
                     </InfoContainer>
                 </div>

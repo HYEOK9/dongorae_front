@@ -4,6 +4,15 @@ import { useTheme } from '../../context/Theme';
 
 const ProgressBar = require('progressbar.js');
 
+const senseMap = {
+    'auditory': '청각',
+    'visual': '시각',
+    'vestibular': '전정감각',
+    'tactile': '촉각',
+    'proprioceptive': '고유수용성감각',
+    'oral': '구강감각/미각/후각'
+}
+
 const progressBarConfig = {
     strokeWidth: 10,
     easing: 'easeInOut',
@@ -30,30 +39,29 @@ const progressBarConfig = {
 }
 
 interface PropType{
-    id: number,
-    sense: {
-        name: string,
-        value: number
-    }
+    name: string,
+    value: number
 }  
 
 const SenseInfo = (props: PropType) => {
     const [progressBar, setProgressBar] = useState(null)
     const {themeColorset} = useTheme();
 
-    const containerId = `progressBar-${props.id}`;
-    const progressValue = props.sense.value/5;
+    const containerId = `progressBar-${props.name}`;
+    const progressValue = props.value/5;
     progressBarConfig.color = themeColorset.pointColor;
     progressBarConfig.trailColor = themeColorset.bgColor;
 
     useEffect(()=>{
-        progressBarConfig.text.value = props.sense.name;
+        progressBarConfig.text.value = senseMap[props.name] || '';
 
         if(progressBar) progressBar.destroy();
         
         const bar = new ProgressBar.SemiCircle(`#${containerId}`, progressBarConfig)
         setProgressBar(bar);
-        bar.animate(progressValue);
+        bar.animate(100 / progressValue);
+        console.log('animate');
+        
 
     }, [themeColorset])
     

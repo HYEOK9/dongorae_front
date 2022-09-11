@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { logIn } from "../../../util/auth";
 import tw from "tailwind-styled-components";
 import { BtnForSignIn } from "../../styled/Buttons";
 
@@ -16,6 +17,10 @@ const SignInForm = () => {
 
     const onSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
+        const user = await logIn(email, password);
+        console.log(user);
+        if (user) {
+        }
     };
 
     return (

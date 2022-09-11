@@ -7,6 +7,12 @@ import SetUserArea from "./firstPage/SetUserArea";
 import SetUserType from "./secondPage/SetUserType";
 import SetUserBirth from "./secondPage/SetUserBirth";
 import SetUserSense from "./secondPage/SetUserSense";
+//util
+import { signUp } from "../../../util/auth";
+//redux
+import { RootState } from "../../../store";
+import { setIsAuthed, setUser } from "../../../store/authSlice";
+import { useDispatch } from "react-redux";
 //style
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import tw from "tailwind-styled-components";
@@ -32,7 +38,9 @@ const SignUpForm = () => {
     const [type, setType] = useState("disabled");
     const [checkSenseData, setCheckSenseData] = useState(false);
     const [senseData, setSenseData] = useState<number[] | null>(null);
+    const dispatch = useDispatch();
     const router = useRouter();
+
     const checkFirstPageIsValid = () => {
         return (
             emailIsValid &&
@@ -51,7 +59,43 @@ const SignUpForm = () => {
     const onSubmit = async (event: React.SyntheticEvent) => {
         event.preventDefault();
         if (checkFirstPageIsValid() && checkSecondPageIsValid()) {
-            //로직짜야함
+            const data = await signUp(
+                email,
+                password,
+                username,
+                nickname,
+                city,
+                county,
+                type,
+                senseData ? senseData[0] : 100,
+                senseData ? senseData[1] : 100,
+                senseData ? senseData[2] : 100,
+                senseData ? senseData[3] : 100,
+                senseData ? senseData[4] : 100,
+                senseData ? senseData[5] : 100
+            );
+            if (data) {
+                dispatch(setIsAuthed(true));
+                dispatch(
+                    setUser({
+                        userId: data.result.appUserId,
+                        email,
+                        password,
+                        username,
+                        nickname,
+                        city,
+                        county,
+                        type,
+                        sense_auditory: senseData ? senseData[0] : 100,
+                        sense_oral: senseData ? senseData[1] : 100,
+                        sense_proprioceptive: senseData ? senseData[2] : 100,
+                        sense_tactile: senseData ? senseData[3] : 100,
+                        sense_vestibular: senseData ? senseData[4] : 100,
+                        sense_visual: senseData ? senseData[5] : 100,
+                    })
+                );
+                router.push("/");
+            }
         }
     };
 

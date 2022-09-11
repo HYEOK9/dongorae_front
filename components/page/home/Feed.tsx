@@ -5,13 +5,21 @@ import { useTheme } from "../../context/Theme";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 interface propType {
     data: {
-        id: string;
-        hashTags: Array<string>;
-        latitude: DoubleRange;
-        longitude: DoubleRange;
-        photos: Array<string>;
-        placeName: string;
-        text: string;
+        "feedId": number,
+        "writerId": number,
+        "title": string,
+        "text": string,
+        "writer": string,
+        "mainPhoto": Array<string>,
+        "sensedata": {
+            "id": number,
+            "auditory": number,
+            "visual": number,
+            "vestibular": number,
+            "tactile": number,
+            "proprioceptive": number,
+            "oral": number
+        }
     };
 }
 
@@ -20,21 +28,21 @@ const Feed = (props: propType) => {
     const router = useRouter();
 
     const { data } = props;
-    const hashTags = data?.hashTags.map((tag: string) =>
+    const hashTags = data?.hashTags?.map((tag: string) =>
         tag.startsWith("#") ? tag : `#${tag}`
-    );
+    ) || [];
 
-    console.log(hashTags);
+    console.log(data);
 
     return (
         <FeedContainer
             style={{ backgroundColor: themeColorset.bgColor }}
-            onClick={() => router.push(`feed/${data.id}`)}
+            onClick={() => router.push(`feed/${data.feedId}`)}
         >
-            <ImgContainer src={data?.photos?.[0]} />
+            <ImgContainer src={data?.mainPhoto} />
             <ContentContainer>
                 <PlaceNameHolder>
-                    {data?.placeName}{" "}
+                    {data?.title}{" "}
                     <MyLocationIcon style={{ fontSize: "14px" }} />{" "}
                 </PlaceNameHolder>
                 <HashTagContainer style={{ color: themeColorset.subTextColor }}>

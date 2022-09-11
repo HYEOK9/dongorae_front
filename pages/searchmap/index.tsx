@@ -23,7 +23,7 @@ import tw from "tailwind-styled-components";
 import LoadingSVG from "/public/loading.svg";
 import { useTheme } from "../../components/context/Theme";
 //data
-import { temp } from "../home/index";
+import { dummyFeeds } from "../../util/dummyData";
 
 const searchmap = () => {
     console.log("re-render");
@@ -38,7 +38,7 @@ const searchmap = () => {
     // 키워드로 검색 , [결과, 에러 여부]
     const { result, searchError } = useKakaoMapSearch(searchState.keyword);
     // 검색 후 보여지는 피드들 List
-    const [curFeeds, setCurFeeds] = useState<typeof temp>([]);
+    const [curFeeds, setCurFeeds] = useState<typeof dummyFeeds>([]);
     // 검색 후 보여지는 피드들의 마커 List (마커 지우려면 필요)
     const [curPlacesMarkers, setCurPlacesMarkers] = useState<MarkerType[]>([
         {
@@ -73,7 +73,7 @@ const searchmap = () => {
         //     curMapSize.qa
         // );
         setCurFeeds(
-            temp.filter((feed) => isInMap(feed.latitude, feed.longitude))
+            dummyFeeds.filter((feed) => isInMap(feed.latitude, feed.longitude))
         );
         dispatch(setKeyword(""));
     };
@@ -115,7 +115,7 @@ const searchmap = () => {
         // 지도켜고 검색할 경우 첫번째 결과만 지도에 표시
         if (map === null || searchError) return;
         dispatch(setFilterOption("전체"));
-        setCurFeeds(temp.filter((feed) => feed.longitude == result[0].x));
+        setCurFeeds(dummyFeeds.filter((feed) => feed.longitude == result[0].x));
         // 검색된 장소 위치 기준으로 지도 범위 재설정
         const bounds = new kakao.maps.LatLngBounds();
         bounds.extend(new kakao.maps.LatLng(result[0].y, result[0].x));

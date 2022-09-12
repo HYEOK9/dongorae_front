@@ -1,52 +1,37 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/router";
 import tw from "tailwind-styled-components/";
 import { useTheme } from "../../context/Theme";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 interface propType {
     data: {
-        "feedId": number,
-        "writerId": number,
-        "title": string,
-        "text": string,
-        "writer": string,
-        "mainPhoto": Array<string>,
-        "sensedata": {
-            "id": number,
-            "auditory": number,
-            "visual": number,
-            "vestibular": number,
-            "tactile": number,
-            "proprioceptive": number,
-            "oral": number
-        }
+        hashTags: string;
+        latitude: DoubleRange;
+        longitude: DoubleRange;
+        photos: Array<string>;
+        placeName: string;
+        text: string;
     };
 }
 
 const Feed = (props: propType) => {
     const { themeColorset } = useTheme();
-    const router = useRouter();
 
     const { data } = props;
-    const hashTags = data?.hashTags?.map((tag: string) =>
-        tag.startsWith("#") ? tag : `#${tag}`
-    ) || [];
+    const hashTags = props.data?.hashTags?.split(" #")
+        .map((tag) => (tag.startsWith("#") ? tag : `#${tag}`));
 
-    console.log(data);
+    console.log(hashTags);
 
     return (
-        <FeedContainer
-            style={{ backgroundColor: themeColorset.bgColor }}
-            onClick={() => router.push(`feed/${data.feedId}`)}
-        >
-            <ImgContainer src={data?.mainPhoto} />
+        <FeedContainer style={{ backgroundColor: themeColorset.bgColor }}>
+            <ImgContainer src={data?.photos?.[0]} />
             <ContentContainer>
                 <PlaceNameHolder>
-                    {data?.title}{" "}
+                    {data?.placeName}{" "}
                     <MyLocationIcon style={{ fontSize: "14px" }} />{" "}
                 </PlaceNameHolder>
                 <HashTagContainer style={{ color: themeColorset.subTextColor }}>
-                    {hashTags.map((tag: string) => (
+                    {hashTags?.map((tag) => (
                         <span>{tag}</span>
                     ))}
                 </HashTagContainer>
@@ -59,7 +44,7 @@ const Feed = (props: propType) => {
 };
 
 const FeedContainer = tw.div`
-w-[100%] max-w-[400px] 
+w-[calc(50%-20px)] max-w-[380px] 
 h-fit 
 m-[10px]
 rounded-[20px] shadow-sm hover:shadow-[2px_2px_15px_5px_rgba(0,0,0,0.05)] ease-in duration-200

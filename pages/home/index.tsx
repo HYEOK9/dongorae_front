@@ -25,26 +25,21 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     async function fetchAllFeed() {
-        try{
-            setIsLoading(true);
-            // 5초 이상 로딩 안될시 임시로 dummyData 넣어줌
-            // -> 추후 로딩에러 컴포넌트로 변경 예정
-            setInterval(()=>{
-                if(curFeeds.length === 0){
-                    setCurFeeds(dummyFeeds.result.feedThumbnails);
-                    setIsLoading(false);
-                }
-            },5000)
-            const res = await axios({
-                method: 'get',
-                url: "/api/feed/",
-            });
+        setIsLoading(true);
+        axios({
+            method: 'get',
+            url: "/api/feed/",
+        }).then((res)=>{
             setCurFeeds(res.data?.result);
+        }).catch((e)=>{
+            // fetch fail시 임시로 dummyData 넣어줌
+            // -> 추후 로딩에러 컴포넌트로 변경 예정
+            if(curFeeds.length === 0){
+                setCurFeeds(dummyFeeds.result.feedThumbnails);
+            }
+        }).finally(()=>{
             setIsLoading(false);
-        }
-        catch(e){
-            console.dir(e);
-        }
+        });
     }
     
     useEffect(()=>{

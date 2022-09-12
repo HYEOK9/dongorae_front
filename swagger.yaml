@@ -1,0 +1,679 @@
+---
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: urn:tos
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+host: dongore-backend2.herokuapp.com
+basePath: "/"
+tags:
+- name: app-user-controller
+  description: App User Controller
+- name: feed-controller
+  description: Feed Controller
+- name: location-controller
+  description: Location Controller
+- name: photo-controller
+  description: This is test api for bucketeer (AWS S3)
+paths:
+  "/api/feed":
+    get:
+      tags:
+      - feed-controller
+      summary: getFeeds
+      operationId: getFeedsUsingGET
+      produces:
+      - "*/*"
+      parameters:
+      - name: pageNo
+        in: query
+        description: pageNo
+        required: false
+        type: integer
+        format: int32
+      - name: pageSize
+        in: query
+        description: pageSize
+        required: false
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+    post:
+      tags:
+      - feed-controller
+      summary: createNewFeed
+      operationId: createNewFeedUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - name: address_category
+        in: query
+        description: |-
+          이 api는 swagger에서는 잘 동작하지 않습니다. multipart/form-data 걸어서 postman으로 태스트 해주세요.
+          카테고리 ex) 음식점, 병원 등등
+        required: false
+        type: string
+      - name: address_city
+        in: query
+        description: 주소중에 큰거. 경기도/충청북도 등등
+        required: false
+        type: string
+      - name: address_county
+        in: query
+        description: 주소중에 세부, 수원시/~~동 등등
+        required: false
+        type: string
+      - name: address_latitude
+        in: query
+        required: false
+        type: number
+        format: double
+      - name: address_longitude
+        in: query
+        required: false
+        type: number
+        format: double
+      - name: address_placeName
+        in: query
+        required: false
+        type: string
+      - name: hashTags
+        in: query
+        description: "'#안녕 #만나서 #반가워'와 같이 여러 해시태그를 긴 문자열로 넣어주세요."
+        required: false
+        type: string
+      - name: photos
+        in: query
+        required: false
+        type: array
+        items:
+          type: file
+        collectionFormat: multi
+      - name: sense_auditory
+        in: query
+        description: 청각 0이 자극 없음 100이 자극강함. 상관없어 보이는 경우 0을 입력.
+        required: false
+        type: integer
+        format: int32
+        x-example: 0
+      - name: sense_oral
+        in: query
+        description: 맛, 식감
+        required: false
+        type: integer
+        format: int32
+        x-example: 0
+      - name: sense_proprioceptive
+        in: query
+        description: 고유수용감각 - 근육 힘줄 및 관절내에 위치한 기계감각
+        required: false
+        type: integer
+        format: int32
+        x-example: 0
+      - name: sense_tactile
+        in: query
+        description: 촉각
+        required: false
+        type: integer
+        format: int32
+        x-example: 0
+      - name: sense_vestibular
+        in: query
+        description: 전정계 - 평형감각, 이동감각
+        required: false
+        type: integer
+        format: int32
+        x-example: 0
+      - name: sense_visual
+        in: query
+        description: 시각
+        required: false
+        type: integer
+        format: int32
+        x-example: 0
+      - name: text
+        in: query
+        required: false
+        type: string
+      - name: title
+        in: query
+        required: false
+        type: string
+      - name: writerId
+        in: query
+        description: appUserId
+        required: false
+        type: integer
+        format: int64
+        x-example: 0
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/feed/detail/{feedId}":
+    get:
+      tags:
+      - feed-controller
+      summary: getFeedDetail
+      operationId: getFeedDetailUsingGET
+      produces:
+      - "*/*"
+      parameters:
+      - name: feedId
+        in: path
+        description: feedId
+        required: true
+        type: integer
+        format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/feed/search":
+    post:
+      tags:
+      - feed-controller
+      summary: searchFeeds
+      operationId: searchFeedsUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - name: doSenseFilter
+        in: query
+        required: false
+        type: boolean
+      - name: en_latitude
+        in: query
+        description: top
+        required: false
+        type: number
+        format: double
+        x-example: 100
+      - name: en_longitude
+        in: query
+        description: right
+        required: false
+        type: number
+        format: double
+        x-example: 100
+      - name: hashTag
+        in: query
+        required: false
+        type: string
+      - name: searchKeyWord
+        in: query
+        required: false
+        type: string
+      - name: userId
+        in: query
+        required: false
+        type: integer
+        format: int64
+      - name: ws_latitude
+        in: query
+        description: bottom
+        required: false
+        type: number
+        format: double
+        x-example: 0
+      - name: ws_longitude
+        in: query
+        description: left
+        required: false
+        type: number
+        format: double
+        x-example: 0
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/location/{locationId}":
+    get:
+      tags:
+      - location-controller
+      summary: getLocationById
+      operationId: getLocationByIdUsingGET
+      produces:
+      - "*/*"
+      parameters:
+      - name: locationId
+        in: path
+        description: locationId
+        required: true
+        type: integer
+        format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/photo":
+    post:
+      tags:
+      - photo-controller
+      summary: photoUploadTest
+      operationId: photoUploadTestUsingPOST_1
+      consumes:
+      - multipart/form-data
+      produces:
+      - "*/*"
+      parameters:
+      - name: photo
+        in: formData
+        description: photo
+        required: false
+        type: file
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/photo/several":
+    post:
+      tags:
+      - photo-controller
+      summary: photoUploadTest
+      operationId: photoUploadTestUsingPOST
+      consumes:
+      - multipart/form-data
+      produces:
+      - "*/*"
+      parameters:
+      - in: formData
+        name: photos
+        description: File
+        required: true
+        type: array
+      - in: formData
+        name: text
+        required: false
+        type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/photo/{photoId}":
+    get:
+      tags:
+      - photo-controller
+      summary: getPhotoById
+      operationId: getPhotoByIdUsingGET
+      consumes:
+      - multipart/form-data
+      produces:
+      - "*/*"
+      parameters:
+      - name: photoId
+        in: path
+        description: photoId
+        required: true
+        type: integer
+        format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/user":
+    post:
+      tags:
+      - app-user-controller
+      summary: createUser
+      operationId: createUserUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - name: birthday
+        in: query
+        description: 사용안함 지금은, 비워두세요.
+        required: false
+        type: string
+        format: date-time
+      - name: city
+        in: query
+        required: false
+        type: string
+      - name: county
+        in: query
+        required: false
+        type: string
+      - name: email
+        in: query
+        required: false
+        type: string
+      - name: nickname
+        in: query
+        required: false
+        type: string
+      - name: password
+        in: query
+        required: false
+        type: string
+      - name: sense_auditory
+        in: query
+        description: 청각의 역치 0 = 버티기 힘들어함. 100 = 굉장히 잘 버팀.
+        required: false
+        type: integer
+        format: int32
+        x-example: 100
+      - name: sense_oral
+        in: query
+        description: 맛, 식감
+        required: false
+        type: integer
+        format: int32
+        x-example: 100
+      - name: sense_proprioceptive
+        in: query
+        description: 고유수용감각 - 근육 힘줄 및 관절내에 위치한 기계감각
+        required: false
+        type: integer
+        format: int32
+        x-example: 100
+      - name: sense_tactile
+        in: query
+        description: 촉각
+        required: false
+        type: integer
+        format: int32
+        x-example: 100
+      - name: sense_vestibular
+        in: query
+        description: 전정계 - 평형감각, 이동감각
+        required: false
+        type: integer
+        format: int32
+        x-example: 100
+      - name: sense_visual
+        in: query
+        description: '시각 '
+        required: false
+        type: integer
+        format: int32
+        x-example: 100
+      - name: type
+        in: query
+        description: disabled, guardian, teacher, etc 중에서 하나를 입력하세요.
+        required: false
+        type: string
+      - name: username
+        in: query
+        required: false
+        type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/user/auth/access":
+    post:
+      tags:
+      - app-user-controller
+      summary: loginUser
+      operationId: loginUserUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - name: email
+        in: query
+        required: false
+        type: string
+      - name: password
+        in: query
+        required: false
+        type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+  "/api/user/{appUserId}":
+    get:
+      tags:
+      - app-user-controller
+      summary: getUser
+      operationId: getUserUsingGET
+      produces:
+      - "*/*"
+      parameters:
+      - name: appUserId
+        in: path
+        description: appUserId
+        required: true
+        type: integer
+        format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/BaseResponse«object»"
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+      - JWT:
+        - global
+      deprecated: false
+securityDefinitions:
+  JWT:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  BaseResponse«object»:
+    type: object
+    properties:
+      detail:
+        type: string
+      isSuccess:
+        type: boolean
+      result:
+        type: object
+      statusCode:
+        type: string
+        enum:
+        - 100 CONTINUE
+        - 101 SWITCHING_PROTOCOLS
+        - 102 PROCESSING
+        - 103 CHECKPOINT
+        - 200 OK
+        - 201 CREATED
+        - 202 ACCEPTED
+        - 203 NON_AUTHORITATIVE_INFORMATION
+        - 204 NO_CONTENT
+        - 205 RESET_CONTENT
+        - 206 PARTIAL_CONTENT
+        - 207 MULTI_STATUS
+        - 208 ALREADY_REPORTED
+        - 226 IM_USED
+        - 300 MULTIPLE_CHOICES
+        - 301 MOVED_PERMANENTLY
+        - 302 FOUND
+        - 302 MOVED_TEMPORARILY
+        - 303 SEE_OTHER
+        - 304 NOT_MODIFIED
+        - 305 USE_PROXY
+        - 307 TEMPORARY_REDIRECT
+        - 308 PERMANENT_REDIRECT
+        - 400 BAD_REQUEST
+        - 401 UNAUTHORIZED
+        - 402 PAYMENT_REQUIRED
+        - 403 FORBIDDEN
+        - 404 NOT_FOUND
+        - 405 METHOD_NOT_ALLOWED
+        - 406 NOT_ACCEPTABLE
+        - 407 PROXY_AUTHENTICATION_REQUIRED
+        - 408 REQUEST_TIMEOUT
+        - 409 CONFLICT
+        - 410 GONE
+        - 411 LENGTH_REQUIRED
+        - 412 PRECONDITION_FAILED
+        - 413 PAYLOAD_TOO_LARGE
+        - 413 REQUEST_ENTITY_TOO_LARGE
+        - 414 URI_TOO_LONG
+        - 414 REQUEST_URI_TOO_LONG
+        - 415 UNSUPPORTED_MEDIA_TYPE
+        - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+        - 417 EXPECTATION_FAILED
+        - 418 I_AM_A_TEAPOT
+        - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+        - 420 METHOD_FAILURE
+        - 421 DESTINATION_LOCKED
+        - 422 UNPROCESSABLE_ENTITY
+        - 423 LOCKED
+        - 424 FAILED_DEPENDENCY
+        - 425 TOO_EARLY
+        - 426 UPGRADE_REQUIRED
+        - 428 PRECONDITION_REQUIRED
+        - 429 TOO_MANY_REQUESTS
+        - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+        - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+        - 500 INTERNAL_SERVER_ERROR
+        - 501 NOT_IMPLEMENTED
+        - 502 BAD_GATEWAY
+        - 503 SERVICE_UNAVAILABLE
+        - 504 GATEWAY_TIMEOUT
+        - 505 HTTP_VERSION_NOT_SUPPORTED
+        - 506 VARIANT_ALSO_NEGOTIATES
+        - 507 INSUFFICIENT_STORAGE
+        - 508 LOOP_DETECTED
+        - 509 BANDWIDTH_LIMIT_EXCEEDED
+        - 510 NOT_EXTENDED
+        - 511 NETWORK_AUTHENTICATION_REQUIRED
+    title: BaseResponse«object»

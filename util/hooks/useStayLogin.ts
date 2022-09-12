@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsAuthed, setUser } from "../../store/authSlice";
 import { RootState } from "../../store";
-import axios from "axios";
+import axios from "../axios";
 
 const useStayLogin = () => {
     const [userId, setUserId] = useState<number>();

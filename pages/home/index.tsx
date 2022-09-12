@@ -11,12 +11,14 @@ import Loading from "../../components/common/Loading";
 import { useTheme } from "../../components/context/Theme";
 import { RoundBtn } from "../../components/styled/Buttons";
 
-import { dummyFeeds } from '../../util/dummyData'
+import { dummyFeeds } from "../../util/dummyData";
+import useStayLogin from "../../util/hooks/useStayLogin";
 declare global {
     interface Window {}
 }
 
 const Home = () => {
+    useStayLogin();
     const { themeColorset } = useTheme();
     const router = useRouter();
 
@@ -27,42 +29,51 @@ const Home = () => {
     async function fetchAllFeed() {
         setIsLoading(true);
         axios({
-            method: 'get',
+            method: "get",
             url: "/api/feed/",
-        }).then((res)=>{
-            setCurFeeds(res.data?.result);
-        }).catch((e)=>{
-            // fetch fail시 임시로 dummyData 넣어줌
-            // -> 추후 로딩에러 컴포넌트로 변경 예정
-            if(curFeeds.length === 0){
-                setCurFeeds(dummyFeeds.result.feedThumbnails);
-            }
-        }).finally(()=>{
-            setIsLoading(false);
-        });
+        })
+            .then((res) => {
+                setCurFeeds(res.data?.result);
+            })
+            .catch((e) => {
+                // fetch fail시 임시로 dummyData 넣어줌
+                // -> 추후 로딩에러 컴포넌트로 변경 예정
+                if (curFeeds.length === 0) {
+                    setCurFeeds(dummyFeeds.result.feedThumbnails);
+                }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         fetchAllFeed();
-    },[curFeeds])
+    }, [curFeeds]);
 
     return (
         <>
             <HomeContainer>
-                {isLoading && <Loading loadingMsg="피드를 가져오는 중입니다"/>}
+                {isLoading && <Loading loadingMsg="피드를 가져오는 중입니다" />}
                 <FeedContainer style={{ alignItems: "flex-end" }}>
                     {curFeeds.map((feed, idx) =>
-                        idx % 3 === 0 ? <Feed key={feed.feedId} data={feed}/> : null
+                        idx % 3 === 0 ? (
+                            <Feed key={feed.feedId} data={feed} />
+                        ) : null
                     )}
                 </FeedContainer>
                 <FeedContainer style={{ alignItems: "center" }}>
                     {curFeeds.map((feed, idx) =>
-                        idx % 3 === 1 ? <Feed key={feed.feedId} data={feed}/> : null
+                        idx % 3 === 1 ? (
+                            <Feed key={feed.feedId} data={feed} />
+                        ) : null
                     )}
                 </FeedContainer>
                 <FeedContainer style={{ alignItems: "flex-start" }}>
                     {curFeeds.map((feed, idx) =>
-                        idx % 3 === 2 ? <Feed key={feed.feedId} data={feed}/> : null
+                        idx % 3 === 2 ? (
+                            <Feed key={feed.feedId} data={feed} />
+                        ) : null
                     )}
                 </FeedContainer>
 

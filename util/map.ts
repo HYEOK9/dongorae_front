@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import axios from "axios";
+import axios from "./axios";
 
 export const boundarySearch = async (
     en_latitude: number = 128.46,

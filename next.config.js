@@ -12,14 +12,6 @@ const nextConfig = {
 
         return config;
     },
-    async rewrites() {
-        return [
-            {
-                source: "/api/:path*",
-                destination: `http://dongore-backend2.herokuapp.com/api/:path*`,
-            },
-        ];
-    },
 };
 
 module.exports = nextConfig;

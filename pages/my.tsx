@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+//components
 import UserSenseInfo from "../components/page/my/userSense";
 //hooks
 import useStayLogin from "../util/hooks/useStayLogin";
@@ -9,13 +10,20 @@ import UserSvg from "/public/user.svg";
 
 const My = () => {
     const { user, isFetcing } = useStayLogin();
-    console.log(user);
     const { themeColorset } = useTheme();
-    const userSense = user.userSense;
+    const router = useRouter();
+
+    const logOut = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("userId");
+        router.replace("/home");
+    };
+
     return (
         <>
             <MypageContainer>
-                {!isFetcing ? (
+                {!isFetcing && user ? (
                     <MypageArea
                         style={{ backgroundColor: themeColorset.bgColor }}
                     >
@@ -29,7 +37,12 @@ const My = () => {
                                 fill={themeColorset.pointColor}
                                 style={{ margin: "10px" }}
                             />
-                            {user.nickname}
+                            <Text style={{ fontSize: "1.75rem" }}>
+                                {user.nickname}
+                            </Text>
+                            <BtnWrap>
+                                <LogoutBtn onClick={logOut}>로그아웃</LogoutBtn>
+                            </BtnWrap>
                         </InfoArea>
                         <InfoArea>
                             <Text>이메일</Text>
@@ -43,33 +56,33 @@ const My = () => {
                             <UserSenseInfo
                                 name="청각"
                                 idx={0}
-                                value={userSense.auditory}
+                                value={user.userSense.auditory}
                             />
                             <UserSenseInfo
                                 name="시각"
                                 idx={1}
-                                value={userSense.visual}
+                                value={user.userSense.visual}
                             />
                             <UserSenseInfo
                                 name="촉각"
                                 idx={2}
-                                value={userSense.tactile}
+                                value={user.userSense.tactile}
                             />
 
                             <UserSenseInfo
                                 name="미각/후각"
                                 idx={3}
-                                value={userSense.oral}
+                                value={user.userSense.oral}
                             />
                             <UserSenseInfo
                                 name="전정감각"
                                 idx={4}
-                                value={userSense.vestibular}
+                                value={user.userSense.vestibular}
                             />
                             <UserSenseInfo
                                 name="고유수용성감각"
                                 idx={5}
-                                value={userSense.proprioceptive}
+                                value={user.userSense.proprioceptive}
                             />
                         </SenseArea>
                     </MypageArea>
@@ -107,6 +120,12 @@ const Text = tw.div`
 flex w-1/3 ml-4 text-sm
 `;
 
+const BtnWrap = tw.div`
+flex justify-end items-center w-1/2 text-base
+`;
+const LogoutBtn = tw.button`
+px-3 py-2 border border-solid rounded-xl
+`;
 const SenseArea = tw.div`
 flex flex-wrap justify-around items-center w-full mt-6
 `;

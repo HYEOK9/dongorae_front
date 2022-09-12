@@ -13,13 +13,16 @@ const useStayLogin = () => {
     console.log(user, authState.isAuthed);
 
     useEffect(() => {
+        if (!localStorage.getItem("access_token")) {
+            dispatch(setIsAuthed(false));
+            dispatch(setUser(null));
+            return;
+        }
         if (authState.isAuthed) {
             setIsFetching(false);
             return;
-        } else if (!localStorage.getItem("access_token")) {
-            dispatch(setIsAuthed(false));
-            return;
         }
+
         dispatch(setIsAuthed(true));
         const userId = Number(localStorage.getItem("userId"));
         (async () => {

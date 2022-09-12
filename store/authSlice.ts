@@ -22,31 +22,12 @@ export interface userState {
 }
 export interface authState {
     isAuthed: boolean;
-    user: userState;
+    user: userState | null;
 }
 
 const initialState: authState = {
     isAuthed: false,
-    user: {
-        userId: -1,
-        email: "",
-        // password: "",
-        username: "",
-        nickname: "",
-        type: "",
-        birthday: "",
-        // city: "",
-        // county: "",
-        userSense: {
-            id: -1,
-            auditory: -1,
-            oral: -1,
-            proprioceptive: -1,
-            tactile: -1,
-            vestibular: -1,
-            visual: -1,
-        },
-    },
+    user: null,
 };
 
 const authSlice = createSlice({
@@ -56,7 +37,10 @@ const authSlice = createSlice({
         setIsAuthed: (state: authState, action: PayloadAction<boolean>) => {
             state.isAuthed = action.payload;
         },
-        setUser: (state: authState, action: PayloadAction<userState>) => {
+        setUser: (
+            state: authState,
+            action: PayloadAction<userState | null>
+        ) => {
             state.user = action.payload;
         },
     },

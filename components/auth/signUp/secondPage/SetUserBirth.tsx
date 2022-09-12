@@ -2,15 +2,15 @@ import React, { useState, useEffect, useCallback } from "react";
 import tw from "tailwind-styled-components";
 
 interface propType {
-    setBirthDay: React.Dispatch<React.SetStateAction<string>>;
-    birthDayIsValid: boolean;
-    setBirthDayIsValid: React.Dispatch<React.SetStateAction<boolean>>;
+    setBirthday: React.Dispatch<React.SetStateAction<string>>;
+    birthdayIsValid: boolean;
+    setBirthdayIsValid: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SetUserBirth = ({
-    setBirthDay,
-    birthDayIsValid,
-    setBirthDayIsValid,
+    setBirthday,
+    birthdayIsValid,
+    setBirthdayIsValid,
 }: propType) => {
     const [year, setYear] = useState<string>("");
     const [month, setMonth] = useState<string>("");
@@ -26,13 +26,13 @@ const SetUserBirth = ({
             1 <= Number(day) &&
             Number(day) <= 31
         )
-            setBirthDayIsValid(true);
-        else setBirthDayIsValid(false);
+            setBirthdayIsValid(true);
+        else setBirthdayIsValid(false);
     };
     useEffect(() => {
         checkBirthDayIsValid();
-        birthDayIsValid &&
-            setBirthDay(
+        birthdayIsValid &&
+            setBirthday(
                 `${year}${
                     Number(month) < 10 ? `0${Number(month)}` : Number(month)
                 }${Number(day) < 10 ? `0${Number(day)}` : Number(day)}`
@@ -44,7 +44,7 @@ const SetUserBirth = ({
             <Container>
                 <TextWrap>
                     <Text>생년월일*</Text>
-                    {!birthDayIsValid && inputStarted && (
+                    {!birthdayIsValid && inputStarted && (
                         <WarnInfo>올바른 생년월일을 입력해주세요</WarnInfo>
                     )}
                 </TextWrap>

@@ -17,7 +17,9 @@ const Feed = (props: propType) => {
     const { themeColorset } = useTheme();
 
     const { data } = props;
-    const hashTags = props.data?.hashTags?.split(" #")
+    const hashTags = props.data?.hashTags
+        ?.toString()
+        .split(" #")
         .map((tag) => (tag.startsWith("#") ? tag : `#${tag}`));
 
     console.log(hashTags);

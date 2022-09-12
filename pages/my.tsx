@@ -9,6 +9,7 @@ import UserSvg from "/public/user.svg";
 
 const My = () => {
     const { user, isFetcing } = useStayLogin();
+    console.log(user);
     const { themeColorset } = useTheme();
     const userSense = user.userSense;
     return (

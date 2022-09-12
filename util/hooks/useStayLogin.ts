@@ -10,6 +10,7 @@ const useStayLogin = () => {
     const dispatch = useDispatch();
     const authState = useSelector((state: RootState) => state.authState);
     const user = authState.user;
+    console.log(user, authState.isAuthed);
 
     useEffect(() => {
         if (authState.isAuthed) {
@@ -28,9 +29,9 @@ const useStayLogin = () => {
                 setIsFetching(false);
             });
         })();
-    }, []);
+    }, [userId]);
 
-    return { user, userId, isFetcing };
+    return { user, isFetcing };
 };
 
 export default useStayLogin;

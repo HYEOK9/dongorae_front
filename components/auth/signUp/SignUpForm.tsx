@@ -27,14 +27,14 @@ const SignUpForm = () => {
     const [emailIsValid, setEmailIsValid] = useState(false);
     const [passwordIsValid, setPasswordIsValid] = useState(false);
     const [nickNameIsValid, setNickNameIsValid] = useState(false);
-    const [birthDayIsValid, setBirthDayIsValid] = useState(false);
+    const [birthdayIsValid, setBirthdayIsValid] = useState(false);
     const [city, setCity] = useState("-선택-");
     const [county, setCounty] = useState("-선택-");
 
     //두번째페이지 states
     const [secondPage, setSecondPage] = useState(false);
     const [agreed, setAgreed] = useState(false);
-    const [birthDay, setBirthDay] = useState("");
+    const [birthday, setBirthday] = useState("");
     const [type, setType] = useState("disabled");
     const [checkSenseData, setCheckSenseData] = useState(false);
     const [senseData, setSenseData] = useState<number[] | null>(null);
@@ -53,7 +53,7 @@ const SignUpForm = () => {
     };
 
     const checkSecondPageIsValid = () => {
-        return birthDayIsValid;
+        return birthdayIsValid;
     };
 
     const onSubmit = async (event: React.SyntheticEvent) => {
@@ -80,18 +80,29 @@ const SignUpForm = () => {
                     setUser({
                         userId: user.result.appUserId,
                         email,
-                        password,
                         username,
                         nickname,
-                        city,
-                        county,
                         type,
-                        sense_auditory: senseData ? senseData[0] : 100,
-                        sense_oral: senseData ? senseData[1] : 100,
-                        sense_proprioceptive: senseData ? senseData[2] : 100,
-                        sense_tactile: senseData ? senseData[3] : 100,
-                        sense_vestibular: senseData ? senseData[4] : 100,
-                        sense_visual: senseData ? senseData[5] : 100,
+                        birthday,
+                        userSense: senseData
+                            ? {
+                                  id: -1,
+                                  auditory: senseData[0],
+                                  oral: senseData[1],
+                                  proprioceptive: senseData[2],
+                                  tactile: senseData[3],
+                                  vestibular: senseData[4],
+                                  visual: senseData[5],
+                              }
+                            : {
+                                  id: -1,
+                                  auditory: 100,
+                                  oral: 100,
+                                  proprioceptive: 100,
+                                  tactile: 100,
+                                  vestibular: 100,
+                                  visual: 100,
+                              },
                     })
                 );
                 router.push("/home");
@@ -157,9 +168,9 @@ const SignUpForm = () => {
                         />
                     </ArrowWrap>
                     <SetUserBirth
-                        setBirthDay={setBirthDay}
-                        birthDayIsValid={birthDayIsValid}
-                        setBirthDayIsValid={setBirthDayIsValid}
+                        setBirthday={setBirthday}
+                        birthdayIsValid={birthdayIsValid}
+                        setBirthdayIsValid={setBirthdayIsValid}
                     />
                     <SetUserType setType={setType} />
                     <CheckSenseData>

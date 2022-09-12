@@ -1,71 +1,194 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import tw from "tailwind-styled-components/";
-import axios from "../../util/axios";
 
+import { useTheme } from "../../components/context/Theme";
+import Feed from "../../components/page/home/Feed";
 import AddIcon from "@mui/icons-material/Add";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-
-import Feed from "../../components/page/home/Feed";
-import Loading from "../../components/common/Loading";
-import { useTheme } from "../../components/context/Theme";
 import { RoundBtn } from "../../components/styled/Buttons";
-
-import { dummyFeeds } from '../../util/dummyData'
+import useStayLogin from "../../util/hooks/useStayLogin";
 declare global {
     interface Window {}
 }
 
+export const temp = [
+    {
+        id: "1",
+        hashTags: ["학교", "경희대학교", "대학교"],
+        latitude: 37.24291020655134,
+        longitude: 127.08118995506915,
+        photos: [
+            "https://www.khu.ac.kr/kor/resources/user/img/pc/contents/temp/education/imgSub340000_01.jpg",
+        ],
+        placeName: "경희대학교 국제캠퍼스",
+        text: "경희대학교(慶熙大學校, Kyung Hee University)는 1911년에 개교한 신흥무관학교(新興武官學校)의 후신으로 1949년 5월 12일 개교한 대한민국의 4년제 사립 종합대학이다.",
+    },
+    {
+        id: "2",
+        hashTags: ["아파트", "성수동"],
+        latitude: 37.53874253560364,
+        longitude: 127.04479986022129,
+        photos: null,
+        placeName: "트리마제 아파트",
+        text: "트리마제는 대한민국 서울특별시 성동구 성수동1가에 위치한 고급 아파트 단지로, 한양개발과 두산중공업이 개발하였다. 이 주상복합 아파트의 이름은 3개라는 뜻의 ‘트리’와 인상을 의미하는 이미지를 합쳐 작명한 것이다.",
+    },
+    {
+        id: "3",
+        hashTags: ["주말나들이", "테마파크"],
+        latitude: 37.2596098203239,
+        longitude: 127.1197995844,
+        photos: null,
+        placeName: "한국민속촌",
+        text: "한국민속촌은 대한민국 경기도 용인시 기흥구 보라동 민속촌로 90에 위치한 테마파크이다. 한국의 민속적인 삶을 종합적으로 재현하고 있는 사실적이고도 흥미로운 곳이다. 한국의 전통 문화를 보고 체험해 볼 수 있다.",
+    },
+    {
+        id: "4",
+        hashTags: ["주말나들이", "테마파크"],
+        latitude: 37.2596098203239,
+        longitude: 127.1197995844,
+        photos: null,
+        placeName: "한국민속촌",
+        text: "한국민속촌은 대한민국 경기도 용인시 기흥구 보라동 민속촌로 90에 위치한 테마파크이다. 한국의 민속적인 삶을 종합적으로 재현하고 있는 사실적이고도 흥미로운 곳이다. 한국의 전통 문화를 보고 체험해 볼 수 있다.",
+    },
+    {
+        id: "5",
+        hashTags: ["학교", "경희대학교", "대학교"],
+        latitude: 37.24291020655134,
+        longitude: 127.08118995506915,
+        photos: [
+            "https://www.khu.ac.kr/kor/resources/user/img/pc/contents/temp/education/imgSub340000_01.jpg",
+        ],
+        placeName: "경희대학교 국제캠퍼스",
+        text: "경희대학교(慶熙大學校, Kyung Hee University)는 1911년에 개교한 신흥무관학교(新興武官學校)의 후신으로 1949년 5월 12일 개교한 대한민국의 4년제 사립 종합대학이다.",
+    },
+    {
+        id: "6",
+        hashTags: ["학교", "경희대학교", "대학교"],
+        latitude: 37.24291020655134,
+        longitude: 127.08118995506915,
+        photos: [
+            "https://www.khu.ac.kr/kor/resources/user/img/pc/contents/temp/education/imgSub340000_01.jpg",
+        ],
+        placeName: "경희대학교 국제캠퍼스",
+        text: "경희대학교(慶熙大學校, Kyung Hee University)는 1911년에 개교한 신흥무관학교(新興武官學校)의 후신으로 1949년 5월 12일 개교한 대한민국의 4년제 사립 종합대학이다.",
+    },
+    {
+        id: "7",
+        hashTags: ["학교", "경희대학교", "대학교"],
+        latitude: 37.24291020655134,
+        longitude: 127.08118995506915,
+        photos: [
+            "https://www.khu.ac.kr/kor/resources/user/img/pc/contents/temp/education/imgSub340000_01.jpg",
+        ],
+        placeName: "경희대학교 국제캠퍼스",
+        text: "경희대학교(慶熙大學校, Kyung Hee University)는 1911년에 개교한 신흥무관학교(新興武官學校)의 후신으로 1949년 5월 12일 개교한 대한민국의 4년제 사립 종합대학이다.",
+    },
+    {
+        id: "8",
+        hashTags: ["학교", "경희대학교", "대학교"],
+        latitude: 37.24291020655134,
+        longitude: 127.08118995506915,
+        photos: [
+            "https://www.khu.ac.kr/kor/resources/user/img/pc/contents/temp/education/imgSub340000_01.jpg",
+        ],
+        placeName: "경희대학교 국제캠퍼스",
+        text: "경희대학교(慶熙大學校, Kyung Hee University)는 1911년에 개교한 신흥무관학교(新興武官學校)의 후신으로 1949년 5월 12일 개교한 대한민국의 4년제 사립 종합대학이다.",
+    },
+    {
+        id: "9",
+        hashTags: ["주말나들이", "테마파크"],
+        latitude: 37.2596098203239,
+        longitude: 127.1197995844,
+        photos: null,
+        placeName: "한국민속촌",
+        text: "한국민속촌은 대한민국 경기도 용인시 기흥구 보라동 민속촌로 90에 위치한 테마파크이다. 한국의 민속적인 삶을 종합적으로 재현하고 있는 사실적이고도 흥미로운 곳이다. 한국의 전통 문화를 보고 체험해 볼 수 있다.",
+    },
+    {
+        id: "10",
+        hashTags: ["주말나들이", "테마파크"],
+        latitude: 37.2596098203239,
+        longitude: 127.1197995844,
+        photos: null,
+        placeName: "한국민속촌",
+        text: "한국민속촌은 대한민국 경기도 용인시 기흥구 보라동 민속촌로 90에 위치한 테마파크이다. 한국의 민속적인 삶을 종합적으로 재현하고 있는 사실적이고도 흥미로운 곳이다. 한국의 전통 문화를 보고 체험해 볼 수 있다.",
+    },
+    {
+        id: "11",
+        hashTags: ["주말나들이", "테마파크"],
+        latitude: 37.2596098203239,
+        longitude: 127.1197995844,
+        photos: null,
+        placeName: "한국민속촌",
+        text: "한국민속촌은 대한민국 경기도 용인시 기흥구 보라동 민속촌로 90에 위치한 테마파크이다. 한국의 민속적인 삶을 종합적으로 재현하고 있는 사실적이고도 흥미로운 곳이다. 한국의 전통 문화를 보고 체험해 볼 수 있다.",
+    },
+    {
+        id: "12",
+        hashTags: ["학교", "경희대학교", "대학교"],
+        latitude: 37.24291020655134,
+        longitude: 127.08118995506915,
+        photos: [
+            "https://www.khu.ac.kr/kor/resources/user/img/pc/contents/temp/education/imgSub340000_01.jpg",
+        ],
+        placeName: "경희대학교 국제캠퍼스",
+        text: "경희대학교(慶熙大學校, Kyung Hee University)는 1911년에 개교한 신흥무관학교(新興武官學校)의 후신으로 1949년 5월 12일 개교한 대한민국의 4년제 사립 종합대학이다.",
+    },
+    {
+        id: "13",
+        hashTags: ["학교", "경희대학교", "대학교"],
+        latitude: 37.24291020655134,
+        longitude: 127.08118995506915,
+        photos: [
+            "https://www.khu.ac.kr/kor/resources/user/img/pc/contents/temp/education/imgSub340000_01.jpg",
+        ],
+        placeName: "경희대학교 국제캠퍼스",
+        text: "경희대학교(慶熙大學校, Kyung Hee University)는 1911년에 개교한 신흥무관학교(新興武官學校)의 후신으로 1949년 5월 12일 개교한 대한민국의 4년제 사립 종합대학이다.",
+    },
+    {
+        id: "14",
+        hashTags: ["학교", "경희대학교", "대학교"],
+        latitude: 37.24291020655134,
+        longitude: 127.08118995506915,
+        photos: [
+            "https://www.khu.ac.kr/kor/resources/user/img/pc/contents/temp/education/imgSub340000_01.jpg",
+        ],
+        placeName: "경희대학교 국제캠퍼스",
+        text: "경희대학교(慶熙大學校, Kyung Hee University)는 1911년에 개교한 신흥무관학교(新興武官學校)의 후신으로 1949년 5월 12일 개교한 대한민국의 4년제 사립 종합대학이다.",
+    },
+    {
+        id: "15",
+        hashTags: ["주말나들이", "테마파크"],
+        latitude: 37.2596098203239,
+        longitude: 127.1197995844,
+        photos: null,
+        placeName: "한국민속촌",
+        text: "한국민속촌은 대한민국 경기도 용인시 기흥구 보라동 민속촌로 90에 위치한 테마파크이다. 한국의 민속적인 삶을 종합적으로 재현하고 있는 사실적이고도 흥미로운 곳이다. 한국의 전통 문화를 보고 체험해 볼 수 있다.",
+    },
+];
+
 const Home = () => {
     const { themeColorset } = useTheme();
     const router = useRouter();
-
-    const [curFeeds, setCurFeeds] = useState<Array<Object>>([]);
-    const [isEmpty, setIsEmpty] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    async function fetchAllFeed() {
-        setIsLoading(true);
-        axios({
-            method: 'get',
-            url: "/api/feed/",
-        }).then((res)=>{
-            setCurFeeds(res.data?.result);
-        }).catch((e)=>{
-            // fetch fail시 임시로 dummyData 넣어줌
-            // -> 추후 로딩에러 컴포넌트로 변경 예정
-            if(curFeeds.length === 0){
-                setCurFeeds(dummyFeeds.result.feedThumbnails);
-            }
-        }).finally(()=>{
-            setIsLoading(false);
-        });
-    }
-    
-    useEffect(()=>{
-        fetchAllFeed();
-    },[curFeeds])
-
+    const userId = useStayLogin();
+    console.log(userId);
     return (
         <>
             <HomeContainer>
-                {isLoading && <Loading loadingMsg="피드를 가져오는 중입니다"/>}
                 <FeedContainer style={{ alignItems: "flex-end" }}>
-                    {curFeeds.map((feed, idx) =>
-                        idx % 3 === 0 ? <Feed key={feed.feedId} data={feed}/> : null
+                    {temp.map((feed, idx) =>
+                        idx % 3 === 0 ? <Feed key={idx} data={feed} /> : null
                     )}
                 </FeedContainer>
                 <FeedContainer style={{ alignItems: "center" }}>
-                    {curFeeds.map((feed, idx) =>
-                        idx % 3 === 1 ? <Feed key={feed.feedId} data={feed}/> : null
+                    {temp.map((feed, idx) =>
+                        idx % 3 === 1 ? <Feed key={idx} data={feed} /> : null
                     )}
                 </FeedContainer>
                 <FeedContainer style={{ alignItems: "flex-start" }}>
-                    {curFeeds.map((feed, idx) =>
-                        idx % 3 === 2 ? <Feed key={feed.feedId} data={feed}/> : null
+                    {temp.map((feed, idx) =>
+                        idx % 3 === 2 ? <Feed key={idx} data={feed} /> : null
                     )}
                 </FeedContainer>
-
                 <ButtonContainer>
                     <RoundBtn
                         theme={themeColorset}

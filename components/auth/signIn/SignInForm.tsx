@@ -1,42 +1,39 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import axios from "axios";
+//redux
+import { useDispatch } from "react-redux";
+import { setIsAuthed } from "../../../store/authSlice";
+//utilo
+import { logIn } from "../../../util/auth";
+//style
 import tw from "tailwind-styled-components";
 import { BtnForSignIn } from "../../styled/Buttons";
 
 const SignInForm = () => {
-    const router = useRouter();
     const [email, setEmail] = useState("");
-    const [pwd, setPwd] = useState("");
+    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const router = useRouter();
+
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         if (event.target.id == "email") setEmail(value);
-        else setPwd(value);
+        else setPassword(value);
     };
 
-    const logIn = async (email: string, pwd: string) => {
-        try {
-            const res = await axios({
-                method: "POST",
-                url: "/api/",
-                data: { email, pwd },
-            });
-            const { accessToken } = res?.data;
-            axios.defaults.headers.common[
-                "Authorization"
-            ] = `Bearer ${accessToken}`;
-        } catch (err) {
-            console.log(err);
+    const onSubmit = async (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        const user = await logIn(email, password);
+        console.log(user);
+        if (user) {
+            dispatch(setIsAuthed(true));
+            localStorage.setItem("access_token", user.result.access_token);
+            localStorage.setItem("refresh_token", user.result.refresh_token);
+            localStorage.setItem("userId", user.result.appUserId);
+            router.push("/home");
         }
     };
-    const onSubmit = (event: React.SyntheticEvent) => {
-        //로그인 로직 짜야함
-        event.preventDefault();
-        logIn(email, pwd);
-        router.replace("/home");
-    };
-
     return (
         <>
             <Form onSubmit={onSubmit}>
@@ -55,13 +52,13 @@ const SignInForm = () => {
                 <InputWrap>
                     <Input
                         type="password"
-                        id="pwd"
-                        value={pwd}
+                        id="password"
+                        value={password}
                         onChange={onChange}
                         autoComplete="off"
                         required
                     ></Input>
-                    <Label htmlFor="pwd">비밀번호</Label>
+                    <Label htmlFor="password">비밀번호</Label>
                 </InputWrap>
                 <JoinInTextWrap>
                     <Link href="join">

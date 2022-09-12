@@ -12,8 +12,6 @@ interface PropType{
 const LocationInfo = (props: PropType) => {
     const { themeColorset } = useTheme();
     const { data } = props;
-    console.log(location, props);
-    
 
     return (<>
     <LocationContainer>
@@ -21,7 +19,7 @@ const LocationInfo = (props: PropType) => {
             <CallMade/> {data?.placeName} 
         </LocationHolder>
         <AddressHolder>
-            {`${data.category} · ${data?.city} ${data?.county}`}
+            {`${data?.category} · ${data?.city} ${data?.county}`}
         </AddressHolder>
     </LocationContainer>
     </>)
@@ -37,7 +35,7 @@ flex items-center gap-[4px]
 `
 
 const AddressHolder = tw.div`
-text-[12px]
+text-[1px]
 `
 
 export default LocationInfo;

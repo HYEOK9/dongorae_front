@@ -64,11 +64,11 @@ const FeedDetail = () => {
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
             <MapContainer>
-                <FeedMap/>
+                <FeedMap data={location}/>
             </MapContainer>
             <ContentsContainer>
                 {/* Left Section */}
-                <div style={{width: '65%'}}>
+                <div style={{width: 'calc(65% - 20px)'}}>
                     {!isEmpty(feedDetail?.photoUrls) && 
                         <ImgContainer>
                         {feedDetail?.photoUrls?.

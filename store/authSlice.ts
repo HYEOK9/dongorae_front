@@ -10,12 +10,15 @@ export interface userState {
     birthday: string;
     // city: string;
     // county: string;
-    // sense_auditory: number;
-    // sense_oral: number;
-    // sense_proprioceptive: number;
-    // sense_tactile: number;
-    // sense_vestibular: number;
-    // sense_visual: number;
+    userSense: {
+        id: number;
+        auditory: number;
+        visual: number;
+        vestibular: number;
+        tactile: number;
+        proprioceptive: number;
+        oral: number;
+    };
 }
 export interface authState {
     isAuthed: boolean;
@@ -34,12 +37,15 @@ const initialState: authState = {
         birthday: "",
         // city: "",
         // county: "",
-        // sense_auditory: -1,
-        // sense_oral: -1,
-        // sense_proprioceptive: -1,
-        // sense_tactile: -1,
-        // sense_vestibular: -1,
-        // sense_visual: -1,
+        userSense: {
+            id: -1,
+            auditory: -1,
+            oral: -1,
+            proprioceptive: -1,
+            tactile: -1,
+            vestibular: -1,
+            visual: -1,
+        },
     },
 };
 

@@ -1,5 +1,4 @@
-import axios from "axios";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 
 export const logIn = async (email: string, password: string) => {
     try {

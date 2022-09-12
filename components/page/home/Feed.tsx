@@ -2,43 +2,37 @@ import React, { useEffect, useState, useRef } from "react";
 import tw from "tailwind-styled-components/";
 import { useTheme } from "../../context/Theme";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-interface propType {
-    data: {
-        hashTags: string;
-        latitude: DoubleRange;
-        longitude: DoubleRange;
-        photos: Array<string>;
-        placeName: string;
-        text: string;
-    };
+import { IFeedThumbnail } from "../../../types/feed";
+
+interface PropType {
+    data: IFeedThumbnail;
 }
 
-const Feed = (props: propType) => {
+const Feed = (props: PropType) => {
     const { themeColorset } = useTheme();
 
-    const { data } = props;
-    const hashTags = props.data?.hashTags
-        ?.toString()
-        .split(" #")
+    console.log(props);
+    const hashTags = props.hashTags?.split(" #")
         .map((tag) => (tag.startsWith("#") ? tag : `#${tag}`));
-
-    console.log(hashTags);
 
     return (
         <FeedContainer style={{ backgroundColor: themeColorset.bgColor }}>
-            <ImgContainer src={data?.photos?.[0]} />
+            <ImgContainer src={props?.data?.mainPhoto} />
             <ContentContainer>
                 <PlaceNameHolder>
-                    {data?.placeName}{" "}
+                    {props?.data?.placeName}{" "}
                     <MyLocationIcon style={{ fontSize: "14px" }} />{" "}
                 </PlaceNameHolder>
+                <TitleHolder>
+                    {props?.data?.title}
+                </TitleHolder>
                 <HashTagContainer style={{ color: themeColorset.subTextColor }}>
                     {hashTags?.map((tag) => (
                         <span>{tag}</span>
                     ))}
                 </HashTagContainer>
                 <TextHolder style={{ color: themeColorset.pTextColor }}>
-                    {data?.text}
+                    {props?.data?.text}
                 </TextHolder>
             </ContentContainer>
         </FeedContainer>
@@ -66,6 +60,11 @@ shadow-none
 const PlaceNameHolder = tw.div`
 flex items-center gap-[3px]
 text-xl font-bold
+`;
+
+const TitleHolder = tw.div`
+text-l font-bold
+mt-[10px]
 `;
 
 const HashTagContainer = tw.div`

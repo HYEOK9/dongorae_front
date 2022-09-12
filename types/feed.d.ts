@@ -18,4 +18,22 @@ export type IFeedDetail = {
     writerId: number;
 };
 
-export type IFeedDetail
+export interface IFeedThumbnail {
+    feedId:    number;
+    writerId:  number;
+    title:     string;
+    text:      string;
+    writer:    string;
+    mainPhoto: null;
+    sensedata: Sensedata;
+}
+
+export interface ISensedata {
+    id:             number;
+    auditory:       number;
+    visual:         number;
+    vestibular:     number;
+    tactile:        number;
+    proprioceptive: number;
+    oral:           number;
+}

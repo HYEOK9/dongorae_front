@@ -3,6 +3,7 @@ import tw from "tailwind-styled-components/";
 import { useTheme } from "../../context/Theme";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import { IFeedThumbnail } from "../../../types/feed";
+import { useRouter } from "next/router";
 
 interface PropType {
     data: IFeedThumbnail;
@@ -10,13 +11,14 @@ interface PropType {
 
 const Feed = (props: PropType) => {
     const { themeColorset } = useTheme();
+    const router = useRouter();
 
     console.log(props);
     const hashTags = props.hashTags?.split(" #")
         .map((tag) => (tag.startsWith("#") ? tag : `#${tag}`));
 
     return (
-        <FeedContainer style={{ backgroundColor: themeColorset.bgColor }}>
+        <FeedContainer onClick={() => router.push(`/feed/${props.data.feedId}`)} style={{ backgroundColor: themeColorset.bgColor }}>
             <ImgContainer src={props?.data?.mainPhoto} />
             <ContentContainer>
                 <PlaceNameHolder>

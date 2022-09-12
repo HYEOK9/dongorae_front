@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import tw from "tailwind-styled-components/";
-import axios from "../../util/axios";
+import axios from "axios";
 
 import AddIcon from "@mui/icons-material/Add";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -28,9 +28,9 @@ const Home = () => {
         setIsLoading(true);
         axios({
             method: 'get',
-            url: "/api/feed/",
+            url: "https://dongore-backend2.herokuapp.com/api/feed/",
         }).then((res)=>{
-            setCurFeeds(res.data?.result);
+            setCurFeeds(res.data?.result.feedThumbnails);
         }).catch((e)=>{
             // fetch fail시 임시로 dummyData 넣어줌
             // -> 추후 로딩에러 컴포넌트로 변경 예정
@@ -44,7 +44,7 @@ const Home = () => {
     
     useEffect(()=>{
         fetchAllFeed();
-    },[curFeeds])
+    },[])
 
     return (
         <>

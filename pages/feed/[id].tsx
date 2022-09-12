@@ -10,10 +10,13 @@ import axios from '../../util/axios';
 import SenseInfo from '../../components/page/feed/SenseInfo';
 import UserInfo from '../../components/page/feed/UserInfo';
 import Loading from '../../components/common/Loading';
+import FeedMap from '../../components/page/feed/Map';
 
 import { useTheme } from '../../components/context/Theme';
 import { dummyFeedDetail } from '../../util/dummyData';
 import { isEmpty } from 'lodash';
+
+import CallMade from '@mui/icons-material/CallMade';
 
 const FeedDetail = () => {
     const { themeColorset } = useTheme();
@@ -22,27 +25,20 @@ const FeedDetail = () => {
     const [feedDetail, setFeedDetail] = useState<Object>({})
     const [senseData, setSenseData] = useState<Object>({})
     const [isLoading, setIsLoading] = useState<Boolean>(false);
+    let hashTags;
 
     async function fetchFeedDetail() {
-        try{
-            setIsLoading(true);
-            // 5초 이상 로딩 안될시 임시로 dummyData 넣어줌
-            // -> 추후 로딩에러 컴포넌트로 변경 예정
-            setInterval(()=>{
+        axios.get(`/api/feed/detail/${query.id}`)
+            .then((res)=>{
+                setFeedDetail(res.data?.result);
+                hashTags = res.data?.hashTags?.map((tag: string) => tag.startsWith("#") ? tag : `#${tag}`) || [];
+            }).catch((e)=>{
                 if(isEmpty(feedDetail)){
                     setFeedDetail(dummyFeedDetail.result);
-                    setIsLoading(false);
                 }
-            },1000)
-
-            const res = await axios.get(`/api/feed/detail/${query.id}`)
-        
-            setFeedDetail(res.data?.result);
-            setIsLoading(false);
-        }
-        catch(e){
-
-        }
+            }).finally(()=>{
+                setIsLoading(false);
+            })
     }
 
     function makeSenseData() {
@@ -54,7 +50,6 @@ const FeedDetail = () => {
     }
 
     useEffect(()=>{
-        console.log('hi');
         fetchFeedDetail();
     },[])
 
@@ -66,30 +61,34 @@ const FeedDetail = () => {
     {isLoading && <Loading loadingMsg='피드 정보를 가져오는 중입니다'/>}
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
-            <MapContainer/>
-            { !feedDetail?.photos?.isEmpty() ?? 
+            <MapContainer>
+                <FeedMap/>
+            </MapContainer>
+            { !isEmpty(feedDetail?.photosUrls) ?? 
                 <ImgContainer>
-                    {feedDetail?.photos?.map((url:string, idx:number)=>(<ImgHolder src={url} key={idx}/>))}
+                    {feedDetail?.photosUrls?.map((url:string, idx:number)=>(<ImgHolder src={url} key={idx}/>))}
                 </ImgContainer>
             }
             <ContentsContainer>
                 <div style={{width: '65%'}}>
-                    <SpanContainer>
-                        <TitleHolder>{feedDetail?.title}</TitleHolder>
-                        <AddressHolder>{feedDetail?.location?.placeName}</AddressHolder>
-                    </SpanContainer>
-                    <HashTagContainer style={{color: themeColorset.subTextColor}}>
-                        {Array.from({length: 5}, ()=> 0).map((e, idx)=>(<span key={idx}>#{idx}hastag{idx}</span>))}
-                    </HashTagContainer> 
-                    <TextHolder align="justify">
-                    </TextHolder>
+                    <TitleHolder>{feedDetail?.title}</TitleHolder>
+                    {
+                        !isEmpty(hashTags) ?? 
+                            <HashTagContainer style={{color: themeColorset.subTextColor}}>
+                            {hashTags?.map((e, idx)=>(<span key={idx}>#{idx}hastag{idx}</span>))}
+                            </HashTagContainer> 
+                    }
+                    <AddressHolder>{feedDetail?.location?.placeName} 
+                        <CallMade style={{ fontSize: "18px", fontWeight: "bold" }}/> 
+                    </AddressHolder>
+                    <TextHolder align="justify">{feedDetail?.text}</TextHolder>
                 </div>
                 <div style={{width: '35%'}}>
                     <InfoContainer style={{backgroundColor: themeColorset.subPointColor}}>
-                        <UserInfo/>
+                        <UserInfo writer={feedDetail?.writer}/>
                     </InfoContainer>
                     <InfoContainer style={{backgroundColor: themeColorset.subPointColor}}>
-                        <div>000 장소의 감각 정보</div>
+                        <div><span style={{color: themeColorset.pointColor}}>{feedDetail?.location?.placeName}</span>의 감각 정보</div>
                         <SenseInfoContainer>
                             {Object.entries(senseData || {}).map(([key, value])=>{
                                 console.log(key, value);
@@ -145,19 +144,20 @@ const SpanContainer = tw.div`
 w-full h-fit
 `
 
-const TitleHolder = tw.span`
-text-[48px] font-bold
-pr-[10px]
+const TitleHolder = tw.div`
+text-[42px] font-bold
+pt-[10px]
 `
 
-const AddressHolder = tw.span`
-text-[20px] font-normal
+const AddressHolder = tw.div`
+text-[24px] font-normal
+pt-[14px]
 `
 
 const HashTagContainer = tw(SpanContainer)`
 text-[16px] font-bold
 flex gap-[6px]
-pt-[10px]
+pt-[6px]
 `
 
 const TextHolder = tw.p`
@@ -168,7 +168,7 @@ leading-6 font-medium
 const InfoContainer = tw.div`
 w-full h-fit
 rounded-[20px]
-p-[20px] my-[10px]
+p-[20px] m-[10px]
 font-bold
 `
 

@@ -6,7 +6,7 @@ import SenseInfo from './SenseInfo';
 import styled from 'styled-components';
 
 interface PropType{
-    nickname: string
+    writer: string
 }
 
 const UserInfo = (props: PropType) => {
@@ -16,7 +16,7 @@ const UserInfo = (props: PropType) => {
     return (<>
     <UserProfileContainer>
         <AccountCircleIcon/>
-        <div style={{marginTop: '4px'}}>{props?.nickname || 'User Nickname'}</div>
+        <div style={{marginTop: '4px'}}>{props?.writer || '익명'}</div>
     </UserProfileContainer>
     </>)
 }

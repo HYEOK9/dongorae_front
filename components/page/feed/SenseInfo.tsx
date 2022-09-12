@@ -48,7 +48,7 @@ const SenseInfo = (props: PropType) => {
     const {themeColorset} = useTheme();
 
     const containerId = `progressBar-${props.name}`;
-    const progressValue = props.value/5;
+    const progressValue = props.value/100;
     progressBarConfig.color = themeColorset.pointColor;
     progressBarConfig.trailColor = themeColorset.bgColor;
 
@@ -59,7 +59,7 @@ const SenseInfo = (props: PropType) => {
         
         const bar = new ProgressBar.SemiCircle(`#${containerId}`, progressBarConfig)
         setProgressBar(bar);
-        bar.animate(100 / progressValue);
+        bar.animate(progressValue);
         console.log('animate');
         
 

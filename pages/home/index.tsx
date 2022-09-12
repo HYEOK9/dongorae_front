@@ -167,10 +167,9 @@ export const temp = [
 ];
 
 const Home = () => {
+    useStayLogin();
     const { themeColorset } = useTheme();
     const router = useRouter();
-    const userId = useStayLogin();
-    console.log(userId);
     return (
         <>
             <HomeContainer>

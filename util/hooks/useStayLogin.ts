@@ -6,25 +6,31 @@ import axios from "axios";
 
 const useStayLogin = () => {
     const [userId, setUserId] = useState<number>();
+    const [isFetcing, setIsFetching] = useState<boolean>(true);
     const dispatch = useDispatch();
-    const user = useSelector((state: RootState) => state.authState.user);
-    console.log(user);
+    const authState = useSelector((state: RootState) => state.authState);
+    const user = authState.user;
 
     useEffect(() => {
-        if (!localStorage.getItem("userId")) {
+        if (authState.isAuthed) {
+            setIsFetching(false);
+            return;
+        } else if (!localStorage.getItem("access_token")) {
             dispatch(setIsAuthed(false));
             return;
         }
-        const fetchUser = async () => {
-            const userId = Number(localStorage.getItem("userId"));
-            const res = await axios.get(`/api/user/${userId}`);
-            dispatch(setIsAuthed(true));
-            dispatch(setUser(res.data.result));
-            setUserId(userId);
-        };
-        fetchUser();
+        dispatch(setIsAuthed(true));
+        const userId = Number(localStorage.getItem("userId"));
+        (async () => {
+            await axios.get(`/api/user/${userId}`).then((res) => {
+                dispatch(setUser(res.data.result));
+                setUserId(userId);
+                setIsFetching(false);
+            });
+        })();
     }, []);
-    return userId;
+
+    return { user, userId, isFetcing };
 };
 
 export default useStayLogin;

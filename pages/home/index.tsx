@@ -169,8 +169,33 @@ export const temp = [
 const Home = () => {
     const { themeColorset } = useTheme();
     const router = useRouter();
-    const userId = useStayLogin();
-    console.log(userId);
+
+    const [curFeeds, setCurFeeds] = useState<Array<Object>>([]);
+    const [isEmpty, setIsEmpty] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    async function fetchAllFeed() {
+        setIsLoading(true);
+        axios({
+            method: 'get',
+            url: "/api/feed/",
+        }).then((res)=>{
+            setCurFeeds(res.data?.result);
+        }).catch((e)=>{
+            // fetch fail시 임시로 dummyData 넣어줌
+            // -> 추후 로딩에러 컴포넌트로 변경 예정
+            if(curFeeds.length === 0){
+                setCurFeeds(dummyFeeds.result.feedThumbnails);
+            }
+        }).finally(()=>{
+            setIsLoading(false);
+        });
+    }
+    
+    useEffect(()=>{
+        fetchAllFeed();
+    },[curFeeds])
+
     return (
         <>
             <HomeContainer>

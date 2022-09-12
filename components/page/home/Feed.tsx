@@ -2,32 +2,23 @@ import React, { useEffect, useState, useRef } from "react";
 import tw from "tailwind-styled-components/";
 import { useTheme } from "../../context/Theme";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
-interface propType {
-    data: {
-        hashTags: string;
-        latitude: DoubleRange;
-        longitude: DoubleRange;
-        photos: Array<string>;
-        placeName: string;
-        text: string;
-    };
-}
 
-const Feed = (props: propType) => {
+import { IFeedType } from "../../../types/feed";
+
+const Feed = (props: IFeedType) => {
     const { themeColorset } = useTheme();
 
-    const { data } = props;
-    const hashTags = props.data?.hashTags?.split(" #")
+    const hashTags = props?.hashTags?.split(" #")
         .map((tag) => (tag.startsWith("#") ? tag : `#${tag}`));
 
     console.log(hashTags);
 
     return (
         <FeedContainer style={{ backgroundColor: themeColorset.bgColor }}>
-            <ImgContainer src={data?.photos?.[0]} />
+            <ImgContainer src={props?.photos?.[0]} />
             <ContentContainer>
                 <PlaceNameHolder>
-                    {data?.placeName}{" "}
+                    {props?.addressPlacename}{" "}
                     <MyLocationIcon style={{ fontSize: "14px" }} />{" "}
                 </PlaceNameHolder>
                 <HashTagContainer style={{ color: themeColorset.subTextColor }}>
@@ -36,7 +27,7 @@ const Feed = (props: propType) => {
                     ))}
                 </HashTagContainer>
                 <TextHolder style={{ color: themeColorset.pTextColor }}>
-                    {data?.text}
+                    {props?.text}
                 </TextHolder>
             </ContentContainer>
         </FeedContainer>

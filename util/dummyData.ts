@@ -133,10 +133,10 @@ export const dummyFeeds = {
           "mainPhoto": null,
           "sensedata": {
             "id": 14,
-            "auditory": 100,
-            "visual": 100,
+            "auditory": 10,
+            "visual": 60,
             "vestibular": 100,
-            "tactile": 100,
+            "tactile": 40,
             "proprioceptive": 100,
             "oral": 100
           }
@@ -161,10 +161,10 @@ export const dummyFeedDetail = {
     "sensedata": {
       "id": 14,
       "auditory": 100,
-      "visual": 100,
-      "vestibular": 100,
+      "visual": 80,
+      "vestibular": 10,
       "tactile": 100,
-      "proprioceptive": 100,
+      "proprioceptive": 20,
       "oral": 100
     },
     "location": {

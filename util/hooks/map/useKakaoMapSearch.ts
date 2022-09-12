@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
-//키워드로 카카오맵 검색
-//return [결과list, 에러여부]
-const useKakaoMapSearch = (keyword: string) => {
+const useKeywordSearch = (keyword: string) => {
     const [result, setResult] = useState<any>([]);
     const [searchError, setSearchErrorError] = useState<boolean>(true);
 
@@ -22,4 +20,4 @@ const useKakaoMapSearch = (keyword: string) => {
 
     return { result, searchError };
 };
-export default useKakaoMapSearch;
+export default useKeywordSearch;

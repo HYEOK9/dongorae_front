@@ -10,7 +10,7 @@ const Loading = (props: PropType) => {
 
     return (
         <>
-            <LoadingWrapper style={{height: 'inherit'}}>{props.loadingMsg}</LoadingWrapper>
+            <LoadingWrapper>{props.loadingMsg}</LoadingWrapper>
             <LoadingSVGwrap>
                 <LoadingSVG width={30} height={30} />
             </LoadingSVGwrap>

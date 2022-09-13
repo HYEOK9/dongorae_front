@@ -64,7 +64,7 @@ const FeedDetail = () => {
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
             <MapContainer>
-                <FeedMap data={location}/>
+                <FeedMap/>
             </MapContainer>
             <ContentsContainer>
                 {/* Left Section */}

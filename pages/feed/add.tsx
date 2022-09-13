@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef, HtmlHTMLAttributes } from "react";
 import tw from "tailwind-styled-components";
 import { useTheme } from "../../components/context/Theme";
-import { HashTagHolder } from "../../components/styled/Feed";
 import FeedMap from "../../components/page/addFeed/Map";
 import FileUpload from "../../components/page/feed/FileUpload";
 import { BasicInput, BasicTextarea } from "../../components/styled/Inputs";
-import SlateRichTextEditor from "../../components/page/addFeed/SlateRichText";
+import Modal from '../../HOC/ModalPortal'
 import { RoundBtn } from "../../components/styled/Buttons";
 
 const AddFeed = () => {
@@ -13,6 +12,7 @@ const AddFeed = () => {
     const [formData, setFormData] = useState<FormData>(new FormData);
     const [feedData, setFeedData] = useState<any>({});
     const [imageList, setImageList] = useState<Array<File>>([]);
+    const [isModalOpen, setIsModalOpen] = useState<Boolean>(false)
 
     const onChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -46,10 +46,19 @@ const AddFeed = () => {
                 </ContentsContainer>
             </FeedContainer>
         </MainContainer>
-        <RoundBtn 
-            style={{width: '200px', position: 'absolute', bottom: '10px', left: '50%', transform: 'translate(-50%, 0)'}}> 
-            저장
-        </RoundBtn>
+        <FloatBtnContainer>
+            <RoundBtn
+                onClick={()=>{setIsModalOpen(true)}}
+                style={{width: '160px', backgroundColor: themeColorset.pointColor}}> 감각정보 추가하기 
+            </RoundBtn>
+            <RoundBtn 
+                style={{width: '200px'}}> 
+                저장
+            </RoundBtn>
+        </FloatBtnContainer>
+        <Modal>
+            
+        </Modal>
     </>)
 }
 
@@ -99,6 +108,12 @@ p-[20px]
 const TextEditorContainer = tw.div`
 h-[400px]
 p-[10px_20px]
+`
+
+const FloatBtnContainer = tw.div`
+absolute bottom-[10px]
+w-[100vw]
+flex justify-center gap-[10px]
 `
 
 export default AddFeed;

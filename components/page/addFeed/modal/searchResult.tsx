@@ -36,6 +36,7 @@ inline-block relative
 w-[330px] max-w-[400px]; h-fit
 p-[10px] m-[10px]
 rounded-[10px]
+flex-[0_0_auto]
 `
 
 const TextHolder = styled.div`

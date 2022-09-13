@@ -120,6 +120,7 @@ w-[700px]
 my-[10px] py-[20px]
 rounded-[20px]
 overflow-y-scroll overflow-x-unset
+inline-flex flex-col items-center
 `
 
 const FlexDiv = styled.div`

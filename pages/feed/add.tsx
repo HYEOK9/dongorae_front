@@ -13,12 +13,32 @@ const AddFeed = () => {
     const [formData, setFormData] = useState<FormData>(new FormData);
     const [feedData, setFeedData] = useState<any>({});
     const [imageList, setImageList] = useState<Array<File>>([]);
-    const [isModalOpen, setIsModalOpen] = useState<Boolean>(false)
-    const [senseData, setSenseData] = useState<any>({})
+    const [senseData, setSenseData] = useState<any>({});
+
+    const [isModalOpen, setIsModalOpen] = useState<Boolean>(false);
 
     const onChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         setFeedData((state:any)=> {console.log(state); return {...state, [name]:value}});
+    }
+
+    const onClickSave = (e) => {
+        e.preventDefault();
+        
+        const form = new FormData();
+        form.append('key', 0)
+        Object.entries(feedData).forEach(([key, value])=> {
+            form.append(key, value);
+        });
+        
+        Object.entries(senseData).forEach(([key, value])=> {
+            form.append(key, value);
+        })
+
+        form.append('photo', imageList)
+        
+        setFormData(form);
+        console.log(form, formData)
     }
 
     useEffect(()=>{
@@ -54,12 +74,13 @@ const AddFeed = () => {
                 style={{width: '160px', backgroundColor: themeColorset.pointColor}}> 감각정보 추가하기 
             </RoundBtn>
             <RoundBtn 
+                onClick={onClickSave}
                 style={{width: '200px'}}> 
                 저장
             </RoundBtn>
         </FloatBtnContainer>
         <Modal showModal={isModalOpen} setShowModal={setIsModalOpen}>
-            <SetUserSense setSenseData={setSenseData}></SetUserSense>
+            <SetUserSense senseData={senseData} setSenseData2={setSenseData}></SetUserSense>
         </Modal>
     </>)
 }

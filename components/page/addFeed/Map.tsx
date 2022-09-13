@@ -31,10 +31,8 @@ const FeedMap = (props: PropType) => {
 
     const onClickAddBtn = useCallback(()=>{
         setIsModalOpen(true);
-        console.log(isModalOpen);
-        
     }, [])
-
+    
     useEffect(()=>{
         if(map && mapLoaded)
             displayMarker(
@@ -50,7 +48,9 @@ const FeedMap = (props: PropType) => {
                     <TextHolder theme={themeColorset}> 장소 추가하기  <AddCircleIcon/>  </TextHolder>
                 </MapContainer>
             }
-            <Modal showModal={isModalOpen}/>
+            <Modal showModal={isModalOpen} setShowModal={setIsModalOpen}>
+                <input></input>
+            </Modal>
         </>
     )
 }

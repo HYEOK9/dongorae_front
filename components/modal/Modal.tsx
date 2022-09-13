@@ -1,17 +1,23 @@
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect, ReactNode, Dispatch } from "react";
 import { createPortal } from "react-dom";
 import tw from "tailwind-styled-components";
 import { useTheme } from "../context/Theme";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface propType {
     showModal: Boolean;
+    setShowModal: Dispatch<React.SetStateAction<Boolean>>;
     children: ReactNode;
 }
 
 const Modal = (props: propType) => {
     const { themeColorset } = useTheme();
     const [render, setRender] = useState(props.showModal);
-    let portalDiv;
+
+    const onClickCloseBtn = () => {
+        setRender(false);
+        props.setShowModal(false);
+    }
     
     useEffect(() => {
         if (props.showModal) setRender(true);
@@ -29,7 +35,10 @@ const Modal = (props: propType) => {
                 <ModalOverlay/>
                 <ModalWrapper> 
                     <ModalContainer  style={{backgroundColor: themeColorset.bgColor}}>
-                        {props.children}
+                        <ModalHeader><CloseIcon onClick={onClickCloseBtn}/></ModalHeader>
+                        <div style={{ width: '100%', height: '90%'}}>
+                            {props.children}
+                        </div>
                     </ModalContainer>
                 </ModalWrapper>
             </>,
@@ -49,6 +58,12 @@ flex justify-center items-center
 const ModalContainer = tw.div`
 w-[60vw] h-[400px] z-[200]
 rounded-[20px]
+p-[15px]
+`
+
+const ModalHeader = tw.div`
+flex justify-end
+h-[10%]
 `
 
 const ModalOverlay = tw.div`

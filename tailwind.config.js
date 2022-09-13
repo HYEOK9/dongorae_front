@@ -16,6 +16,9 @@ module.exports = {
                     "100%": { transform: "translateY(-150%)" },
                 },
             },
+            fontFamily: {
+                jua: ['"jua"'],
+            },
         },
         screens: {
             "2xl": { max: "1535px" },
@@ -33,6 +36,7 @@ module.exports = {
             sm: { max: "639px" },
             // => @media (max-width: 639px) { ... }
         },
+
         plugins: [],
     },
 };

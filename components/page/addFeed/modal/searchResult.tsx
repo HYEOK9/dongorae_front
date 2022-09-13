@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import tw from 'tailwind-styled-components';
 import { useTheme } from '../../../context/Theme';
@@ -6,11 +6,18 @@ import { RoundBtn } from '../../../styled/Buttons';
 
 interface PropType{
     data: any;
+    setPlace: Dispatch<SetStateAction<any>>
+    setModalFlag: Dispatch<SetStateAction<any>>
 }
 
 const SearchResult = (props: PropType) => {
     const { themeColorset } = useTheme();
     const { data } = props;
+
+    const onSelectPlace = () => {
+        props.setPlace(data);
+        props.setModalFlag(false);
+    }
 
     return (
         <>
@@ -18,7 +25,7 @@ const SearchResult = (props: PropType) => {
                 <TextHolder fontSize={'18px'} bold> { data.place_name } </TextHolder>
                 <TextHolder fontSize={'12px'}> { data.road_address_name } </TextHolder>
                 <TextHolder fontSize={'12px'} color={themeColorset.subTextColor}> { data.category_name } </TextHolder>
-                <SelectBtn theme={themeColorset}>선택</SelectBtn>
+                <SelectBtn theme={themeColorset} onClick={onSelectPlace}>선택</SelectBtn>
             </ResultContainer>
         </>
     )

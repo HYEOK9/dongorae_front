@@ -18,6 +18,7 @@ import { BasicInput } from '../../styled/Inputs'
 import { RoundBtn } from '../../styled/Buttons'
 //icons
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import Loading from '../../common/Loading';
 interface PropType{
     data: ILocation
 }
@@ -32,7 +33,8 @@ const FeedMap = (props: PropType) => {
     const  { result, searchError } = useKeywordSearch(input);
 
     //Map State
-    const [mapLoaded, setMapLoaded] = useState<Boolean>(false)
+    const [isMapLoading, setIsMapLoading] =  useState<Boolean>(false)
+    const [selectedPlace, setSelectedPlace] = useState<Boolean>(false)
     const [curPlacesMarkers, setCurPlacesMarkers] = useState<MarkerType[]>([
         {
             marker: null,
@@ -47,16 +49,19 @@ const FeedMap = (props: PropType) => {
 
 
     useEffect(()=>{
-        if(map && mapLoaded)
+        if(map && selectedPlace)
             displayMarker(
                 {x: data?.longitude, y: data?.latitude, 'place_name': 'hi'},
                 map, setCurPlacesMarkers);
-    },[mapLoaded])
+    },[selectedPlace])
 
     return (
         <>
-            {mapLoaded ? 
-                <div id="container" ref={container} style={{ height: '100%', width: '100%' }} />
+            {selectedPlace ? 
+                <>
+                    { isMapLoading && <Loading loadingMsg='장소 정보를 로딩 중입니다'/>}
+                    <div id="container" ref={container} style={{ height: '100%', width: '100%' }} />
+                </>
                 : <MapContainer onClick={onClickAddLocation}>
                     <TextHolder theme={themeColorset}> 장소 추가하기  <AddCircleIcon/>  </TextHolder>
                 </MapContainer>
@@ -68,7 +73,11 @@ const FeedMap = (props: PropType) => {
                 </FlexDiv>
                 <FlexDiv height='calc(100% - 80px)'>
                     <ResultContainer>
-                        { result.map((r)=><SearchResult data={r}/>)}
+                        { result.map((r:any)=>
+                            (<SearchResult key={r.id} data={r} 
+                                setPlace={setSelectedPlace}
+                                setModalFlag={setIsModalOpen}/>)
+                        )}
                     </ResultContainer>
                 </FlexDiv>
 

@@ -7,6 +7,7 @@ const useKeywordSearch = (keyword: string) => {
     useEffect(() => {
         if (!keyword || keyword == ""){
             setResult([]);
+            return;
         }
         // 키워드 검색 완료 시 호출되는 콜백함수 입니다
         const placesSearchCB = (data: any, status: any) => {

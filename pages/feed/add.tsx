@@ -1,9 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, HtmlHTMLAttributes } from "react";
 import tw from "tailwind-styled-components";
 import { useTheme } from "../../components/context/Theme";
 import { HashTagHolder } from "../../components/styled/Feed";
 import FeedMap from "../../components/page/addFeed/Map";
 import FileUpload from "../../components/page/feed/FileUpload";
+import { BasicInput, BasicTextarea } from "../../components/styled/Inputs";
+import SlateRichTextEditor from "../../components/page/addFeed/SlateRichText";
+import { RoundBtn } from "../../components/styled/Buttons";
 
 const AddFeed = () => {
     const { themeColorset } = useTheme();
@@ -11,39 +14,43 @@ const AddFeed = () => {
     const [feedData, setFeedData] = useState<any>({});
     const [imageList, setImageList] = useState<Array<File>>([]);
 
+    const onChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setFeedData((state:any)=> {console.log(state); return {...state, [name]:value}});
+    }
+
+    useEffect(()=>{
+        console.log(feedData);
+        
+    },[feedData])
+
     return(<>
-    <MainContainer>
-        <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
-            <MapContainer>
-                <FeedMap feedData={feedData} setFeedData={setFeedData}/>
-            </MapContainer>
-            <ImgContainer>
-                <FileUpload imageList={imageList} setImageList={setImageList}/>
-                {imageList.map((image, idx)=>
-                    <ImgHolder 
-                        key={idx}
-                        style={{backgroundColor: themeColorset.baseColor, display: 'flex'}}>
-                            {image.name || ''}
-                    </ImgHolder>
-                )}
-            </ImgContainer>
-            <ContentsContainer>
-                <div>
-                    <SpanContainer>
-                        <TitleHolder>PLACENAME</TitleHolder>
-                        <AddressHolder>address</AddressHolder>
-                    </SpanContainer>
-                    <HashTagContainer style={{color: themeColorset.subTextColor}}>
-                        {Array.from({length: 5}, ()=> 0).map((e, idx)=>(
-                        <HashTagHolder theme={themeColorset} key={idx}>#{idx}hastag{idx}</HashTagHolder>))}
-                    </HashTagContainer> 
-                    <TextHolder align="justify">
-                    </TextHolder>
-                </div>
-            </ContentsContainer>
-        </FeedContainer>
-    </MainContainer>
-        </>)
+        <MainContainer>
+            <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
+                <MapContainer>
+                    <FeedMap feedData={feedData} setFeedData={setFeedData}/>
+                </MapContainer>
+                <ImgContainer>
+                    <FileUpload imageList={imageList} setImageList={setImageList}/>
+                    {imageList.map((image, idx)=>
+                        <ImgHolder 
+                            key={idx}
+                            style={{backgroundColor: themeColorset.baseColor, display: 'flex'}}>
+                                {image.name || ''}
+                        </ImgHolder>
+                    )}
+                </ImgContainer>
+                <ContentsContainer>
+                    <BasicInput width={"100%"} name="title" placeholder="제목을 입력하세요" onChange={onChangeInput}/>
+                    <BasicTextarea name="text" placeholder="내용을 입력하세요" onChange={onChangeInput}/>
+                </ContentsContainer>
+            </FeedContainer>
+        </MainContainer>
+        <RoundBtn 
+            style={{width: '200px', position: 'absolute', bottom: '10px', left: '50%', transform: 'translate(-50%, 0)'}}> 
+            저장
+        </RoundBtn>
+    </>)
 }
 
 const MainContainer = tw.div`
@@ -85,32 +92,13 @@ flex-[0_0_auto]
 
 const ContentsContainer = tw.div`
 w-full h-auto
-flex gap-[10px]
+flex flex-col gap-[10px]
 p-[20px]
 `
 
-const SpanContainer = tw.div`
-w-full h-fit
-`
-
-const TitleHolder = tw.span`
-text-[48px] font-bold
-pr-[10px]
-`
-
-const AddressHolder = tw.span`
-text-[20px] font-normal
-`
-
-const HashTagContainer = tw(SpanContainer)`
-text-[16px] font-bold
-flex gap-[6px]
-mt-[5px] mb-[10px]
-`
-
-const TextHolder = tw.p`
-my-[10px] mr-[15px]
-leading-6 font-medium
+const TextEditorContainer = tw.div`
+h-[400px]
+p-[10px_20px]
 `
 
 export default AddFeed;

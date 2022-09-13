@@ -68,21 +68,20 @@ const FeedMap = (props: PropType) => {
                 address_longitude: selectedPlace.x,
                 address_placeName: selectedPlace.address_name,
             }
-            props.setFeedData({...props.feedData, ...placeInfo})
+            props.setFeedData((state:any) => {console.log({...state, ...placeInfo}); return {...state, ...placeInfo}})
+            
         }
     },[selectedPlace])
 
     return (
         <>
-            {selectedPlace ? 
-                <>
-                    { isMapLoading && <Loading loadingMsg='장소 정보를 로딩 중입니다'/>}
-                    <div id="container" ref={container} style={{ height: '100%', width: '100%', position: 'relative' }} />
-                </>
-                : <MapContainer onClick={onClickAddLocation}>
+            <div id="container" ref={container} style={{ height: '100%', width: '100%', position: 'relative', display: selectedPlace? 'block' : 'none' }} />
+            {!selectedPlace && 
+                <MapContainer onClick={onClickAddLocation} >
                     <TextHolder theme={themeColorset}> 장소 추가하기  <AddCircleIcon/>  </TextHolder>
                 </MapContainer>
             }
+            
             <Modal showModal={isModalOpen} setShowModal={setIsModalOpen}>
                 <FlexDiv>
                     <BasicInput placeholder='장소를 검색해보세요' width={'600px'} 

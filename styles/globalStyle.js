@@ -13,7 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     div{
         border-color: ${({theme})=>theme.bgColor}
     }
-    input{
+    input, textarea{
         outline: 0 !important;
         &:hover,active,focus{
             border: none !important;

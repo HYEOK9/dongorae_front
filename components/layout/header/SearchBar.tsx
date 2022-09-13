@@ -39,7 +39,10 @@ const SearchBar = () => {
                         autoComplete="off"
                         placeholder="search"
                         onKeyPress={handleKeyPress}
-                        style={{ backgroundColor: themeColorset.baseColor }}
+                        style={{
+                            backgroundColor: themeColorset.baseColor,
+                            color: themeColorset.textColor,
+                        }}
                     ></Input>
                     <Label htmlFor="search">
                         <SearchIcon fontSize="medium" />

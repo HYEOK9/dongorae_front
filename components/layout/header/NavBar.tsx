@@ -51,19 +51,19 @@ const NavBar = (props: propType) => {
                             </a>
                         </Link>
                     </NavItems>
-                    <NavItems>
+                    {/* <NavItems>
                         <MenuIcon
                             fontSize={"large"}
                             onClick={() => {
                                 setShowSidebar((prev) => !prev);
                             }}
                         />
-                    </NavItems>
+                    </NavItems>*/}
                 </Nav>
             </NavBarWrap>
-            <Portal>
+            {/* <Portal>
                 <SideBar showSideBar={showSideBar} />
-            </Portal>
+            </Portal> */}
         </>
     );
 };

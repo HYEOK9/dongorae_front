@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <meta name="viewport" content="viewport-fit=cover" />
                 </Head>
                 <AppLayout>
-                    <div id="portal" />
+                    {/* <div id="portal" /> */}
                     <Component {...pageProps} />
                 </AppLayout>
             </ThemeProvider>

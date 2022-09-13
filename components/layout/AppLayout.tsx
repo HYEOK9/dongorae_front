@@ -9,6 +9,7 @@ type propType = {
 function AppLayout({ children }: propType) {
     return (
         <Container>
+            <div id="modal-portal"></div>
             <Header />
             <Content>
                 {children}

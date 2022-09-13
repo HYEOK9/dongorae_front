@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import tw from "tailwind-styled-components";
 import { useTheme } from "../components/context/Theme";
 import CloseIcon from '@mui/icons-material/Close';
+import styled from "styled-components";
 
 interface propType {
     showModal: Boolean;
@@ -33,7 +34,9 @@ const ModalPortal = (props: propType) => {
                 <ModalOverlay/>
                 <ModalWrapper> 
                     <ModalContainer  style={{backgroundColor: themeColorset.bgColor, maxHeight: '60vh'}}>
-                        <ModalHeader><CloseIcon onClick={onClickCloseBtn}/></ModalHeader>
+                        <ModalHeader>
+                            <CloseIcon style={{marginRight: '15px', marginTop: '15px'}} onClick={onClickCloseBtn}/>
+                        </ModalHeader>
                         <div style={{ width: '100%', height: '95%'}}>
                             {props.children}
                         </div>
@@ -46,13 +49,6 @@ const ModalPortal = (props: propType) => {
     );
 };
 
-const ModalWrapper = tw.div`
-absolute
-w-[100vw] h-[100vh] 
-top-[0]
-flex justify-center items-center
-`
-
 const ModalContainer = tw.div`
 w-[60vw] h-[600px] z-[200]
 rounded-[20px]
@@ -64,11 +60,18 @@ flex justify-end
 h-[5%]
 `
 
-const ModalOverlay = tw.div`
-absolute
-w-[100vw] h-[100vh] z-[50]
-top-[0]
-bg-black opacity-[60%]
+const ModalOverlay = styled.div`
+position: absolute;
+width: 100vw; height: 100vh; z-index: 100;
+top: 0;
+background-color: black; opacity: 60%;
+`
+
+const ModalWrapper = styled.div`
+position: absolute;
+width: 100vw; height: 100vh; z-index: 200;
+top: 0;
+display: flex; justify-content: center; align-items: center
 `
 
 export default ModalPortal;

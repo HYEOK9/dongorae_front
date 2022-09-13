@@ -6,6 +6,7 @@ import FileUpload from "../../components/page/feed/FileUpload";
 import { BasicInput, BasicTextarea } from "../../components/styled/Inputs";
 import Modal from '../../HOC/ModalPortal'
 import { RoundBtn } from "../../components/styled/Buttons";
+import SetUserSense from "../../components/auth/signUp/secondPage/SetUserSense";
 
 const AddFeed = () => {
     const { themeColorset } = useTheme();
@@ -13,6 +14,7 @@ const AddFeed = () => {
     const [feedData, setFeedData] = useState<any>({});
     const [imageList, setImageList] = useState<Array<File>>([]);
     const [isModalOpen, setIsModalOpen] = useState<Boolean>(false)
+    const [senseData, setSenseData] = useState<any>({})
 
     const onChangeInput = (e:React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -56,8 +58,8 @@ const AddFeed = () => {
                 저장
             </RoundBtn>
         </FloatBtnContainer>
-        <Modal>
-            
+        <Modal showModal={isModalOpen} setShowModal={setIsModalOpen}>
+            <SetUserSense setSenseData={setSenseData}></SetUserSense>
         </Modal>
     </>)
 }

@@ -47,6 +47,7 @@ const searchmap = () => {
             customOverlay: null,
         },
     ]);
+    const [searchLoading, setSearchLoading] = useState<boolean>(false);
     //검색 필터 옵션 : "전체" | "맞춤게시물" | "필터"
     const filterOption = useSelector(
         (state: RootState) => state.filterState.option
@@ -63,9 +64,10 @@ const searchmap = () => {
     // const isInMap = (lat: number, long: number) => {
     //     return curMapSize.contain(new kakao.maps.LatLng(lat, long));
     // };
-
+    console.log(searchLoading);
     const searchHere = async () => {
         dispatch(setSenseData(null));
+        setSearchLoading(true);
         dispatch(setFilterOption("전체"));
         const data = await boundarySearch(
             curMapSize.oa,
@@ -80,6 +82,7 @@ const searchmap = () => {
     useEffect(() => {
         if (map === null || keyword.trim() == "") return;
         (async () => {
+            setSearchLoading(true);
             const res = await keywordSearch(keyword);
             dispatch(setFilterOption("전체"));
             setCurFeeds(res.result.feedThumbnails);
@@ -106,6 +109,7 @@ const searchmap = () => {
     useEffect(() => {
         // 처음 렌더할 때 결과 없음 문구 안보여주려고 map&& 넣음
         map && curFeeds.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
+        setSearchLoading(false);
         const places = Array.from(
             new Set(
                 curFeeds.map((feed: any) =>
@@ -157,6 +161,11 @@ const searchmap = () => {
                 <SearchFiler />
                 <HomeContainer>
                     <FeedContainer>
+                        {searchLoading && (
+                            <LoadingSVGwrap>
+                                <LoadingSVG width={50} height={50} />
+                            </LoadingSVGwrap>
+                        )}
                         {isEmpty ? (
                             <div style={{ marginTop: "50px" }}>
                                 게시물이 없습니다.

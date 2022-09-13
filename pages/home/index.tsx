@@ -65,8 +65,8 @@ const Home = () => {
                         idx % 3 === 2 ? <Feed key={feed.feedId} data={feed}/> : null
                     )}
                 </FeedContainer>
-
-                <ButtonContainer>
+            </HomeContainer>
+            <ButtonContainer>
                     <RoundBtn
                         theme={themeColorset}
                         type="button"
@@ -78,7 +78,6 @@ const Home = () => {
                         <ArrowUpwardIcon />
                     </RoundBtn>
                 </ButtonContainer>
-            </HomeContainer>
         </>
     );
 };
@@ -99,6 +98,7 @@ fixed bottom-[0px] right-[0px]
 flex gap-[10px]
 w-fit h-fit
 m-[20px]
+z-[100]
 `;
 
 export default Home;

@@ -49,10 +49,11 @@ const ModalPortal = (props: propType) => {
     );
 };
 
-const ModalContainer = tw.div`
-w-[60vw] h-[600px] z-[200]
-rounded-[20px]
-p-[15px]
+const ModalContainer = styled.div`
+width: 60vw; height: 600px;
+z-index: 200;
+border-radius: 20px;
+padding: 15px;
 `
 
 const ModalHeader = tw.div`

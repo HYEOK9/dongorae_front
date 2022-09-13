@@ -164,6 +164,7 @@ flex w-3/5 sm:w-1/2 justify-between mr-6
 `;
 const InputWrap = tw.div`
 flex w-full justify-end items-center mb-4
+relative
 `;
 
 const Input = tw.input`

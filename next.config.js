@@ -18,6 +18,10 @@ const nextConfig = {
                 source: "/api/:path*",
                 destination: `http://dongore-backend2.herokuapp.com/api/:path*`,
             },
+            {
+                source: "/api/:path*",
+                destination: `http://dongore-backend2.herokuapp.com/api/:path*`,
+            },
         ];
     },
 };

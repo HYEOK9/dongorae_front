@@ -4,16 +4,20 @@ import tw from 'tailwind-styled-components';
 import { useTheme } from '../../context/Theme';
 import Modal from '../../../HOC/ModalPortal'
 
+import SearchResult from './modal/searchResult';
+
 import useInitMap from "../../../util/hooks/map/useInitMap";
 import displayMarker from "../../../util/hooks/map/displayMarker";
 import { ILocation } from '../../../types/feed';
 import { MarkerType } from '../../../types/map';
+//hooks
+import useKeywordSearch from '../../../util/hooks/map/useKakaoMapSearch'
+
 //styled
 import { BasicInput } from '../../styled/Inputs'
 import { RoundBtn } from '../../styled/Buttons'
 //icons
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 interface PropType{
     data: ILocation
 }
@@ -21,9 +25,14 @@ interface PropType{
 const FeedMap = (props: PropType) => {
     const { themeColorset } = useTheme();
 
-    const {map, container} = useInitMap();
-    const [mapLoaded, setMapLoaded] = useState<Boolean>(false)
+    const { map, container } = useInitMap();
+    //Modal State
     const [isModalOpen, setIsModalOpen] = useState<Boolean>(false)
+    const [input, setInput] = useState<string>('');
+    const  { result, searchError } = useKeywordSearch(input);
+
+    //Map State
+    const [mapLoaded, setMapLoaded] = useState<Boolean>(false)
     const [curPlacesMarkers, setCurPlacesMarkers] = useState<MarkerType[]>([
         {
             marker: null,
@@ -32,9 +41,10 @@ const FeedMap = (props: PropType) => {
     ]);
     const { data } = props;
 
-    const onClickAddBtn = useCallback(()=>{
+    const onClickAddLocation = useCallback(()=>{
         setIsModalOpen(true);
     }, [])
+
 
     useEffect(()=>{
         if(map && mapLoaded)
@@ -47,15 +57,21 @@ const FeedMap = (props: PropType) => {
         <>
             {mapLoaded ? 
                 <div id="container" ref={container} style={{ height: '100%', width: '100%' }} />
-                : <MapContainer onClick={onClickAddBtn}>
+                : <MapContainer onClick={onClickAddLocation}>
                     <TextHolder theme={themeColorset}> 장소 추가하기  <AddCircleIcon/>  </TextHolder>
                 </MapContainer>
             }
             <Modal showModal={isModalOpen} setShowModal={setIsModalOpen}>
-                <div style={{display: 'flex', justifyContent:'center', gap:'10px'}}>
-                    <BasicInput placeholder='장소를 검색해보세요' width={'500px'}/>
-                    <RoundBtn borderRadius="20px" theme={themeColorset}> 검색 </RoundBtn>
-                </div>
+                <FlexDiv>
+                    <BasicInput placeholder='장소를 검색해보세요' width={'600px'} 
+                        onChange={(e)=> {setInput(e.target.value)}}/>
+                </FlexDiv>
+                <FlexDiv height='calc(100% - 80px)'>
+                    <ResultContainer>
+                        { result.map((r)=><SearchResult data={r}/>)}
+                    </ResultContainer>
+                </FlexDiv>
+
             </Modal>
         </>
     )
@@ -74,8 +90,19 @@ border-radius: 10px;
 background-color: ${({theme})=>theme.bgColor}
 `
 
-const SearchLocationInput = tw.input`
-
+const ResultContainer = tw.div`
+w-[700px]
+my-[10px] py-[20px]
+rounded-[20px]
+overflow-y-scroll overflow-x-unset
 `
+
+const FlexDiv = styled.div`
+display: flex;
+justify-content: center;
+gap: 10px;
+height: ${(props)=> props.height || 'auto'}
+`
+
 
 export default FeedMap;

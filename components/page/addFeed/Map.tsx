@@ -20,9 +20,8 @@ import { RoundBtn } from '../../styled/Buttons'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Loading from '../../common/Loading';
 interface PropType{
-    data: ILocation,
-    formData: any,
-    setFormData: Dispatch<SetStateAction<any>>
+    feedData: any,
+    setFeedData: Dispatch<SetStateAction<any>>
 }
 
 const FeedMap = (props: PropType) => {
@@ -43,7 +42,6 @@ const FeedMap = (props: PropType) => {
             customOverlay: null,
         },
     ]);
-    const { data } = props;
 
     const onClickAddLocation = useCallback(()=>{
         setIsModalOpen(true);
@@ -70,7 +68,7 @@ const FeedMap = (props: PropType) => {
                 address_longitude: selectedPlace.x,
                 address_placeName: selectedPlace.address_name,
             }
-            props.setFormData({...props.formData, ...placeInfo})
+            props.setFeedData({...props.feedData, ...placeInfo})
         }
     },[selectedPlace])
 

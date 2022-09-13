@@ -7,17 +7,25 @@ import FileUpload from "../../components/page/feed/FileUpload";
 
 const AddFeed = () => {
     const { themeColorset } = useTheme();
-    const [imageList, setImageList] = useState<Array<any>>([])
-    const [formData, setFormData] = useState<any>({});
-   
+    const [formData, setFormData] = useState<FormData>(new FormData);
+    const [feedData, setFeedData] = useState<any>({});
+    const [imageList, setImageList] = useState<Array<File>>([]);
+
     return(<>
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
             <MapContainer>
-                <FeedMap formData={formData} setFormData={setFormData}/>
+                <FeedMap feedData={feedData} setFeedData={setFeedData}/>
             </MapContainer>
             <ImgContainer>
-                <FileUpload/>
+                <FileUpload imageList={imageList} setImageList={setImageList}/>
+                {imageList.map((image, idx)=>
+                    <ImgHolder 
+                        key={idx}
+                        style={{backgroundColor: themeColorset.baseColor, display: 'flex'}}>
+                            {image.name || ''}
+                    </ImgHolder>
+                )}
             </ImgContainer>
             <ContentsContainer>
                 <div>
@@ -60,6 +68,19 @@ w-full h-[200px] max-h-[25%]
 p-[20px]
 overflow-x-auto overflow-y-hidden
 whitespace-nowrap
+flex
+`
+
+const ImgHolder = tw.div`
+w-[200px] h-full 
+mr-[10px] p-[14px] 
+flex items-center justify-center
+text-center
+whitespace-pre-wrap
+inline-block 
+rounded-[15px]
+text-[12px]
+flex-[0_0_auto]
 `
 
 const ContentsContainer = tw.div`

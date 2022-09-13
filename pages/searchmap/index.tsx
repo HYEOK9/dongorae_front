@@ -22,8 +22,6 @@ import { MarkerType } from "../../types/map";
 import tw from "tailwind-styled-components";
 import LoadingSVG from "/public/loading.svg";
 import { useTheme } from "../../components/context/Theme";
-//data
-import { temp } from "../home/index";
 
 const searchmap = () => {
     console.log("re-render");
@@ -41,7 +39,7 @@ const searchmap = () => {
     // 키워드로 검색 , [결과, 에러 여부]
     //const { result, searchError } = useKakaoMapSearch(keyword);
     // 검색 후 보여지는 피드들 List
-    const [curFeeds, setCurFeeds] = useState<typeof temp>([]);
+    const [curFeeds, setCurFeeds] = useState<any[]>([]);
     // 검색 후 보여지는 피드들의 마커 List (마커 지우려면 필요)
     const [curPlacesMarkers, setCurPlacesMarkers] = useState<MarkerType[]>([
         {
@@ -62,9 +60,9 @@ const searchmap = () => {
     const { themeColorset } = useTheme();
     const dispatch = useDispatch();
 
-    const isInMap = (lat: number, long: number) => {
-        return curMapSize.contain(new kakao.maps.LatLng(lat, long));
-    };
+    // const isInMap = (lat: number, long: number) => {
+    //     return curMapSize.contain(new kakao.maps.LatLng(lat, long));
+    // };
 
     const searchHere = async () => {
         dispatch(setSenseData(null));
@@ -75,12 +73,21 @@ const searchmap = () => {
             curMapSize.ha,
             curMapSize.qa
         );
-        console.log(data.result);
-        // setCurFeeds(
-        //     temp.filter((feed) => isInMap(feed.latitude, feed.longitude))
-        // );
+        setCurFeeds(data.result.feedThumbnails);
         dispatch(setKeyword(""));
     };
+
+    useEffect(() => {
+        if (map === null || keyword.trim() == "") return;
+        (async () => {
+            const res = await keywordSearch(keyword);
+            dispatch(setFilterOption("전체"));
+            setCurFeeds(res.result.feedThumbnails);
+        })();
+        return () => {
+            dispatch(setKeyword(""));
+        };
+    }, [map, keyword]);
 
     useEffect(() => {
         if (map === null) return;
@@ -101,51 +108,36 @@ const searchmap = () => {
         map && curFeeds.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
         const places = Array.from(
             new Set(
-                curFeeds.map((feed) =>
+                curFeeds.map((feed: any) =>
                     JSON.stringify({
-                        x: feed.longitude,
-                        y: feed.latitude,
-                        place_name: feed.placeName,
+                        x: feed.location.longitude,
+                        y: feed.location.latitude,
+                        place_name: feed.location.placeName,
                     })
                 )
             )
-        ).map((feed) => JSON.parse(feed));
+        ).map((feed: any) => JSON.parse(feed));
         removeMarker(curPlacesMarkers, setCurPlacesMarkers);
         places.forEach((place) => {
             displayMarker(place, map, setCurPlacesMarkers);
         });
+        if (curFeeds.length == 1 && keyword != "") {
+            const bounds = new kakao.maps.LatLngBounds();
+            bounds.extend(
+                new kakao.maps.LatLng(
+                    curFeeds[0].location.latitude,
+                    curFeeds[0].location.longitude
+                )
+            );
+            map.setBounds(bounds);
+        }
     }, [curFeeds]);
-
-    useEffect(() => {
-        if (map === null || keyword.trim() == "") return;
-        (async () => {
-            const data = await keywordSearch(keyword);
-            console.log(data.result);
-        })();
-    }, [map, keyword]);
-
-    // useEffect(() => {
-    //     // 지도켜고 검색할 경우 첫번째 결과만 지도에 표시
-    //     if (map === null || searchError) return;
-    //     dispatch(setFilterOption("전체"));
-    //     setCurFeeds(temp.filter((feed) => feed.longitude == result[0].x));
-    //     // 검색된 장소 위치 기준으로 지도 범위 재설정
-    //     const bounds = new kakao.maps.LatLngBounds();
-    //     bounds.extend(new kakao.maps.LatLng(result[0].y, result[0].x));
-    //     map.setBounds(bounds);
-    //     map.setLevel(5);
-    //     console.log(result[0]);
-
-    //     return () => {
-    //         dispatch(setKeyword(""));
-    //     };
-    // }, [map, result[0]]);
 
     return (
         <>
             <Container>
                 <MapContainer>
-                    {!location && locError && (
+                    {!location && !locError && (
                         <>
                             <Loading>위치 정보를 가져오는 중입니다</Loading>
                             <LoadingSVGwrap>
@@ -171,7 +163,7 @@ const searchmap = () => {
                             </div>
                         ) : (
                             curFeeds.map((feed: any) => (
-                                <Feed key={feed.id} data={feed} />
+                                <Feed key={feed.feedId} data={feed} />
                             ))
                         )}
                     </FeedContainer>

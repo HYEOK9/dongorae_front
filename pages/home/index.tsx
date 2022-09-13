@@ -48,8 +48,8 @@ const Home = () => {
 
     return (
         <>
+            {isLoading && <Loading loadingMsg="피드를 가져오는 중입니다"/>}
             <HomeContainer>
-                {isLoading && <Loading loadingMsg="피드를 가져오는 중입니다"/>}
                 <FeedContainer style={{ alignItems: "flex-end" }}>
                     {curFeeds.map((feed, idx) =>
                         idx % 3 === 0 ? <Feed key={feed.feedId} data={feed}/> : null

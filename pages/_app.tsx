@@ -16,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </Head>
                 <AppLayout>
                     <div id="portal" />
+                    <div id="modal-portal"></div>
                     <Component {...pageProps} />
                 </AppLayout>
             </ThemeProvider>

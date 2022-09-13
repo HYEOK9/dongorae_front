@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import tw from "tailwind-styled-components";
 import { useTheme } from "../../components/context/Theme";
 import { HashTagHolder } from "../../components/styled/Feed";
-import FeedMap from "../../components/page/feed/Map";
+import FeedMap from "../../components/page/addFeed/Map";
 import FileUpload from "../../components/page/feed/FileUpload";
 
 const FeedDetail = () => {
@@ -13,7 +13,7 @@ const FeedDetail = () => {
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
             <MapContainer>
-                <FeedMap setImageList={setImageList}/>
+                <FeedMap/>
             </MapContainer>
             <ImgContainer>
                 <FileUpload/>

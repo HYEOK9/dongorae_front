@@ -10,4 +10,7 @@ export const GlobalStyle = createGlobalStyle`
     svg{
         color: ${({theme})=> theme.pointColor}
     }
+    div{
+        border-color: ${({theme})=>theme.bgColor}
+    }
 `

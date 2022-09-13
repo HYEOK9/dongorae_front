@@ -20,10 +20,13 @@ const FeedMap = (props: PropType) => {
     const { data } = props;
 
     useEffect(()=>{
+        console.log(map, data );
+        
         if(map)
-            displayMarker({x: data?.longitude, y: data?.latitude, 'place_name': ['hi']},
+            displayMarker(
+                {x: data?.longitude, y: data?.latitude, 'place_name': 'hi'},
                 map, setCurPlacesMarkers);
-    },[map])
+    },[map, data])
 
     return (
         <div id="container" ref={container} style={{height: '100%', width: '100%'}}/>

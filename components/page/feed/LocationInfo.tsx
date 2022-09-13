@@ -19,7 +19,7 @@ const LocationInfo = (props: PropType) => {
             <CallMade/> {data?.placeName} 
         </LocationHolder>
         <AddressHolder>
-            {`${data?.category} · ${data?.city} ${data?.county}`}
+            {`${data?.category || ''} · ${data?.city || ''} ${data?.county || ''}`}
         </AddressHolder>
     </LocationContainer>
     </>)

@@ -13,8 +13,8 @@ export interface IFeedDetail {
 
 export interface ILocation {
     id:         number;
-    longitude:  number;
-    latitude:   number;
+    longitude:  float;
+    latitude:   float;
     placeName:  string;
     city:       string;
     county:     string;

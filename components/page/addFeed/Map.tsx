@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import tw from 'tailwind-styled-components';
 import { useTheme } from '../../context/Theme';
@@ -20,7 +20,9 @@ import { RoundBtn } from '../../styled/Buttons'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Loading from '../../common/Loading';
 interface PropType{
-    data: ILocation
+    data: ILocation,
+    formData: any,
+    setFormData: Dispatch<SetStateAction<any>>
 }
 
 const FeedMap = (props: PropType) => {
@@ -34,7 +36,7 @@ const FeedMap = (props: PropType) => {
 
     //Map State
     const [isMapLoading, setIsMapLoading] =  useState<Boolean>(false)
-    const [selectedPlace, setSelectedPlace] = useState<Boolean>(false)
+    const [selectedPlace, setSelectedPlace] = useState<any>(null)
     const [curPlacesMarkers, setCurPlacesMarkers] = useState<MarkerType[]>([
         {
             marker: null,
@@ -49,10 +51,27 @@ const FeedMap = (props: PropType) => {
 
 
     useEffect(()=>{
-        if(map && selectedPlace)
+        console.log(selectedPlace);
+        setIsMapLoading(true);
+        setTimeout(()=>{
+            setIsMapLoading(false);
+        }, 3000);
+
+        if(map && selectedPlace){
             displayMarker(
-                {x: data?.longitude, y: data?.latitude, 'place_name': 'hi'},
+                {x: selectedPlace?.x, y: selectedPlace?.y, 'place_name': selectedPlace['place_name']},
                 map, setCurPlacesMarkers);
+            
+            const placeInfo = {
+                address_category: '',
+                address_city: selectedPlace.road_address_name.split(' ')[0] || '',
+                address_county: selectedPlace.road_address_name.split(' ')[1] || '',
+                address_latitude: selectedPlace.y,
+                address_longitude: selectedPlace.x,
+                address_placeName: selectedPlace.address_name,
+            }
+            props.setFormData({...props.formData, ...placeInfo})
+        }
     },[selectedPlace])
 
     return (
@@ -60,7 +79,7 @@ const FeedMap = (props: PropType) => {
             {selectedPlace ? 
                 <>
                     { isMapLoading && <Loading loadingMsg='장소 정보를 로딩 중입니다'/>}
-                    <div id="container" ref={container} style={{ height: '100%', width: '100%' }} />
+                    <div id="container" ref={container} style={{ height: '100%', width: '100%', position: 'relative' }} />
                 </>
                 : <MapContainer onClick={onClickAddLocation}>
                     <TextHolder theme={themeColorset}> 장소 추가하기  <AddCircleIcon/>  </TextHolder>

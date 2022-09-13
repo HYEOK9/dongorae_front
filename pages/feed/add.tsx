@@ -5,15 +5,16 @@ import { HashTagHolder } from "../../components/styled/Feed";
 import FeedMap from "../../components/page/addFeed/Map";
 import FileUpload from "../../components/page/feed/FileUpload";
 
-const FeedDetail = () => {
+const AddFeed = () => {
     const { themeColorset } = useTheme();
     const [imageList, setImageList] = useState<Array<any>>([])
+    const [formData, setFormData] = useState<any>({});
    
     return(<>
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
             <MapContainer>
-                <FeedMap/>
+                <FeedMap formData={formData} setFormData={setFormData}/>
             </MapContainer>
             <ImgContainer>
                 <FileUpload/>
@@ -49,6 +50,7 @@ overflow-y-auto
 `
 
 const MapContainer = tw.div`
+relative
 w-full h-[400px]
 bg-[#1f1f1f]
 `
@@ -90,4 +92,4 @@ my-[10px] mr-[15px]
 leading-6 font-medium
 `
 
-export default FeedDetail;
+export default AddFeed;

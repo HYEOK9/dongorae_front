@@ -27,7 +27,7 @@ h-screen
 `;
 
 const Content = tw.div`
-w-screen
+w-screen relative
 h-[calc(100%-70px)]
 mt-[70px]
 `

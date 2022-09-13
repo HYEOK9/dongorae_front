@@ -1,21 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components";
 import tw from "tailwind-styled-components";
 import { useTheme } from "../../components/context/Theme";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { HashTagHolder } from "../../components/styled/Feed";
+import FeedMap from "../../components/page/feed/Map";
+import FileUpload from "../../components/page/feed/FileUpload";
 
 const FeedDetail = () => {
     const { themeColorset } = useTheme();
-    
+    const [imageList, setImageList] = useState<Array<any>>([])
+   
     return(<>
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
-            <MapContainer/>
+            <MapContainer>
+                <FeedMap setImageList={setImageList}/>
+            </MapContainer>
             <ImgContainer>
-                <ImgHolder style={{backgroundColor: themeColorset.baseColor}}>
-                    <AddCircleIcon/>
-                </ImgHolder>
+                <FileUpload/>
             </ImgContainer>
             <ContentsContainer>
                 <div>
@@ -63,13 +64,6 @@ const ContentsContainer = tw.div`
 w-full h-auto
 flex gap-[10px]
 p-[20px]
-`
- 
-const ImgHolder = tw.div`
-w-[200px] h-full 
-mr-[10px]
-inline-flex justify-center items-center
-rounded-[15px]
 `
 
 const SpanContainer = tw.div`

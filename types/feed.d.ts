@@ -1,22 +1,28 @@
-export type IFeedDetail = {
-    addressCategory: string;
-    addressCity: string;
-    addressCounty: string;
-    addressLatitude: number;
-    addressLongitude: number;
-    addressPlaceName: string;
-    hashTags: string;
-    photos: any[];
-    senseAuditory: number;
-    senseOral: number;
-    senseProprioceptive: number;
-    senseTactile: number;
-    senseVestibular: number;
-    senseVisual: number;
-    text: string;
-    title: string;
-    writerId: number;
-};
+export interface IFeedDetail {
+    feedId:     number;
+    writerId:   number;
+    writerName: null;
+    title:      string;
+    text:       string;
+    created_at: number;
+    updated_at: number;
+    photoUrls:  any[];
+    sensedata:  Sensedata;
+    location:   Location;
+}
+
+export interface ILocation {
+    id:         number;
+    longitude:  float;
+    latitude:   float;
+    placeName:  string;
+    city:       string;
+    county:     string;
+    category:   string;
+    updated_at: number;
+    created_at: number;
+}
+
 
 export interface IFeedThumbnail {
     feedId:    number;

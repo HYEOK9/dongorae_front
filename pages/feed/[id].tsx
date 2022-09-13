@@ -5,39 +5,40 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import tw from 'tailwind-styled-components';
 
-import axios from '../../util/axios';
+import axios from 'axios';
 
 import SenseInfo from '../../components/page/feed/SenseInfo';
 import UserInfo from '../../components/page/feed/UserInfo';
+import LocationInfo from '../../components/page/feed/LocationInfo';
 import Loading from '../../components/common/Loading';
 import FeedMap from '../../components/page/feed/Map';
 
 import { useTheme } from '../../components/context/Theme';
-import { dummyFeedDetail } from '../../util/dummyData';
 import { isEmpty } from 'lodash';
 
-import CallMade from '@mui/icons-material/CallMade';
+import { IFeedDetail, ISensedata, ILocation } from '../../types/feed';
 
 const FeedDetail = () => {
     const { themeColorset } = useTheme();
     const route = useRouter();
     const { query } = route;
-    const [feedDetail, setFeedDetail] = useState<Object>({})
-    const [senseData, setSenseData] = useState<Object>({})
+    const [feedDetail, setFeedDetail] = useState<IFeedDetail | null>(null);
+    const [senseData, setSenseData] = useState<ISensedata | null>(null);
+    const [location, setLocation] = useState<ILocation | null>(null)
     const [isLoading, setIsLoading] = useState<Boolean>(false);
     let hashTags;
-
+    
     async function fetchFeedDetail() {
-        axios.get(`/api/feed/detail/${query.id}`)
+        setIsLoading(true);
+        axios.get(`https://dongore-backend2.herokuapp.com/api/feed/detail/${query.id}`)
             .then((res)=>{
                 setFeedDetail(res.data?.result);
                 hashTags = res.data?.hashTags?.map((tag: string) => tag.startsWith("#") ? tag : `#${tag}`) || [];
-            }).catch((e)=>{
-                if(isEmpty(feedDetail)){
-                    setFeedDetail(dummyFeedDetail.result);
-                }
-            }).finally(()=>{
                 setIsLoading(false);
+            }).catch((e)=>{
+                // if(isEmpty(feedDetail)){
+                //     setFeedDetail(dummyFeedDetail.result);
+                // }
             })
     }
 
@@ -51,10 +52,11 @@ const FeedDetail = () => {
 
     useEffect(()=>{
         fetchFeedDetail();
-    },[])
+    },[query])
 
     useEffect(()=>{
         makeSenseData();
+        setLocation(feedDetail?.location)
     },[feedDetail])
 
     return(<>
@@ -62,47 +64,47 @@ const FeedDetail = () => {
     <MainContainer>
         <FeedContainer style={{backgroundColor: themeColorset.bgColor}}>
             <MapContainer>
-                <FeedMap/>
+                <FeedMap data={location}/>
             </MapContainer>
-            { !isEmpty(feedDetail?.photosUrls) ?? 
-                <ImgContainer>
-                    {feedDetail?.photosUrls?.map((url:string, idx:number)=>(<ImgHolder src={url} key={idx}/>))}
-                </ImgContainer>
-            }
             <ContentsContainer>
-                <div style={{width: '65%'}}>
+                {/* Left Section */}
+                <div style={{width: 'calc(65% - 20px)'}}>
+                    {!isEmpty(feedDetail?.photoUrls) && 
+                        <ImgContainer>
+                        {feedDetail?.photoUrls?.
+                            map((url:string, idx:number)=>(<ImgHolder src={url} key={idx}/>))}
+                        </ImgContainer>
+                    }
                     <TitleHolder>{feedDetail?.title}</TitleHolder>
-                    {
+                    {/* {
                         !isEmpty(hashTags) ?? 
                             <HashTagContainer style={{color: themeColorset.subTextColor}}>
                             {hashTags?.map((e, idx)=>(<span key={idx}>#{idx}hastag{idx}</span>))}
                             </HashTagContainer> 
-                    }
-                    <AddressHolder>{feedDetail?.location?.placeName} 
-                        <CallMade style={{ fontSize: "18px", fontWeight: "bold" }}/> 
-                    </AddressHolder>
+                    } */}
                     <TextHolder align="justify">{feedDetail?.text}</TextHolder>
                 </div>
+                {/* Right Section */}
                 <div style={{width: '35%'}}>
                     <InfoContainer style={{backgroundColor: themeColorset.subPointColor}}>
                         <UserInfo writer={feedDetail?.writer}/>
                     </InfoContainer>
                     <InfoContainer style={{backgroundColor: themeColorset.subPointColor}}>
-                        <div><span style={{color: themeColorset.pointColor}}>{feedDetail?.location?.placeName}</span>의 감각 정보</div>
+                        <LocationInfo data={location}/>
+                    </InfoContainer>
+                    <InfoContainer style={{backgroundColor: themeColorset.subPointColor}}>
+                        <div><span style={{color: themeColorset.pointColor}}>{location?.placeName}</span>의 감각 정보</div>
                         <SenseInfoContainer>
-                            {Object.entries(senseData || {}).map(([key, value])=>{
-                                console.log(key, value);
-                                
-                                return (<SenseInfo key={key} name={key} value={value}/>)
-                            })
-                            }
+                            {Object.entries(senseData || {}).map(([key, value])=>
+                                (<SenseInfo key={key} name={key} value={value}/>)
+                            )}
                         </SenseInfoContainer>
                     </InfoContainer>
                 </div>
             </ContentsContainer>
         </FeedContainer>
     </MainContainer>
-        </>)
+</>)
 }
 
 const MainContainer = tw.div`
@@ -123,7 +125,7 @@ bg-[#1f1f1f]
 
 const ImgContainer = tw.div`
 w-full h-[200px] max-h-[25%]
-p-[20px]
+pb-[10px]
 overflow-x-auto overflow-y-hidden
 whitespace-nowrap
 `
@@ -134,7 +136,7 @@ flex gap-[10px]
 p-[20px]
 `
  
-const ImgHolder = tw.image`
+const ImgHolder = tw.img`
 w-[200px] h-full 
 mr-[10px] inline-block
 bg-[#1f1f1f] rounded-[15px]
@@ -147,11 +149,6 @@ w-full h-fit
 const TitleHolder = tw.div`
 text-[42px] font-bold
 pt-[10px]
-`
-
-const AddressHolder = tw.div`
-text-[24px] font-normal
-pt-[14px]
 `
 
 const HashTagContainer = tw(SpanContainer)`
@@ -170,6 +167,7 @@ w-full h-fit
 rounded-[20px]
 p-[20px] m-[10px]
 font-bold
+flex flex-col gap-[6px]
 `
 
 const SenseInfoContainer = styled.div`

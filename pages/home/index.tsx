@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import tw from "tailwind-styled-components/";
-import axios from "../../util/axios";
+import axios from "axios";
 
 import AddIcon from "@mui/icons-material/Add";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -29,32 +29,29 @@ const Home = () => {
     async function fetchAllFeed() {
         setIsLoading(true);
         axios({
-            method: "get",
-            url: "/api/feed/",
-        })
-            .then((res) => {
-                setCurFeeds(res.data?.result);
-            })
-            .catch((e) => {
-                // fetch fail시 임시로 dummyData 넣어줌
-                // -> 추후 로딩에러 컴포넌트로 변경 예정
-                if (curFeeds.length === 0) {
-                    setCurFeeds(dummyFeeds.result.feedThumbnails);
-                }
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+            method: 'get',
+            url: "https://dongore-backend2.herokuapp.com/api/feed/",
+        }).then((res)=>{
+            setCurFeeds(res.data?.result.feedThumbnails);
+        }).catch((e)=>{
+            // fetch fail시 임시로 dummyData 넣어줌
+            // -> 추후 로딩에러 컴포넌트로 변경 예정
+            if(curFeeds.length === 0){
+                setCurFeeds(dummyFeeds.result.feedThumbnails);
+            }
+        }).finally(()=>{
+            setIsLoading(false);
+        });
     }
 
     useEffect(() => {
         fetchAllFeed();
-    }, [curFeeds]);
+    },[])
 
     return (
         <>
+            {isLoading && <Loading loadingMsg="피드를 가져오는 중입니다"/>}
             <HomeContainer>
-                {isLoading && <Loading loadingMsg="피드를 가져오는 중입니다" />}
                 <FeedContainer style={{ alignItems: "flex-end" }}>
                     {curFeeds.map((feed, idx) =>
                         idx % 3 === 0 ? (
@@ -76,8 +73,8 @@ const Home = () => {
                         ) : null
                     )}
                 </FeedContainer>
-
-                <ButtonContainer>
+            </HomeContainer>
+            <ButtonContainer>
                     <RoundBtn
                         theme={themeColorset}
                         type="button"
@@ -89,7 +86,6 @@ const Home = () => {
                         <ArrowUpwardIcon />
                     </RoundBtn>
                 </ButtonContainer>
-            </HomeContainer>
         </>
     );
 };
@@ -110,6 +106,7 @@ fixed bottom-[0px] right-[0px]
 flex gap-[10px]
 w-fit h-fit
 m-[20px]
+z-[100]
 `;
 
 export default Home;

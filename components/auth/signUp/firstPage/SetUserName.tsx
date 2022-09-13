@@ -61,7 +61,7 @@ const SetUserName = ({
                     <TextWrap>
                         <Text>닉네임*</Text>
                         {nickNameStarted && !nickNameIsValid && (
-                            <WarnInfo>2~8자</WarnInfo>
+                            <WarnInfo>2~6자</WarnInfo>
                         )}
                     </TextWrap>
                     <Input

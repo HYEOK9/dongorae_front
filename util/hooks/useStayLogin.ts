@@ -10,10 +10,9 @@ const useStayLogin = () => {
     const dispatch = useDispatch();
     const authState = useSelector((state: RootState) => state.authState);
     const user = authState.user;
-    console.log(user, authState.isAuthed);
 
     useEffect(() => {
-        if (!localStorage.getItem("access_token")) {
+        if (!localStorage.getItem("userId")) {
             dispatch(setIsAuthed(false));
             dispatch(setUser(null));
             return;

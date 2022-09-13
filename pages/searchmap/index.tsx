@@ -7,6 +7,7 @@ import { setFilterOption, setSenseData } from "../../store/filterSlice";
 //components
 import Feed from "../../components/page/home/Feed";
 import SearchFiler from "../../components/common/filtering/searchFilter";
+import ShowFeeds from "../../components/page/map/ShowFeeds";
 //hooks
 import useCurLocation from "../../util/hooks/useCurLocation";
 import useInitMap from "../../util/hooks/map/useInitMap";
@@ -18,16 +19,14 @@ import displayMarker from "../../util/hooks/map/displayMarker";
 import removeMarker from "../../util/hooks/map/removeMarker";
 //types
 import { MarkerType } from "../../types/map";
+import { IFeedThumbnail } from "../../types/feed";
 //style
 import tw from "tailwind-styled-components";
 import LoadingSVG from "/public/loading.svg";
 import { useTheme } from "../../components/context/Theme";
-//data
-import { temp } from "../home/index";
 
 const searchmap = () => {
-    console.log("re-render");
-    const userId = useStayLogin();
+    const { user } = useStayLogin();
     // 유저 위치 fetch
     const { location, locError } = useCurLocation();
     // 맵 초기화 , {지도, 지도를 띄울 dom의 ref}
@@ -38,36 +37,27 @@ const searchmap = () => {
     const keyword = useSelector(
         (state: RootState) => state.searchState.keyword
     );
-    // 키워드로 검색 , [결과, 에러 여부]
-    //const { result, searchError } = useKakaoMapSearch(keyword);
-    // 검색 후 보여지는 피드들 List
-    const [curFeeds, setCurFeeds] = useState<typeof temp>([]);
-    // 검색 후 보여지는 피드들의 마커 List (마커 지우려면 필요)
+    // 현재 보여지는 피드 Arr
+    const [curFeeds, setCurFeeds] = useState<any[]>([]);
+    // 피드들 고래마커 Arr
     const [curPlacesMarkers, setCurPlacesMarkers] = useState<MarkerType[]>([
         {
             marker: null,
             customOverlay: null,
         },
     ]);
+    const [searchLoading, setSearchLoading] = useState<boolean>(false);
     //검색 필터 옵션 : "전체" | "맞춤게시물" | "필터"
     const filterOption = useSelector(
         (state: RootState) => state.filterState.option
     );
-    ///검색 필터의 senseData 값
-    const senseData = useSelector(
-        (state: RootState) => state.filterState.senseData
-    );
-    //검색결과 존재여부
-    const [isEmpty, setIsEmpty] = useState<boolean>(false);
+
     const { themeColorset } = useTheme();
     const dispatch = useDispatch();
 
-    const isInMap = (lat: number, long: number) => {
-        return curMapSize.contain(new kakao.maps.LatLng(lat, long));
-    };
-
     const searchHere = async () => {
         dispatch(setSenseData(null));
+        setSearchLoading(true);
         dispatch(setFilterOption("전체"));
         const data = await boundarySearch(
             curMapSize.oa,
@@ -75,71 +65,57 @@ const searchmap = () => {
             curMapSize.ha,
             curMapSize.qa
         );
-        console.log(data.result);
-        // setCurFeeds(
-        //     temp.filter((feed) => isInMap(feed.latitude, feed.longitude))
-        // );
+        setCurFeeds(data.result.feedThumbnails);
         dispatch(setKeyword(""));
     };
 
     useEffect(() => {
-        if (map === null) return;
-        switch (filterOption) {
-            case "전체":
-                dispatch(setSenseData(null));
-                break;
-            case "맞춤게시물":
-                dispatch(setSenseData(null));
-                break;
-            case "필터":
-                break;
-        }
-    }, [filterOption]);
+        if (map === null || keyword.trim() == "") return;
+
+        (async () => {
+            setSearchLoading(true);
+            const res = await keywordSearch(keyword);
+            dispatch(setFilterOption("전체"));
+            setCurFeeds(res.result.feedThumbnails);
+        })();
+        return () => {
+            dispatch(setKeyword(""));
+        };
+    }, [map, keyword]);
 
     useEffect(() => {
-        // 처음 렌더할 때 결과 없음 문구 안보여주려고 map&& 넣음
-        map && curFeeds.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
+        if (map === null) return;
+        setSearchLoading(false);
         const places = Array.from(
             new Set(
-                curFeeds.map((feed) =>
+                curFeeds.map((feed: any) =>
                     JSON.stringify({
-                        x: feed.longitude,
-                        y: feed.latitude,
-                        place_name: feed.placeName,
+                        x: feed.location.longitude,
+                        y: feed.location.latitude,
+                        place_name: feed.location.placeName,
                     })
                 )
             )
-        ).map((feed) => JSON.parse(feed));
+        ).map((feed: any) => JSON.parse(feed));
+
         removeMarker(curPlacesMarkers, setCurPlacesMarkers);
+
         places.forEach((place) => {
             displayMarker(place, map, setCurPlacesMarkers);
         });
+
+        //키워드로 검색한 경우
+        if (curFeeds.length == 1 && keyword != "") {
+            const bounds = new kakao.maps.LatLngBounds();
+            bounds.extend(
+                new kakao.maps.LatLng(
+                    curFeeds[0].location.latitude,
+                    curFeeds[0].location.longitude
+                )
+            );
+            map.setBounds(bounds);
+        }
     }, [curFeeds]);
-
-    useEffect(() => {
-        if (map === null || keyword.trim() == "") return;
-        (async () => {
-            const data = await keywordSearch(keyword);
-            console.log(data.result);
-        })();
-    }, [map, keyword]);
-
-    // useEffect(() => {
-    //     // 지도켜고 검색할 경우 첫번째 결과만 지도에 표시
-    //     if (map === null || searchError) return;
-    //     dispatch(setFilterOption("전체"));
-    //     setCurFeeds(temp.filter((feed) => feed.longitude == result[0].x));
-    //     // 검색된 장소 위치 기준으로 지도 범위 재설정
-    //     const bounds = new kakao.maps.LatLngBounds();
-    //     bounds.extend(new kakao.maps.LatLng(result[0].y, result[0].x));
-    //     map.setBounds(bounds);
-    //     map.setLevel(5);
-    //     console.log(result[0]);
-
-    //     return () => {
-    //         dispatch(setKeyword(""));
-    //     };
-    // }, [map, result[0]]);
 
     return (
         <>
@@ -163,19 +139,13 @@ const searchmap = () => {
                 </MapContainer>
                 {/*filtering*/}
                 <SearchFiler />
-                <HomeContainer>
-                    <FeedContainer>
-                        {isEmpty ? (
-                            <div style={{ marginTop: "50px" }}>
-                                게시물이 없습니다.
-                            </div>
-                        ) : (
-                            curFeeds.map((feed: any) => (
-                                <Feed key={feed.id} data={feed} />
-                            ))
-                        )}
-                    </FeedContainer>
-                </HomeContainer>
+                <ShowFeeds
+                    curFeeds={curFeeds}
+                    filterOption={filterOption}
+                    user={user}
+                    searchLoading={searchLoading}
+                    map={map}
+                />
             </Container>
         </>
     );
@@ -205,12 +175,4 @@ relative w-full h-[45vh]
 
 const SearchHereBtn = tw.div`
 absolute top-[80%] px-4 py-3 font-semibold sm:text-xs sm:px-2 sm:py-1 rounded-2xl z-30 cursor-pointer shadow-2xl hover:scale-[0.98]
-`;
-
-const HomeContainer = tw.section`
-flex justify-center w-screen py-[10px]
-`;
-
-const FeedContainer = tw.div`
-w-[90vw] max-w-[1800px] flex flex-wrap justify-center
 `;

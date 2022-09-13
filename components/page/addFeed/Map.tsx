@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import tw from 'tailwind-styled-components';
+import { useTheme } from '../../context/Theme';
+import Modal from '../../../HOC/ModalPortal'
 
 import useInitMap from "../../../util/hooks/map/useInitMap";
 import displayMarker from "../../../util/hooks/map/displayMarker";
 import { ILocation } from '../../../types/feed';
 import { MarkerType } from '../../../types/map';
-import tw from 'tailwind-styled-components';
+//styled
+import { BasicInput } from '../../styled/Inputs'
+import { RoundBtn } from '../../styled/Buttons'
+//icons
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useTheme } from '../../context/Theme';
-import styled from 'styled-components';
-import Modal from '../../modal/Modal'
-
 
 interface PropType{
     data: ILocation
@@ -32,7 +35,7 @@ const FeedMap = (props: PropType) => {
     const onClickAddBtn = useCallback(()=>{
         setIsModalOpen(true);
     }, [])
-    
+
     useEffect(()=>{
         if(map && mapLoaded)
             displayMarker(
@@ -49,7 +52,10 @@ const FeedMap = (props: PropType) => {
                 </MapContainer>
             }
             <Modal showModal={isModalOpen} setShowModal={setIsModalOpen}>
-                <input></input>
+                <div style={{display: 'flex', justifyContent:'center', gap:'10px'}}>
+                    <BasicInput placeholder='장소를 검색해보세요' width={'500px'}/>
+                    <RoundBtn borderRadius="20px" theme={themeColorset}> 검색 </RoundBtn>
+                </div>
             </Modal>
         </>
     )
@@ -66,6 +72,10 @@ const TextHolder = styled.div`
 padding: 10px 20px;
 border-radius: 10px;
 background-color: ${({theme})=>theme.bgColor}
+`
+
+const SearchLocationInput = tw.input`
+
 `
 
 export default FeedMap;

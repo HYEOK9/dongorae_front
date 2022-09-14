@@ -121,7 +121,7 @@ const searchmap = () => {
         <>
             <Container>
                 <MapContainer>
-                    {!location && locError && (
+                    {!location && !locError && (
                         <>
                             <Loading>위치 정보를 가져오는 중입니다</Loading>
                             <LoadingSVGwrap>

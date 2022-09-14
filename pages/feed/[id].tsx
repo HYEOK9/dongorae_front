@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import tw from "tailwind-styled-components";
 
-import axios from "axios";
+import axios from "../../util/axios";
 
 import SenseInfo from "../../components/page/feed/SenseInfo";
 import UserInfo from "../../components/page/feed/UserInfo";
@@ -30,7 +30,7 @@ const FeedDetail = () => {
     async function fetchFeedDetail() {
         setIsLoading(true);
         axios
-            .get(`http://43.200.167.136:8080/api/feed/detail/${query.id}`)
+            .get(`/api/feed/detail/${query.id}`)
             .then((res) => {
                 setFeedDetail(res.data?.result);
                 hashTags =

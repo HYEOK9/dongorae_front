@@ -2,11 +2,10 @@ import axios from "./axios";
 
 export const logIn = async (email: string, password: string) => {
     try {
-        const res = await axios.post(
-            "/api/user/auth/access",
-            { email, password },
-            { headers: { "Content-Type": "multipart/form-data" } }
-        );
+        const res = await axios.post("/api/user/auth/access", {
+            email,
+            password,
+        });
         if (res.data.isSuccess) {
             const { access_token } = res?.data;
             axios.defaults.headers.common[
@@ -38,25 +37,21 @@ export const signUp = async (
     sense_visual: number
 ) => {
     try {
-        const res = await axios.post(
-            "/api/user",
-            {
-                email,
-                password,
-                username,
-                nickname,
-                city,
-                county,
-                type,
-                sense_auditory,
-                sense_oral,
-                sense_proprioceptive,
-                sense_tactile,
-                sense_vestibular,
-                sense_visual,
-            },
-            { headers: { "Content-Type": "multipart/form-data" } }
-        );
+        const res = await axios.post("/api/user", {
+            email,
+            password,
+            username,
+            nickname,
+            city,
+            county,
+            type,
+            sense_auditory,
+            sense_oral,
+            sense_proprioceptive,
+            sense_tactile,
+            sense_vestibular,
+            sense_visual,
+        });
         if (res.data.isSuccess) return res.data;
         else {
             alert(res.data.detail);

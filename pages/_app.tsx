@@ -12,6 +12,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ThemeProvider>
                 <GlobalStyle />
                 <Head>
+                    <meta
+                        http-equiv="Content-Security-Policy"
+                        content="upgrade-insecure-requests"
+                    />
                     <meta name="viewport" content="viewport-fit=cover" />
                 </Head>
                 <AppLayout>

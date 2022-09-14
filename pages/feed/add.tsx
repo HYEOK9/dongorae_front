@@ -45,6 +45,7 @@ const AddFeed = () => {
             method: "post",
             url: "/api/feed",
             data: form,
+            headers: { "Content-Type": "multipart/form-data" },
         }).then((res) => {
             console.log(res);
         });

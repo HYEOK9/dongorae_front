@@ -31,6 +31,7 @@ const Home = () => {
         axios({
             method: "get",
             url: "/api/feed/",
+            headers: { "Content-Type": "multipart/form-data" },
         })
             .then((res) => {
                 setCurFeeds(res.data?.result.feedThumbnails);

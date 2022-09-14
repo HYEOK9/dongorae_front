@@ -10,4 +10,14 @@ export const GlobalStyle = createGlobalStyle`
     svg{
         color: ${({theme})=> theme.pointColor}
     }
+    div{
+        border-color: ${({theme})=>theme.bgColor}
+    }
+    input, textarea{
+        outline: 0 !important;
+        &:hover,active,focus{
+            border: none !important;
+            outline: 0 !important;
+        }
+    }
 `

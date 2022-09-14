@@ -4,17 +4,23 @@ import tw from "tailwind-styled-components";
 
 interface propType {
     setSenseData: React.Dispatch<React.SetStateAction<number[] | null>>;
+    // 좋지않은거 알지만 임의로 추가합니다 ..
+    senseData: any;
+    setSenseData2: React.Dispatch<React.SetStateAction<any>>;
 }
-const SetUserSense = ({ setSenseData }: propType) => {
-    const [chungak, setChungak] = useState(50);
-    const [sigak, setSigak] = useState(50);
-    const [chokgak, setChokgak] = useState(50);
-    const [migak, setMigak] = useState(50);
-    const [junjung, setJunjung] = useState(50);
-    const [goyu, setGoyu] = useState(50);
+const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
+    const [chungak, setChungak] = useState(senseData?.chungak || 50);
+    const [sigak, setSigak] = useState(senseData?.sigak || 50);
+    const [chokgak, setChokgak] = useState(senseData?.chokgak || 50);
+    const [migak, setMigak] = useState(senseData?.migak || 50);
+    const [junjung, setJunjung] = useState(senseData?.junjung || 50);
+    const [goyu, setGoyu] = useState(senseData?.goyu || 50);
 
     useEffect(() => {
-        setSenseData([chungak, sigak, chokgak, migak, junjung, goyu]);
+        if(setSenseData)
+            setSenseData([chungak, sigak, chokgak, migak, junjung, goyu]);
+        if(setSenseData2)
+            setSenseData2({chungak, sigak, chokgak, migak, junjung, goyu})
     }, [chungak, sigak, chokgak, migak, junjung, goyu]);
 
     return (
@@ -164,6 +170,7 @@ flex w-3/5 sm:w-1/2 justify-between mr-6
 `;
 const InputWrap = tw.div`
 flex w-full justify-end items-center mb-4
+relative
 `;
 
 const Input = tw.input`

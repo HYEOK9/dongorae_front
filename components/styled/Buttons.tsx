@@ -6,6 +6,7 @@ flex justify-center items-center relative w-4/5 h-[60px] rounded-2xl mt-2 font-m
 `;
 
 export const RoundBtn = styled.button`
+    font-size:  ${(props) => props.fontSize || "inherit"};
     width: ${(props) => props.width || "60px"};
     height: ${(props) => props.height || "60px"};
     border-radius: ${(props) => props.borderRadius || "30px"};

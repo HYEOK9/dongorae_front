@@ -28,6 +28,7 @@ const ShowFeeds = ({
 
     useEffect(() => {
         if (map == null) return;
+
         if (filterOption === "전체" && curFeeds.length === 0) {
             setIsEmpty(true);
             return;
@@ -41,7 +42,7 @@ const ShowFeeds = ({
                     feed.sensedata.auditory <= user.userSense.auditory &&
                     feed.sensedata.visual <= user.userSense.visual &&
                     feed.sensedata.vestibular <= user.userSense.vestibular &&
-                    feed.sensedata.tacticle <= user.userSense.tactile &&
+                    feed.sensedata.tactile <= user.userSense.tactile &&
                     feed.sensedata.proprioceptive <=
                         user.userSense.proprioceptive &&
                     feed.sensedata.oral <= user.userSense.oral
@@ -72,18 +73,24 @@ const ShowFeeds = ({
                         <Feed key={feed.feedId} data={feed} />
                     ))
                 ) : filterOption === "맞춤게시물" && user ? (
-                    curFeeds.filter(
-                        (feed) =>
-                            feed.sensedata.auditory <=
-                                user.userSense.auditory &&
-                            feed.sensedata.visual <= user.userSense.visual &&
-                            feed.sensedata.vestibular <=
-                                user.userSense.vestibular &&
-                            feed.sensedata.tacticle <= user.userSense.tactile &&
-                            feed.sensedata.proprioceptive <=
-                                user.userSense.proprioceptive &&
-                            feed.sensedata.oral <= user.userSense.oral
-                    )
+                    curFeeds
+                        .filter(
+                            (feed) =>
+                                feed.sensedata.auditory <=
+                                    user.userSense.auditory &&
+                                feed.sensedata.visual <=
+                                    user.userSense.visual &&
+                                feed.sensedata.vestibular <=
+                                    user.userSense.vestibular &&
+                                feed.sensedata.tactile <=
+                                    user.userSense.tactile &&
+                                feed.sensedata.proprioceptive <=
+                                    user.userSense.proprioceptive &&
+                                feed.sensedata.oral <= user.userSense.oral
+                        )
+                        .map((feed: any) => (
+                            <Feed key={feed.feedId} data={feed} />
+                        ))
                 ) : null}
             </FeedContainer>
         </HomeContainer>

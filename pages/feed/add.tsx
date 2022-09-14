@@ -7,7 +7,7 @@ import { BasicInput, BasicTextarea } from "../../components/styled/Inputs";
 import Modal from "../../HOC/ModalPortal";
 import { RoundBtn } from "../../components/styled/Buttons";
 import SetUserSense from "../../components/auth/signUp/secondPage/SetUserSense";
-import axios from "axios";
+import axios from "../../util/axios";
 
 const AddFeed = () => {
     const { themeColorset } = useTheme();
@@ -43,7 +43,7 @@ const AddFeed = () => {
 
         axios({
             method: "post",
-            url: "https://dongore-backend2.herokuapp.com/api/feed",
+            url: "/api/feed",
             data: form,
             headers: { "Content-Type": "multipart/form-data" },
         }).then((res) => {

@@ -185,7 +185,11 @@ const SignUpForm = () => {
                     </CheckSenseData>
                     <Span>*감각정보를 바탕으로 게시물을 추천합니다.*</Span>
                     {checkSenseData && (
-                        <SetUserSense setSenseData={setSenseData} />
+                        <SetUserSense
+                            senseData={null}
+                            setSenseData={setSenseData}
+                            setSenseData2={null}
+                        />
                     )}
                     <JoinBtn type="submit" onClick={onSubmit}>
                         가입하기

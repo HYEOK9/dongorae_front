@@ -6,7 +6,7 @@ interface propType {
     setSenseData: React.Dispatch<React.SetStateAction<number[] | null>>;
     // 좋지않은거 알지만 임의로 추가합니다 ..
     senseData: any;
-    setSenseData2: React.Dispatch<React.SetStateAction<any>>;
+    setSenseData2: React.Dispatch<React.SetStateAction<any>> | null;
 }
 const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
     const [chungak, setChungak] = useState(senseData?.chungak || 50);
@@ -17,10 +17,10 @@ const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
     const [goyu, setGoyu] = useState(senseData?.goyu || 50);
 
     useEffect(() => {
-        if(setSenseData)
+        if (setSenseData)
             setSenseData([chungak, sigak, chokgak, migak, junjung, goyu]);
-        if(setSenseData2)
-            setSenseData2({chungak, sigak, chokgak, migak, junjung, goyu})
+        if (setSenseData2)
+            setSenseData2({ chungak, sigak, chokgak, migak, junjung, goyu });
     }, [chungak, sigak, chokgak, migak, junjung, goyu]);
 
     return (

@@ -9,19 +9,50 @@ interface propType {
     setSenseData2: React.Dispatch<React.SetStateAction<any>> | null;
 }
 const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
-    const [chungak, setChungak] = useState(senseData?.chungak || 50);
-    const [sigak, setSigak] = useState(senseData?.sigak || 50);
-    const [chokgak, setChokgak] = useState(senseData?.chokgak || 50);
-    const [migak, setMigak] = useState(senseData?.migak || 50);
-    const [junjung, setJunjung] = useState(senseData?.junjung || 50);
-    const [goyu, setGoyu] = useState(senseData?.goyu || 50);
+    const [sense_auditory, setSense_auditory] = useState(
+        senseData?.sense_auditory || 50
+    );
+    const [sense_visual, setSense_visual] = useState(
+        senseData?.sense_visual || 50
+    );
+    const [sense_tactile, setSense_tactile] = useState(
+        senseData?.sense_tactile || 50
+    );
+    const [sense_oral, setSense_oral] = useState(senseData?.sense_oral || 50);
+    const [sense_vestibular, setSense_vestibular] = useState(
+        senseData?.sense_vestibular || 50
+    );
+    const [sense_proprioceptive, setSense_proprioceptive] = useState(
+        senseData?.sense_proprioceptive || 50
+    );
 
     useEffect(() => {
         if (setSenseData)
-            setSenseData([chungak, sigak, chokgak, migak, junjung, goyu]);
+            setSenseData([
+                sense_auditory,
+                sense_visual,
+                sense_tactile,
+                sense_oral,
+                sense_vestibular,
+                sense_proprioceptive,
+            ]);
         if (setSenseData2)
-            setSenseData2({ chungak, sigak, chokgak, migak, junjung, goyu });
-    }, [chungak, sigak, chokgak, migak, junjung, goyu]);
+            setSenseData2({
+                sense_auditory,
+                sense_visual,
+                sense_tactile,
+                sense_oral,
+                sense_vestibular,
+                sense_proprioceptive,
+            });
+    }, [
+        sense_auditory,
+        sense_visual,
+        sense_tactile,
+        sense_oral,
+        sense_vestibular,
+        sense_proprioceptive,
+    ]);
 
     return (
         <>
@@ -34,9 +65,9 @@ const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
                 <InputWrap>
                     <Text>청각</Text>
                     <Input
-                        value={chungak}
+                        value={sense_auditory}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setChungak(Number(e.target.value));
+                            setSense_auditory(Number(e.target.value));
                         }}
                         type="range"
                         id="청각"
@@ -48,9 +79,9 @@ const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
                 <InputWrap>
                     <Text>시각</Text>
                     <Input
-                        value={sigak}
+                        value={sense_visual}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setSigak(Number(e.target.value));
+                            setSense_visual(Number(e.target.value));
                         }}
                         type="range"
                         id="시각"
@@ -62,9 +93,9 @@ const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
                 <InputWrap>
                     <Text>촉각</Text>
                     <Input
-                        value={chokgak}
+                        value={sense_tactile}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setChokgak(Number(e.target.value));
+                            setSense_tactile(Number(e.target.value));
                         }}
                         type="range"
                         id="촉각"
@@ -76,9 +107,9 @@ const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
                 <InputWrap>
                     <Text>미각/후각</Text>
                     <Input
-                        value={migak}
+                        value={sense_oral}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setMigak(Number(e.target.value));
+                            setSense_oral(Number(e.target.value));
                         }}
                         type="range"
                         id="미각"
@@ -110,9 +141,9 @@ const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
                         />
                     </Text>
                     <Input
-                        value={junjung}
+                        value={sense_vestibular}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setJunjung(Number(e.target.value));
+                            setSense_vestibular(Number(e.target.value));
                         }}
                         type="range"
                         id="전정감각"
@@ -139,9 +170,9 @@ const SetUserSense = ({ senseData, setSenseData2, setSenseData }: propType) => {
                         />
                     </Text>
                     <Input
-                        value={goyu}
+                        value={sense_proprioceptive}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                            setGoyu(Number(e.target.value));
+                            setSense_proprioceptive(Number(e.target.value));
                         }}
                         type="range"
                         id="고유수용성감각"

@@ -8,14 +8,15 @@ import Modal from "../../HOC/ModalPortal";
 import { RoundBtn } from "../../components/styled/Buttons";
 import SetUserSense from "../../components/auth/signUp/secondPage/SetUserSense";
 import axios from "../../util/axios";
+import { useRouter } from "next/router";
 
 const AddFeed = () => {
     const { themeColorset } = useTheme();
     const [feedData, setFeedData] = useState<any>({});
     const [imageList, setImageList] = useState<Array<File>>([]);
     const [senseData, setSenseData] = useState<any>({});
-
     const [isModalOpen, setIsModalOpen] = useState<Boolean>(false);
+    const router = useRouter();
 
     const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -47,7 +48,10 @@ const AddFeed = () => {
             data: form,
             headers: { "Content-Type": "multipart/form-data" },
         }).then((res) => {
-            console.log(res);
+            if (200 <= res.status && res.status < 100) {
+                console.log(res);
+                router.push("/home");
+            }
         });
     };
 

@@ -1,5 +1,5 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://dongore-backend2.herokuapp.com";
+axios.defaults.baseURL = "https://www.dongore.shop";
 
 export default axios;
